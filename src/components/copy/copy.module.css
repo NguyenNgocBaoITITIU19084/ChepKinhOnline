@@ -335,7 +335,9 @@
    */
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto minmax(248px, 1fr);
-  align-items: center;
+  /* Cả hàng nằm giữa theo chiều dọc; sách và ô thông tin cùng canh mép trên */
+  align-content: center;
+  align-items: start;
   justify-items: center;
   gap: 24px;
   padding: 16px 20px;
@@ -348,6 +350,8 @@
 .stage > .panel {
   grid-column: 3;
   justify-self: end;
+  /* Canh mép trên với sách: ô thông tin dài/ngắn (lúc tải, đổi chương) chỉ giãn xuống dưới, không nhảy lên xuống */
+  align-self: start;
 }
 
 /* ==== Khu vực sách ==== */
@@ -776,16 +780,16 @@
 /* ==== Cuốn sách: bìa cứng bọc vải vàng, khối giấy dày ==== */
 .book {
   position: relative;
-  padding: 1.3% 1.4% 2%;
+  /* Viền bìa tính theo bề rộng sách mở (không theo khung chứa) để sách gấp lúc tải và sách mở cao bằng nhau */
+  padding: calc(var(--book-w) * 0.013) calc(var(--book-w) * 0.014) calc(var(--book-w) * 0.02);
   border-radius: 10px;
   background-color: #b5862c;
   background-image:
     var(--noise),
     radial-gradient(ellipse at 30% 10%, rgba(255, 240, 200, 0.28), transparent 55%),
     linear-gradient(135deg, #c99a3e, #a8781f 55%, #8d6315);
+  /* Bóng đổ của sách nằm ở .bookStage::before để co giãn mượt theo bìa lúc mở */
   box-shadow:
-    0 40px 60px -30px rgba(90, 60, 10, 0.55),
-    0 14px 26px rgba(120, 85, 20, 0.22),
     inset 0 0 0 1px rgba(255, 236, 180, 0.35),
     inset 0 -3px 6px rgba(70, 45, 5, 0.3);
 }
@@ -825,7 +829,7 @@
 
 /* Trước khi JS biết màn hình rộng (lúc hydrate), trang đơn chỉ rộng bằng nửa sách để không bị bè ngang */
 @media (min-width: 1024px) {
-  .bookSingle {
+  .bookStage:not(.stageSpread) {
     width: 50%;
     margin-inline: auto;
   }
@@ -835,6 +839,13 @@
   grid-template-columns: minmax(0, 1fr);
   /* Một trang khổ A5, không cao quá màn hình */
   height: min(calc(var(--book-w) * 1.38), calc(100dvh - 238px));
+}
+
+/* Màn rộng trước khi hydrate: trang đơn cao bằng sách mở để không giật khi chuyển sang hai trang */
+@media (min-width: 1024px) {
+  .bookSingle .block {
+    height: calc(var(--book-w) * 0.69);
+  }
 }
 
 /* Bóng gáy sách và nếp gấp ở giữa hai trang */
@@ -1170,18 +1181,334 @@
   display: none;
 }
 
-.bookLoading {
+
+/* ==== Mở bìa sách khi tải xong ==== */
+.bookStage {
+  position: relative;
+  /* Phối cảnh xa: bìa dựng lên chỉ to ra chút ít, không trùm lên header */
+  perspective: 5200px;
+}
+
+/* Bóng đổ dưới sách. Tách khỏi .book để không bị cắt cùng nửa trái lúc mở bìa:
+   sách gấp thì bóng chỉ rộng nửa phải, mở ra thì giãn đều (transform nên mượt, không vẽ lại bóng) */
+.bookStage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: 10px;
+  box-shadow:
+    0 40px 60px -30px rgba(90, 60, 10, 0.55),
+    0 14px 26px rgba(120, 85, 20, 0.22);
+  transform-origin: right center;
+  pointer-events: none;
+}
+
+.stageClosed.stageSpread::before {
+  transform: scaleX(0.5);
+}
+
+/* Bóng giãn sang trái đúng theo vị trí bìa: đứng yên khi bìa còn bên phải, chỉ giãn khi bìa đã qua gáy
+   (khung hình chia theo góc thật của bìa nên dùng linear, không bị lệch nhịp với .coverLeaf) */
+.stageOpen.stageSpread::before {
+  animation: shadowGrow 1.3s linear 0.15s both;
+}
+
+/* Bóng bìa đổ lên trang phải lúc bìa vừa nhấc lên, tắt khi bìa dựng đứng qua gáy */
+.bookStage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  background: linear-gradient(
+    to right,
+    transparent 50%,
+    rgba(60, 40, 10, 0.32) 50%,
+    rgba(60, 40, 10, 0.1) 62%,
+    transparent 80%
+  );
+  opacity: 0;
+  pointer-events: none;
+}
+
+.stageOpen.stageSpread::after {
+  animation: coverShade 1.3s linear 0.15s both;
+}
+
+/* Sách gấp: chỉ thấy nửa phải (bìa trước), đặt giữa khung */
+.stageClosed.stageSpread {
+  transform: translateX(-25%);
+}
+
+/* Che nửa trái của sách mở (bóng đổ nằm ở ::before nên không bị cắt theo) */
+.stageClosed.stageSpread > .book {
+  clip-path: inset(0 0 0 50%);
+}
+
+/* Mở: sách trượt về giữa, nửa trái lộ dần khi bìa ngả qua gáy */
+.stageOpen.stageSpread {
+  animation: stageCenter 1.3s cubic-bezier(0.55, 0.05, 0.25, 1) 0.15s both;
+}
+
+.stageOpen.stageSpread > .book {
+  animation: bookReveal 1.3s cubic-bezier(0.55, 0.05, 0.25, 1) 0.15s both;
+}
+
+/* Bìa trước: bản lề ở gáy sách (giữa sách mở, hoặc mép trái khi chỉ có một trang) */
+.coverLeaf {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
+  transform-origin: left center;
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+
+.stageSpread .coverLeaf {
+  left: 50%;
+}
+
+.stageOpen .coverLeaf {
+  animation: coverOpen 1.3s cubic-bezier(0.55, 0.05, 0.25, 1) 0.15s both;
+}
+
+.coverLeafFront,
+.coverLeafBack {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Mặt trong bìa: giống hệt nửa trái sách mở (viền bìa vàng + trang giấy), nên khi hạ xuống rồi mờ đi
+   thì trang kinh thật hiện ra mà không khựng */
+.coverLeafBack {
+  transform: rotateY(180deg);
+  border-radius: 10px 0 0 10px;
+  /* Ba lớp trên là trang giấy (trong vùng content), lớp cuối là vải bìa vàng phủ cả phần viền */
+  background-image:
+    var(--noise),
+    linear-gradient(to left, rgba(70, 45, 15, 0.26), transparent 14%),
+    radial-gradient(ellipse at 42% 45%, #fffcf3 0%, #f8f1e0 70%, #efe4c8 100%),
+    linear-gradient(135deg, #c99a3e, #a8781f 55%, #8d6315);
+  background-clip: content-box, content-box, content-box, border-box;
+  background-origin: content-box, content-box, content-box, border-box;
+  padding: calc(var(--book-w) * 0.013) 0 calc(var(--book-w) * 0.02) calc(var(--book-w) * 0.014);
+}
+
+.stageOpen .coverLeafBack {
+  animation: coverBackFade 1.3s linear 0.15s both;
+}
+
+/* Tờ giấy lật theo bìa: nằm trong viền bìa (nhỏ hơn bìa một chút), bản lề ở gáy */
+.openLeaf {
+  position: absolute;
+  top: calc(var(--book-w) * 0.013);
+  right: calc(var(--book-w) * 0.014);
+  bottom: calc(var(--book-w) * 0.02);
+  left: 50%;
+  transform-origin: left center;
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+
+.bookStage:not(.stageSpread) .openLeaf {
+  left: calc(var(--book-w) * 0.014);
+}
+
+.stageOpen .openLeaf {
+  animation: coverOpen 0.92s cubic-bezier(0.55, 0.05, 0.25, 1) var(--leaf-delay) both;
+}
+
+.openLeafFront,
+.openLeafBack {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Mặt trước: giấy kem, tối dần về phía gáy, mép ngoài hơi sẫm như giấy cũ */
+.openLeafFront {
+  border-radius: 1px 4px 4px 1px;
+  background-image:
+    var(--noise),
+    linear-gradient(to right, rgba(70, 45, 15, 0.22), transparent 10%, transparent 90%, rgba(120, 90, 40, 0.12)),
+    radial-gradient(ellipse at 58% 45%, #fffcf3 0%, #f8f1e0 70%, #efe4c8 100%);
+  box-shadow: 1px 0 0 #e6dbbd;
+}
+
+/* Mặt sau: hạ xuống bên trái rồi mờ đi để lộ trang kinh */
+.openLeafBack {
+  transform: rotateY(180deg);
+  border-radius: 4px 1px 1px 4px;
+  background-image:
+    var(--noise),
+    linear-gradient(to left, rgba(70, 45, 15, 0.22), transparent 10%),
+    radial-gradient(ellipse at 42% 45%, #fffcf3 0%, #f8f1e0 70%, #efe4c8 100%);
+}
+
+.stageOpen .openLeafBack {
+  animation: leafBackFade 0.92s linear var(--leaf-delay) both;
+}
+
+/* Mặt bìa: vải vàng, viền dập nổi, hoa sen và tên kinh */
+.coverFace {
+  position: absolute;
+  inset: 0;
   display: grid;
   place-items: center;
-  width: min(100vw - 40px, 1400px, calc((100dvh - 108px) * 1.36));
-  aspect-ratio: 1.42;
-  margin: auto;
+  padding: 7%;
+  border-radius: 4px 10px 10px 4px;
+  background-color: #b5862c;
+  background-image:
+    var(--noise),
+    linear-gradient(to right, rgba(60, 38, 5, 0.35), transparent 7%),
+    radial-gradient(ellipse at 40% 25%, rgba(255, 240, 200, 0.3), transparent 60%),
+    linear-gradient(135deg, #c99a3e, #a8781f 55%, #8d6315);
+  /* Bóng dưới bìa do .bookStage::before (hoặc .coverLoading) lo, để bìa gỡ đi không làm bóng mất đột ngột */
+  box-shadow: inset 0 0 0 1px rgba(255, 236, 180, 0.35);
+}
+
+.coverFrame {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  width: 100%;
+  height: 100%;
+  padding: 12% 10%;
+  text-align: center;
+  /* Viền đôi: viền trong là border, viền ngoài là ::after (outline bị đứt nét khi bìa xoay 3D) */
+  position: relative;
+  border: 1.5px solid rgba(255, 238, 190, 0.55);
+  border-radius: 6px;
+}
+
+.coverFrame::after {
+  content: "";
+  position: absolute;
+  inset: -7px;
+  border: 1px solid rgba(255, 238, 190, 0.3);
+  border-radius: 9px;
+  pointer-events: none;
+}
+
+.coverTitle {
+  margin: 0;
+  font-family: var(--font-display), serif;
+  font-weight: 600;
+  font-size: clamp(1.1rem, 2.4vw, 2rem);
+  line-height: 1.3;
+  color: #fff4d6;
+  /* Chữ dập nổi trên vải */
+  text-shadow:
+    0 1px 0 rgba(90, 60, 10, 0.55),
+    0 -1px 0 rgba(255, 245, 220, 0.25);
+}
+
+.coverRule {
+  width: 40%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(255, 238, 190, 0.8), transparent);
+}
+
+.coverSub {
+  margin: 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(255, 238, 190, 0.85);
+}
+
+/* Lúc dữ liệu kinh còn đang tải: một cuốn sách gấp, khẽ sáng lên xuống */
+/* Đúng bằng sách gấp của SutraBook: nửa sách mở, cao bằng khối giấy + viền bìa */
+.coverLoading {
+  position: relative;
+  width: 50%;
   border-radius: 10px;
-  color: var(--brown-800);
-  background: rgba(214, 164, 64, 0.18);
+  box-shadow:
+    0 40px 60px -30px rgba(90, 60, 10, 0.55),
+    0 14px 26px rgba(120, 85, 20, 0.22);
+  height: calc(var(--book-w) * 0.723);
+  margin-inline: auto;
+  animation: breathe 2.4s ease-in-out infinite;
+}
+
+@media (max-width: 1023px) {
+  .coverLoading {
+    width: 100%;
+    height: calc(min(var(--book-w) * 1.38, 100dvh - 238px) + var(--book-w) * 0.033);
+  }
+}
+
+/* Thanh chờ trong ô thông tin lúc đang tải */
+.skeleton {
+  display: block;
+  border-radius: 6px;
+  background: linear-gradient(90deg, rgba(232, 199, 122, 0.18), rgba(232, 199, 122, 0.4), rgba(232, 199, 122, 0.18));
+  background-size: 200% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+
+.skeletonTitle {
+  width: 100%;
+  height: 1.35rem;
+}
+
+.skeletonShort {
+  width: 60%;
+}
+
+.skeletonLine {
+  width: 50%;
+  height: 0.85rem;
+}
+
+.skeletonRow {
+  height: 36px;
+}
+
+@media (max-width: 1023px) {
+  .skeletonShort {
+    display: none;
+  }
+}
+
+.stageDone::before {
+  transform: none;
 }
 
 /* ==== Tờ sách đang lật ==== */
+/* Bóng đổ lên trang bên dưới: đậm dần khi tờ giấy dựng lên, nhạt đi khi tờ hạ xuống bên kia */
+.flipShade {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  opacity: 0;
+  animation-name: flipShade;
+  animation-timing-function: ease-in-out;
+  pointer-events: none;
+}
+
+/* Lật tới: tờ phải nhấc lên, bóng nằm trên trang phải sát gáy */
+.flipShade_right {
+  background: linear-gradient(to right, transparent 50%, rgba(60, 40, 10, 0.3) 50%, rgba(60, 40, 10, 0.08) 70%, transparent 88%);
+}
+
+/* Lật lui: tờ trái nhấc lên, bóng nằm trên trang trái sát gáy */
+.flipShade_left {
+  background: linear-gradient(to left, transparent 50%, rgba(60, 40, 10, 0.3) 50%, rgba(60, 40, 10, 0.08) 70%, transparent 88%);
+}
+
+.flipShade_single {
+  background: linear-gradient(to right, rgba(60, 40, 10, 0.3), rgba(60, 40, 10, 0.08) 35%, transparent 70%);
+}
+
 .leaf {
   position: absolute;
   top: 0;
@@ -1372,6 +1699,134 @@
   }
 }
 
+@keyframes coverOpen {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(-180deg);
+  }
+}
+
+/* Bìa nằm phẳng che kín nửa trái rồi mới mờ đi (sau khi nửa trái của sách đã hiện bên dưới) */
+@keyframes coverBackFade {
+  0%,
+  88% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Tờ giấy vừa hạ xuống là mờ đi ngay, chữ kinh trang trái hiện sớm hơn */
+@keyframes leafBackFade {
+  0%,
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes stageCenter {
+  from {
+    transform: translateX(-25%);
+  }
+  to {
+    transform: none;
+  }
+}
+
+/* Nửa trái chỉ hiện khi bìa đã hạ xuống che nó (không lộ tấm giấy trơn lúc bìa còn đang dựng) */
+@keyframes bookReveal {
+  0%,
+  86% {
+    clip-path: inset(0 0 0 50%);
+  }
+  87%,
+  100% {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* scaleX = 0,5 + 0,5 × phần bìa đã ngả sang trái, tính từ góc bìa theo cubic-bezier của coverOpen */
+@keyframes shadowGrow {
+  0%,
+  42% {
+    transform: scaleX(0.5);
+  }
+  44% {
+    transform: scaleX(0.593);
+  }
+  46% {
+    transform: scaleX(0.67);
+  }
+  48% {
+    transform: scaleX(0.737);
+  }
+  50% {
+    transform: scaleX(0.792);
+  }
+  53% {
+    transform: scaleX(0.856);
+  }
+  56% {
+    transform: scaleX(0.902);
+  }
+  60% {
+    transform: scaleX(0.942);
+  }
+  65% {
+    transform: scaleX(0.972);
+  }
+  70% {
+    transform: scaleX(0.987);
+  }
+  80% {
+    transform: scaleX(0.998);
+  }
+  100% {
+    transform: none;
+  }
+}
+
+@keyframes coverShade {
+  0% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.8;
+  }
+  40% {
+    opacity: 0.45;
+  }
+  46%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.08);
+  }
+}
+
 @keyframes flipForward {
   from {
     transform: rotateY(0deg);
@@ -1396,6 +1851,12 @@
   }
   to {
     transform: rotateY(0deg);
+  }
+}
+
+@keyframes flipShade {
+  45% {
+    opacity: 1;
   }
 }
 

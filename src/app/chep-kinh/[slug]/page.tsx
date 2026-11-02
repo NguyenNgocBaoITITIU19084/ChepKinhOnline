@@ -6,6 +6,7 @@ import { prisma } from "@/lib/prisma";
 import { splitSutraChapters } from "@/lib/sutra";
 import { BrandMark } from "@/components/brand/LotusLogo";
 import { SutraBook } from "@/components/copy/SutraBook";
+import { SutraBookSkeleton } from "@/components/copy/SutraBookSkeleton";
 import { SiteNav } from "@/components/layout/SiteNav";
 import { UserMenu } from "@/components/layout/UserMenu";
 import { getCurrentUser } from "@/lib/auth";
@@ -28,7 +29,7 @@ export default function CopySutraPage({ params }: PageProps<"/chep-kinh/[slug]">
           </Suspense>
         </nav>
       </header>
-      <Suspense fallback={<div className={styles.bookLoading}>Đang mở sách kinh…</div>}>
+      <Suspense fallback={<SutraBookSkeleton />}>
         <SutraContent params={params} />
       </Suspense>
     </main>
