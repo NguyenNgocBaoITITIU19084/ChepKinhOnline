@@ -31,6 +31,11 @@ function initialRanges(pages: string[]): PageRange[] {
   });
 }
 
+// Thanh chờ cao đúng một dòng chữ, đặt thay cho số liệu lúc chưa tải xong
+function SkeletonText({ width }: { width: string }) {
+  return <span className={`${styles.skeleton} ${styles.skeletonText}`} style={{ width }} aria-hidden />;
+}
+
 type Props = {
   slug: string;
   title: string;
@@ -69,6 +74,9 @@ export function SutraBook({ slug, title, chapters }: Props) {
 
   const ready = session.slug === slug;
   const isOpen = ready && paginated;
+  // Ô thông tin chỉ hiện số thật khi đã lấy lại tiến độ/cỡ chữ đã lưu và chia trang xong;
+  // trước đó hiện thanh chờ thay vì số mặc định (tránh "Phần 1/4 · 0%" rồi nhảy sang số thật)
+  const panelReady = isOpen;
   // Giảm chuyển động: không có hiệu ứng nên bỏ bìa ngay khi mở
   const showCover = !coverGone && !(isOpen && reducedMotion);
   // Mở xong (hoặc bỏ qua hiệu ứng): gỡ hết animation/clip của sân khấu, sách đứng yên ở trạng thái cuối
@@ -486,14 +494,29 @@ export function SutraBook({ slug, title, chapters }: Props) {
           <h1 className={styles.titleVi}>{title}</h1>
           {hasChapters && (
             <p className={styles.chapterName}>
-              Phần {chapterIndex + 1}/{chapters.length} · {chapter.title}
+              {panelReady ? (
+                <>
+                  Phần {chapterIndex + 1}/{chapters.length} · {chapter.title}
+                </>
+              ) : (
+                <SkeletonText width="70%" />
+              )}
             </p>
           )}
           <div className={styles.progressRow}>
-            <span>
-              Trang {caretPage + 1}/{ranges.length}
-            </span>
-            <span>{percent}%</span>
+            {panelReady ? (
+              <>
+                <span>
+                  Trang {caretPage + 1}/{ranges.length}
+                </span>
+                <span>{percent}%</span>
+              </>
+            ) : (
+              <>
+                <SkeletonText width="4.5em" />
+                <SkeletonText width="2.5em" />
+              </>
+            )}
           </div>
           <div
             className={styles.progressTrack}
@@ -503,7 +526,7 @@ export function SutraBook({ slug, title, chapters }: Props) {
             aria-valuemax={100}
             aria-label="Tiến độ chép kinh"
           >
-            <div className={styles.progressBar} style={{ width: `${percent}%` }} />
+            <div className={styles.progressBar} style={{ width: `${panelReady ? percent : 0}%` }} />
           </div>
         </div>
 
@@ -520,7 +543,7 @@ export function SutraBook({ slug, title, chapters }: Props) {
               <IconMinus size={18} />
             </button>
             <span className={styles.fontSizeLabel} aria-live="polite">
-              {Math.round((fontSize / 22) * 100)}%
+              {panelReady ? `${Math.round((fontSize / 22) * 100)}%` : <SkeletonText width="2.6em" />}
             </span>
             <button
               type="button"
@@ -551,14 +574,14 @@ export function SutraBook({ slug, title, chapters }: Props) {
                 <li key={i}>
                   <button
                     type="button"
-                    className={`${styles.tocItem} ${i === chapterIndex ? styles.tocActive : ""}`}
+                    className={`${styles.tocItem} ${panelReady && i === chapterIndex ? styles.tocActive : ""}`}
                     onClick={() => selectChapter(i)}
                     aria-current={i === chapterIndex ? "true" : undefined}
                   >
                     <span className={styles.tocNo}>{i + 1}</span>
                     <span className={styles.tocTitle}>{c.title}</span>
                     <span className={styles.tocMeta}>
-                      {chapterPercents[i] === 100 ? (
+                      {!panelReady ? null : chapterPercents[i] === 100 ? (
                         <IconCheck size={16} aria-label="Đã chép xong" />
                       ) : chapterPercents[i] > 0 ? (
                         `${chapterPercents[i]}%`

@@ -530,6 +530,10 @@
 .progressRow {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  /* Giữ cao đúng một dòng chữ, kể cả lúc chỉ có thanh chờ */
+  min-height: 1.45em;
+  line-height: 1.45;
   margin-top: 8px;
   font-size: 0.8rem;
   font-variant-numeric: tabular-nums;
@@ -1453,6 +1457,14 @@
   background: linear-gradient(90deg, rgba(232, 199, 122, 0.18), rgba(232, 199, 122, 0.4), rgba(232, 199, 122, 0.18));
   background-size: 200% 100%;
   animation: shimmer 1.4s linear infinite;
+}
+
+/* Thanh chờ nằm trong dòng chữ: cao bằng chữ nên dòng không đổi chiều cao khi số thật hiện ra */
+.skeletonText {
+  display: inline-block;
+  height: 0.95em;
+  vertical-align: -0.12em;
+  border-radius: 4px;
 }
 
 .skeletonTitle {
