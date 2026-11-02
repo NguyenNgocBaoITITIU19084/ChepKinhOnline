@@ -22,15 +22,16 @@ model User {
 
 // Một bộ kinh có thể chép
 model Sutra {
-  id          String   @id @default(cuid())
-  slug        String   @unique
-  title       String
-  description String?
-  content     String   @db.Text
-  language    String   @default("vi")
-  isPublished Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id            String   @id @default(cuid())
+  slug          String   @unique
+  title         String
+  originalTitle String? // tên kinh chữ Hán, dùng trang trí
+  description   String?
+  content       String   @db.Text
+  language      String   @default("vi")
+  isPublished   Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
   copySessions CopySession[]
 }

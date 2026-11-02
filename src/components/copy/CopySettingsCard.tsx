@@ -1,10 +1,16 @@
 "use client";
 
+import { useEffect } from "react";
 import { IconMinus, IconPlus } from "@tabler/icons-react";
 import { useCopySettings } from "@/stores/copy-settings";
 
 export function CopySettingsCard() {
   const { fontSize, showGuide, setFontSize, toggleGuide } = useCopySettings();
+
+  // Cài đặt được lưu trong trình duyệt, nạp lại sau khi hydrate
+  useEffect(() => {
+    useCopySettings.persist.rehydrate();
+  }, []);
 
   return (
     <div className="card">

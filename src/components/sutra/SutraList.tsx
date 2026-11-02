@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { connection } from "next/server";
 import { IconBook } from "@tabler/icons-react";
 import { prisma } from "@/lib/prisma";
@@ -21,9 +22,10 @@ export async function SutraList() {
   }
 
   return sutras.map((sutra) => (
-    <div
+    <Link
       key={sutra.id}
-      className="list-group-item d-flex gap-3 tw:transition-colors tw:hover:bg-amber-50"
+      href={`/chep-kinh/${sutra.slug}`}
+      className="list-group-item list-group-item-action d-flex gap-3 tw:transition-colors tw:hover:bg-amber-50"
     >
       <IconBook size={24} stroke={1.5} className="text-primary" />
       <div>
@@ -32,6 +34,6 @@ export async function SutraList() {
           <div className="text-secondary">{sutra.description}</div>
         )}
       </div>
-    </div>
+    </Link>
   ));
 }

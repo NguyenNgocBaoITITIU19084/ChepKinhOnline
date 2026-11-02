@@ -44,12 +44,19 @@ prisma/
 prisma7.config.ts      # cấu hình Prisma CLI (datasource, migrations, seed)
 src/
   app/                 # routes (App Router)
+    (app)/             # các trang dùng khung Tabler (trang chủ...)
+    chep-kinh/[slug]/  # trang chép kinh
   components/
     layout/            # header, nạp Tabler JS
-    copy/              # component liên quan chép kinh
+    brand/             # logo hoa sen
+    copy/              # trang chép kinh: sách mở, gõ trực tiếp trên trang, lật trang
     sutra/             # component danh sách/đọc kinh
   generated/prisma/    # Prisma Client (sinh tự động, không commit)
   lib/prisma.ts        # PrismaClient singleton (adapter pg)
   stores/              # Zustand stores
   types/
 ```
+
+## Bản quyền hình ảnh
+
+- `src/assets/buddha.jpg`: cắt từ ảnh [Tượng Phật Thích Ca](https://commons.wikimedia.org/wiki/File:T%C6%B0%E1%BB%A3ng_Ph%E1%BA%ADt_Th%C3%ADch_Ca.jpg) của Bùi Thụy Đào Nguyên, giấy phép [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0). Phải giữ dòng ghi công trên trang khi dùng ảnh này.

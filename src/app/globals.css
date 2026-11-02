@@ -12,6 +12,6 @@
 @import "tailwindcss/utilities.css" layer(utilities) prefix(tw);
 
 :root {
-  --tblr-font-sans-serif: var(--font-inter), -apple-system, BlinkMacSystemFont,
+  --tblr-font-sans-serif: var(--font-sans), -apple-system, BlinkMacSystemFont,
     "Segoe UI", Roboto, sans-serif;
 }
