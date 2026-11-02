@@ -1,0 +1,17 @@
+/*
+ * Tabler (Bootstrap) và Tailwind dùng chung:
+ * - Bỏ preflight của Tailwind, Tabler đã có reboot riêng.
+ * - Tabler nằm trong layer `tabler`, trước `utilities`, để class Tailwind luôn thắng.
+ * - Tailwind dùng prefix `tw:` (vd. `tw:flex`, `tw:md:p-4`) để không đụng tên class
+ *   của Bootstrap như `container`, `border`, `hidden`, `collapse`...
+ */
+@layer theme, base, tabler, components, utilities;
+
+@import "tailwindcss/theme.css" layer(theme) prefix(tw);
+@import "@tabler/core/dist/css/tabler.min.css" layer(tabler);
+@import "tailwindcss/utilities.css" layer(utilities) prefix(tw);
+
+:root {
+  --tblr-font-sans-serif: var(--font-inter), -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, sans-serif;
+}
