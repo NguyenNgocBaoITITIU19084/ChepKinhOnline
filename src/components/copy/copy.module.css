@@ -1,5 +1,6 @@
 /* ==== Bảng màu: trắng - vàng ==== */
-.scene {
+.scene,
+.stageFullscreen {
   --gold-100: #fff8e6;
   --gold-300: #ecc976;
   --gold-500: #d6a440;
@@ -12,9 +13,6 @@
   --ink-wrong: #b45309;
   --noise: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.42 0 0 0 0 0.3 0 0 0 0 0.16 0 0 0 0.1 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
 
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
   color: var(--brown-900);
   font-family: var(--font-sans), system-ui, sans-serif;
   /* Nền trắng phủ hoa văn Phật giáo (pháp luân, hoa sen, lá bồ đề) vàng chìm, quầng sáng vàng ở hai góc */
@@ -26,6 +24,12 @@
     url("../../assets/dharma-pattern.svg"),
     linear-gradient(180deg, #fffdf8, #fbf0d6);
   background-size: auto, auto, auto, 240px 240px, auto;
+}
+
+.scene {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 /* ==== Kính mờ sáng ==== */
@@ -352,6 +356,44 @@
   justify-self: end;
   /* Canh mép trên với sách: ô thông tin dài/ngắn (lúc tải, đổi chương) chỉ giãn xuống dưới, không nhảy lên xuống */
   align-self: start;
+}
+
+/* ==== Toàn màn hình: chỉ còn cuốn sách ở giữa ==== */
+/* Phủ kín trang cả khi trình duyệt không hỗ trợ toàn màn hình thật (iPhone) */
+.stageFullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  /* Chừa chỗ phía trên cho thanh tiến độ để không đè lên góc sách */
+  padding-top: 60px;
+  overflow: auto;
+}
+
+.stageFullscreen > .panel {
+  display: none;
+}
+
+.stageFullscreen .bookArea {
+  --book-w: min(100vw - 48px, 1600px, calc((100dvh - 96px) * 1.36));
+}
+
+.fullscreenBar {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  z-index: 45;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 2px 2px 14px;
+  border-radius: 12px;
+}
+
+.fullscreenProgress {
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--brown-800);
 }
 
 /* ==== Khu vực sách ==== */
@@ -1897,5 +1939,21 @@
   .scene *::after {
     animation: none !important;
     transition: none !important;
+  }
+}
+
+/* Toàn màn hình trên màn hẹp: chừa chỗ cho thanh tiến độ ở trên, trang sách cao gần kín màn hình */
+@media (max-width: 1023px) {
+  .stageFullscreen {
+    justify-content: center;
+    padding-top: 60px;
+  }
+
+  .stageFullscreen .bookArea {
+    --book-w: min(100vw - 32px, 720px);
+  }
+
+  .stageFullscreen .bookSingle .block {
+    height: min(calc(var(--book-w) * 1.38), calc(100dvh - 120px));
   }
 }

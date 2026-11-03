@@ -2,7 +2,16 @@
 
 import { useEffect, useEffectEvent, useMemo, useRef, useState, type CSSProperties } from "react";
 import Link from "next/link";
-import { IconCheck, IconChevronLeft, IconChevronRight, IconMinus, IconPlus, IconRefresh } from "@tabler/icons-react";
+import {
+  IconCheck,
+  IconChevronLeft,
+  IconChevronRight,
+  IconMaximize,
+  IconMinimize,
+  IconMinus,
+  IconPlus,
+  IconRefresh,
+} from "@tabler/icons-react";
 import { LotusLogo } from "@/components/brand/LotusLogo";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { isContinued, paginate, type PageRange } from "@/lib/paginate";
@@ -53,6 +62,9 @@ export function SutraBook({ slug, title, chapters }: Props) {
   // Mở bìa: đã đo xong trang lần đầu thì mới mở, mở xong thì gỡ bìa
   const [paginated, setPaginated] = useState(false);
   const [coverGone, setCoverGone] = useState(false);
+  // Toàn màn hình: ẩn header và cột công cụ, sách phóng to giữa màn hình
+  const [fullscreen, setFullscreen] = useState(false);
+  const stageRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const measureRef = useRef<HTMLDivElement>(null);
   const bookRef = useRef<HTMLDivElement>(null);
@@ -71,6 +83,25 @@ export function SutraBook({ slug, title, chapters }: Props) {
   }, [slug, chapters.length]);
 
   useEffect(() => () => clearTimeout(flipTimer.current), []);
+
+  // Thoát toàn màn hình bằng Esc của trình duyệt thì cũng bỏ chế độ toàn màn hình của trang
+  useEffect(() => {
+    const onChange = () => {
+      if (!document.fullscreenElement) setFullscreen(false);
+    };
+    document.addEventListener("fullscreenchange", onChange);
+    return () => document.removeEventListener("fullscreenchange", onChange);
+  }, []);
+
+  // Máy không hỗ trợ toàn màn hình thật (iPhone): sách vẫn phủ kín trang, Esc để thoát
+  useEffect(() => {
+    if (!fullscreen) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && !document.fullscreenElement) setFullscreen(false);
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [fullscreen]);
 
   const ready = session.slug === slug;
   const isOpen = ready && paginated;
@@ -204,6 +235,17 @@ export function SutraBook({ slug, title, chapters }: Props) {
     inputRef.current?.focus();
   };
 
+  const toggleFullscreen = () => {
+    if (fullscreen) {
+      if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+      setFullscreen(false);
+    } else {
+      setFullscreen(true);
+      if (document.fullscreenEnabled) stageRef.current?.requestFullscreen().catch(() => {});
+    }
+    inputRef.current?.focus();
+  };
+
   // Chép lại cả bộ kinh từ chương đầu
   const restartAll = () => {
     session.reset(slug, chapters.length);
@@ -303,7 +345,24 @@ export function SutraBook({ slug, title, chapters }: Props) {
   }
 
   return (
-    <div className={styles.stage}>
+    <div ref={stageRef} className={`${styles.stage} ${fullscreen ? styles.stageFullscreen : ""}`}>
+      {/* Toàn màn hình: thanh nhỏ ở góc thay cho cột công cụ, xem tiến độ và thoát */}
+      {fullscreen && (
+        <div className={`${styles.glass} ${styles.fullscreenBar}`}>
+          <span className={styles.fullscreenProgress}>
+            Trang {caretPage + 1}/{ranges.length} · {percent}%
+          </span>
+          <button
+            type="button"
+            className={styles.iconButton}
+            onClick={toggleFullscreen}
+            aria-label="Thoát toàn màn hình"
+            title="Thoát toàn màn hình (Esc)"
+          >
+            <IconMinimize size={18} />
+          </button>
+        </div>
+      )}
       <section className={styles.bookArea} aria-label="Sách kinh">
         {/* Lúc đang tải: sách gấp, chỉ thấy bìa. Tải xong: bìa mở sang trái như mở cuốn kinh thật */}
         <div
@@ -563,6 +622,10 @@ export function SutraBook({ slug, title, chapters }: Props) {
           >
             <IconRefresh size={18} />
             <span className={styles.toolLabel}>{hasChapters ? "Chép lại chương này" : "Chép lại từ đầu"}</span>
+          </button>
+          <button type="button" className={styles.toolRow} onClick={toggleFullscreen} title="Toàn màn hình">
+            <IconMaximize size={18} />
+            <span className={styles.toolLabel}>Toàn màn hình</span>
           </button>
         </div>
 
