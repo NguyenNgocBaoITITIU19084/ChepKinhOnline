@@ -30,6 +30,8 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  /* Tờ giấy rút sang trái không làm hiện thanh cuộn ngang */
+  overflow-x: clip;
 }
 
 /* ==== Kính mờ sáng ==== */
@@ -367,7 +369,8 @@
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   /* Chừa chỗ phía trên cho thanh tiến độ để không đè lên góc sách */
   padding-top: 60px;
-  overflow: auto;
+  /* Tờ giấy rút sang trái không làm hiện thanh cuộn ngang */
+  overflow: hidden auto;
 }
 
 .stageFullscreen > .panel {
@@ -1712,6 +1715,27 @@
 }
 
 /* ==== Keyframes ==== */
+/* Nhấc tờ giấy lên một chút (bóng đổ đậm dần), nghiêng nhẹ rồi trượt sang trái ra khỏi chồng giấy */
+@keyframes sheetOut {
+  0% {
+    transform: none;
+    box-shadow: 0 0 0 rgba(90, 60, 10, 0);
+    opacity: 1;
+  }
+  22% {
+    transform: translate(-1.5%, -1.2%) rotate(-1.2deg) scale(1.012);
+    box-shadow: 0 14px 28px rgba(90, 60, 10, 0.24);
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-112%, 3%) rotate(-7deg) scale(1.012);
+    box-shadow: 0 22px 40px rgba(90, 60, 10, 0.2);
+    opacity: 0;
+  }
+}
+
 @keyframes blink {
   to {
     visibility: hidden;
@@ -1940,5 +1964,137 @@
 
   .stageFullscreen .bookSingle .block {
     height: min(calc(var(--book-w) * 1.38), calc(100dvh - 120px));
+  }
+}
+
+/* ==== Kiểu tờ giấy: một tờ rời, không bìa, không gáy ==== */
+/* Máy tính: tờ A4 dọc (1 : 1,414) cao gần kín màn hình, đứng giữa */
+.areaSheet {
+  --book-w: min(100vw - 336px, 820px, calc((100dvh - 120px) / 1.414));
+}
+
+.bookStage.stageSheet {
+  width: auto;
+  margin-inline: 0;
+}
+
+/* Đang tải: tờ giấy trắng, chia trang xong thì chữ mới hiện */
+.stageSheet.stageClosed .pageText,
+.stageSheet.stageClosed .folio {
+  visibility: hidden;
+}
+
+.bookSheet {
+  padding: 0;
+  background: none;
+  box-shadow: none;
+}
+
+.bookSheet::before {
+  display: none;
+}
+
+/* Vài tờ giấy xếp lệch phía dưới thay cho khối giấy dày của sách */
+.bookSheet .block {
+  height: calc(var(--book-w) * 1.414);
+  border-radius: 2px;
+  box-shadow:
+    0 0 0 1px rgba(190, 160, 100, 0.22),
+    4px 5px 0 -1px #f4ecd8,
+    4px 5px 0 0 rgba(180, 150, 90, 0.3),
+    8px 10px 0 -2px #efe5cb,
+    8px 10px 0 -1px rgba(180, 150, 90, 0.26),
+    0 18px 30px -12px rgba(110, 80, 20, 0.35);
+}
+
+.bookSheet .page_single {
+  border-radius: 2px;
+  padding: 11% 11% 14%;
+  background-image:
+    var(--noise),
+    radial-gradient(ellipse at 50% 40%, #fffdf6 0%, #faf4e4 70%, #f2e8cf 100%);
+  box-shadow: none;
+}
+
+/* Không có viền bìa: góc lật nằm sát mép tờ giấy (kiểu sách thì lùi vào theo viền bìa) */
+.bookSheet .corner {
+  bottom: 0;
+}
+
+.bookSheet .cornerNext {
+  right: 0;
+}
+
+.bookSheet .cornerPrev {
+  left: 0;
+}
+
+/* Góc tờ giấy gấp lên thật: nửa phía góc (đường gấp chéo) để lộ tờ giấy bên dưới, nửa kia là mặt sau
+   của góc giấy gấp nằm đè lên trang. Đường gấp tối hơn chút, tờ dưới có bóng của nếp gấp đổ xuống */
+.bookSheet .corner::before {
+  clip-path: none;
+  transform: none;
+  filter: none;
+}
+
+.bookSheet .cornerNext::before {
+  background: linear-gradient(
+    to bottom right,
+    #f6efdc 0%,
+    #fdf9ee 30%,
+    #efe5cb 49.5%,
+    rgba(110, 80, 30, 0.3) 50%,
+    #e6d9b8 58%,
+    #ebe0c4 100%
+  );
+}
+
+.bookSheet .cornerPrev::before {
+  background: linear-gradient(
+    to bottom left,
+    #f6efdc 0%,
+    #fdf9ee 30%,
+    #efe5cb 49.5%,
+    rgba(110, 80, 30, 0.3) 50%,
+    #e6d9b8 58%,
+    #ebe0c4 100%
+  );
+}
+
+/* Tờ trên cùng đang được rút ra (hoặc đặt lại) */
+.sheetLeaf {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: grid;
+  border-radius: 2px;
+  transform-origin: 30% 90%;
+  animation-name: sheetOut;
+  animation-timing-function: cubic-bezier(0.5, 0, 0.3, 1);
+  animation-fill-mode: both;
+  pointer-events: none;
+}
+
+.sheetIn {
+  animation-direction: reverse;
+}
+
+.stageFullscreen .areaSheet {
+  --book-w: min(100vw - 48px, 900px, calc((100dvh - 100px) / 1.414));
+}
+
+/* Điện thoại: không giữ tỉ lệ A4, tờ giấy cao kín phần màn hình còn lại để mỗi tờ chứa nhiều dòng hơn */
+@media (max-width: 1023px) {
+  .areaSheet,
+  .stageFullscreen .areaSheet {
+    --book-w: min(100vw - 32px, 620px);
+  }
+
+  .bookSheet .block {
+    height: max(calc(var(--book-w) * 1.2), calc(100dvh - 300px));
+  }
+
+  .stageFullscreen .bookSheet .block {
+    height: calc(100dvh - 84px);
   }
 }

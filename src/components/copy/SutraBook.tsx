@@ -3,9 +3,11 @@
 import { useEffect, useEffectEvent, useMemo, useRef, useState, type CSSProperties } from "react";
 import Link from "next/link";
 import {
+  IconBook2,
   IconCheck,
   IconChevronLeft,
   IconChevronRight,
+  IconFile,
   IconMaximize,
   IconMinimize,
   IconMinus,
@@ -23,6 +25,8 @@ import { BookPage } from "./BookPage";
 import styles from "./copy.module.css";
 
 const FLIP_MS = 900;
+// Kiểu tờ giấy: thời gian rút tờ trên cùng ra khỏi chồng giấy
+const SHEET_MS = 700;
 const PAGE_KEYS = ["ArrowLeft", "ArrowRight", "PageUp", "PageDown"];
 // Thời điểm (giây) các tờ giấy bắt đầu lật theo sau bìa khi mở sách.
 // Nối sát bìa để tờ cuối hạ xuống cùng lúc bìa mở xong, trang kinh hiện ra ngay không phải chờ.
@@ -53,8 +57,10 @@ type Props = {
 
 export function SutraBook({ slug, title, chapters }: Props) {
   const session = useCopySession();
-  const { fontSize, showGuide, setFontSize } = useCopySettings();
-  const isSpread = useMediaQuery("(min-width: 1024px)");
+  const { fontSize, showGuide, layout, setFontSize, setLayout } = useCopySettings();
+  const sheet = layout === "sheet";
+  // Kiểu tờ giấy luôn chỉ một trang, kể cả màn hình rộng
+  const isSpread = useMediaQuery("(min-width: 1024px)") && !sheet;
   const reducedMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
   const [flip, setFlip] = useState<Flip | null>(null);
   // null: mặt sách đi theo con trỏ; số: vị trí chữ đầu trang người dùng lật về xem lại
@@ -108,17 +114,19 @@ export function SutraBook({ slug, title, chapters }: Props) {
   // Ô thông tin chỉ hiện số thật khi đã lấy lại tiến độ/cỡ chữ đã lưu và chia trang xong;
   // trước đó hiện thanh chờ thay vì số mặc định (tránh "Phần 1/4 · 0%" rồi nhảy sang số thật)
   const panelReady = isOpen;
-  // Giảm chuyển động: không có hiệu ứng nên bỏ bìa ngay khi mở
-  const showCover = !coverGone && !(isOpen && reducedMotion);
+  // Giảm chuyển động hoặc kiểu tờ giấy (không có bìa): bỏ bìa ngay khi mở
+  const skipCover = reducedMotion || sheet;
+  // Kiểu tờ giấy không có bìa cả lúc đang tải: chỉ hiện tờ giấy trắng
+  const showCover = !coverGone && !sheet && !(isOpen && reducedMotion);
   // Mở xong (hoặc bỏ qua hiệu ứng): gỡ hết animation/clip của sân khấu, sách đứng yên ở trạng thái cuối
-  const opened = coverGone || (isOpen && reducedMotion);
+  const opened = coverGone || (isOpen && skipCover);
 
-  // Máy bật "Giảm chuyển động": không lật 3D, sách hiện ra nhẹ nhàng thay vì bật cái bụp
+  // Không có hiệu ứng mở bìa: sách/tờ giấy hiện ra nhẹ nhàng thay vì bật cái bụp
   useEffect(() => {
-    if (opened && reducedMotion) {
+    if (opened && skipCover) {
       bookRef.current?.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 400, easing: "ease-out" });
     }
-  }, [opened, reducedMotion]);
+  }, [opened, skipCover]);
   const chapterIndex = ready ? Math.min(session.chapter, chapters.length - 1) : 0;
   const chapter = chapters[chapterIndex];
   const hasChapters = chapters.length > 1;
@@ -200,7 +208,7 @@ export function SutraBook({ slug, title, chapters }: Props) {
     }
     clearTimeout(flipTimer.current);
     setFlip({ from: view, to: nextView });
-    flipTimer.current = setTimeout(() => setFlip(null), FLIP_MS);
+    flipTimer.current = setTimeout(() => setFlip(null), sheet ? SHEET_MS : FLIP_MS);
   };
 
   // Lật xem trang trước/sau (xem lại hoặc đọc trước); gõ tiếp thì sách tự lật về trang đang chép
@@ -363,14 +371,17 @@ export function SutraBook({ slug, title, chapters }: Props) {
           </button>
         </div>
       )}
-      <section className={styles.bookArea} aria-label="Sách kinh">
+      <section className={`${styles.bookArea} ${sheet ? styles.areaSheet : ""}`} aria-label="Sách kinh">
         {/* Lúc đang tải: sách gấp, chỉ thấy bìa. Tải xong: bìa mở sang trái như mở cuốn kinh thật */}
         <div
           className={`${styles.bookStage} ${opened ? styles.stageDone : isOpen ? styles.stageOpen : styles.stageClosed} ${
             isSpread ? styles.stageSpread : ""
-          }`}
+          } ${sheet ? styles.stageSheet : ""}`}
         >
-          <div ref={bookRef} className={`${styles.book} ${isSpread ? styles.bookSpread : styles.bookSingle}`}>
+          <div
+            ref={bookRef}
+            className={`${styles.book} ${isSpread ? styles.bookSpread : styles.bookSingle} ${sheet ? styles.bookSheet : ""}`}
+          >
             <div ref={blockRef} className={styles.block}>
               {base.map((p, i) => renderPage(p, isSpread ? (i === 0 ? "left" : "right") : "single", !flip))}
               {isSpread && <div className={styles.gutter} aria-hidden />}
@@ -388,7 +399,20 @@ export function SutraBook({ slug, title, chapters }: Props) {
               </div>
 
               {/* Bóng tờ giấy đổ xuống trang bên dưới khi đang lật, cho cảm giác tờ giấy nhấc lên thật */}
-              {leaf && (
+              {/* Tờ giấy rời: tờ trên cùng được nhấc lên rút sang trái, lộ tờ kế bên dưới;
+                lật về trước thì tờ đó đặt lại từ bên trái lên chồng giấy */}
+              {leaf && sheet && (
+                <div
+                  key={`sheet-${flip!.from}-${flip!.to}`}
+                  className={`${styles.sheetLeaf} ${forward ? styles.sheetOut : styles.sheetIn}`}
+                  style={{ animationDuration: `${SHEET_MS}ms` }}
+                  aria-hidden
+                >
+                  {renderPage(leaf.front, "single", false)}
+                </div>
+              )}
+
+              {leaf && !sheet && (
                 <div
                   key={`shade-${flip!.from}-${flip!.to}`}
                   className={`${styles.flipShade} ${styles[`flipShade_${leaf.side}`]}`}
@@ -397,7 +421,7 @@ export function SutraBook({ slug, title, chapters }: Props) {
                 />
               )}
 
-              {leaf && (
+              {leaf && !sheet && (
                 <div
                   key={`${flip!.from}-${flip!.to}`}
                   className={`${styles.leaf} ${styles[`leaf_${leaf.side}`]} ${forward ? styles.leafForward : styles.leafBackward}`}
@@ -622,6 +646,15 @@ export function SutraBook({ slug, title, chapters }: Props) {
           >
             <IconRefresh size={18} />
             <span className={styles.toolLabel}>{hasChapters ? "Chép lại chương này" : "Chép lại từ đầu"}</span>
+          </button>
+          <button
+            type="button"
+            className={styles.toolRow}
+            onClick={() => setLayout(sheet ? "book" : "sheet")}
+            title={sheet ? "Chép kiểu sách mở" : "Chép kiểu tờ giấy"}
+          >
+            {sheet ? <IconBook2 size={18} /> : <IconFile size={18} />}
+            <span className={styles.toolLabel}>{sheet ? "Kiểu sách mở" : "Kiểu tờ giấy"}</span>
           </button>
           <button type="button" className={styles.toolRow} onClick={toggleFullscreen} title="Toàn màn hình">
             <IconMaximize size={18} />
