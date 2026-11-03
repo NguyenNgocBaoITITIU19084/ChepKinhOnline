@@ -15,15 +15,15 @@
 
   color: var(--brown-900);
   font-family: var(--font-sans), system-ui, sans-serif;
-  /* Nền trắng phủ hoa văn Phật giáo (pháp luân, hoa sen, lá bồ đề) vàng chìm, quầng sáng vàng ở hai góc */
+  /* Nền kem phủ hoa văn chữ Vạn liên hoàn vàng chìm, quầng sáng vàng ở hai góc */
   background-color: #fffdf8;
   background-image:
     radial-gradient(ellipse 70% 60% at 50% 50%, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0) 75%),
     radial-gradient(ellipse 50% 70% at 0% 0%, rgba(240, 196, 100, 0.34), transparent 70%),
     radial-gradient(ellipse 50% 70% at 100% 100%, rgba(240, 196, 100, 0.34), transparent 70%),
-    url("../../assets/dharma-pattern.svg"),
+    url("../../assets/sayagata-pattern.svg"),
     linear-gradient(180deg, #fffdf8, #fbf0d6);
-  background-size: auto, auto, auto, 240px 240px, auto;
+  background-size: auto, auto, auto, 190px 190px, auto;
 }
 
 .scene {
@@ -414,21 +414,11 @@
   gap: 14px;
   width: 248px;
   flex-shrink: 0;
-  /* Không cao quá vùng sách; nội dung dài (nhiều chương) thì cuộn trong ô */
-  max-height: calc(100dvh - 140px);
   padding: 0 16px 16px;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(214, 164, 64, 0.55) transparent;
 }
 
-/* Tên kinh + tiến độ luôn ghim ở đầu ô khi cuộn */
 .info {
   grid-area: info;
-  position: sticky;
-  top: 0;
-  z-index: 1;
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -762,11 +752,6 @@
     gap: 6px 12px;
     width: min(100%, 620px);
     padding: 10px 10px 6px;
-  }
-
-  .panel {
-    max-height: none;
-    overflow: visible;
   }
 
   .info {
