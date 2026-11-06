@@ -57,6 +57,10 @@ src/
   types/
 ```
 
+## Design system
+
+Quy chuẩn giao diện (màu, font, kính mờ, trang kinh, tờ giấy, các thành phần) nằm trong [`docs/design-system/`](docs/design-system/README.md).
+
 ## Bản quyền hình ảnh
 
 - `src/assets/buddha.jpg`: cắt từ ảnh [Tượng Phật Thích Ca](https://commons.wikimedia.org/wiki/File:T%C6%B0%E1%BB%A3ng_Ph%E1%BA%ADt_Th%C3%ADch_Ca.jpg) của Bùi Thụy Đào Nguyên, giấy phép [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0). Phải giữ dòng ghi công trên trang khi dùng ảnh này.

@@ -18,11 +18,11 @@ import {
 } from "@tabler/icons-react";
 import styles from "@/components/copy/copy.module.css";
 
-type NavLink = { href: string; title: string; description: string; icon: Icon };
-type NavGroup = { label: string; links: NavLink[] };
+export type NavLink = { href: string; title: string; description: string; icon: Icon };
+export type NavGroup = { label: string; links: NavLink[] };
 
-// Danh mục trên header. Các trang ngoài "/" và trang chép kinh chưa được dựng.
-const NAV: NavGroup[] = [
+// Danh mục trên header (footer dùng lại). Các trang ngoài "/" và trang chép kinh chưa được dựng.
+export const NAV: NavGroup[] = [
   {
     label: "Kinh điển",
     links: [

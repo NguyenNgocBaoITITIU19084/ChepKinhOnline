@@ -1,0 +1,21 @@
+/*
+ * Lớp chữ dùng chung cho trang chủ (viết cùng class Tailwind `tw:`).
+ * Màu, nền, kính mờ và nút lấy từ design system trong src/components/copy/copy.module.css
+ * (bảng biến --gold-*, --brown-* đặt trên `.scene`), không khai báo bảng màu thứ hai ở đây.
+ *
+ * Hệ chữ (xem docs/design-system/README.md, mục "Chữ"):
+ * - font-zen-title: Lora, cho tiêu đề, tên kinh, câu kệ
+ * - font-zen-body: Be Vietnam Pro, cho chữ giao diện và đoạn văn
+ * - font-zen-han: Noto Serif TC, chỉ cho tên kinh chữ Hán
+ */
+.font-zen-title {
+  font-family: var(--font-display), Georgia, serif;
+}
+
+.font-zen-body {
+  font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.font-zen-han {
+  font-family: var(--font-han), serif;
+}

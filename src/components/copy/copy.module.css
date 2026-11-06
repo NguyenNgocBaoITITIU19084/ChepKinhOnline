@@ -58,6 +58,13 @@
   padding: 7px 8px 7px 14px;
 }
 
+/* Trang chủ: header dính trên cùng khi cuộn */
+.siteHeaderSticky {
+  position: sticky;
+  top: 12px;
+  z-index: 40;
+}
+
 .brandLink,
 .brandLink:hover {
   display: inline-flex;

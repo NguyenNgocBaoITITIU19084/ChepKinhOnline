@@ -1,0 +1,741 @@
+/*
+ * Banner trang chủ và chân trang.
+ * Dùng bảng biến --gold-*, --brown-*, --ink, --ink-ghost, --paper của `.scene`
+ * (src/components/copy/copy.module.css), nên phải đặt bên trong phần tử `.scene`.
+ */
+
+/* ==== Banner ==== */
+.hero {
+  position: relative;
+  padding: 56px 20px 72px;
+}
+
+.heroInner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  align-items: center;
+  gap: 56px;
+  max-width: 1152px;
+  margin: 0 auto;
+}
+
+.heroText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 22px;
+}
+
+.heroEyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold-700);
+}
+
+.heroEyebrow::before {
+  content: "";
+  width: 28px;
+  height: 1px;
+  background: var(--gold-500);
+}
+
+.heroTitle {
+  margin: 0;
+  font-family: var(--font-display), serif;
+  font-size: clamp(2.2rem, 4.6vw, 3.6rem);
+  font-weight: 600;
+  line-height: 1.16;
+  letter-spacing: -0.01em;
+  color: var(--brown-900);
+  text-wrap: balance;
+}
+
+.heroTitle em {
+  display: block;
+  font-style: italic;
+  font-weight: 500;
+  color: var(--gold-700);
+}
+
+.heroLead {
+  max-width: 34rem;
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: var(--brown-800);
+  text-wrap: pretty;
+}
+
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* Nút banner to hơn nút header một bậc */
+.heroActions > a {
+  min-height: 48px;
+  padding: 0 22px;
+  font-size: 0.95rem;
+}
+
+.heroPillars {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  gap: 10px 28px;
+  margin: 6px 0 0;
+  padding: 18px 0 0;
+  list-style: none;
+  border-top: 1px solid rgba(214, 164, 64, 0.35);
+}
+
+.heroPillars li {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.heroPillars strong {
+  font-family: var(--font-display), serif;
+  font-size: 1.02rem;
+  font-weight: 600;
+  color: var(--brown-900);
+}
+
+.heroPillars span {
+  font-size: 0.82rem;
+  color: var(--brown-800);
+  opacity: 0.85;
+}
+
+/* ---- Minh họa: một tờ kinh đang chép dở ---- */
+.heroVisual {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  padding: 24px 12px;
+}
+
+/* Quầng sáng vàng sau tờ giấy */
+.heroVisual::before {
+  content: "";
+  position: absolute;
+  inset: -8% -4%;
+  background: radial-gradient(closest-side, rgba(240, 196, 100, 0.38), transparent);
+  pointer-events: none;
+}
+
+.sheet {
+  position: relative;
+  width: min(100%, 420px);
+  padding: 34px 36px 28px;
+  background: radial-gradient(ellipse at 50% 30%, #fffdf6, var(--paper) 70%, #f3e7c8);
+  border: 1px solid rgba(214, 164, 64, 0.45);
+  border-radius: 6px;
+  box-shadow:
+    0 2px 0 #efe2c0,
+    5px 7px 0 -1px #f6ecd2,
+    5px 7px 0 0 rgba(214, 164, 64, 0.35),
+    10px 14px 0 -1px #f1e4c4,
+    10px 14px 0 0 rgba(214, 164, 64, 0.28),
+    0 30px 60px rgba(120, 85, 20, 0.18);
+  transform: rotate(-1.2deg);
+}
+
+.sheetHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(214, 164, 64, 0.4);
+}
+
+.sheetEyebrow {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold-700);
+}
+
+.sheetTitle {
+  margin: 0;
+  font-family: var(--font-display), serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--brown-900);
+}
+
+.sheetHan {
+  flex-shrink: 0;
+  font-family: var(--font-han), serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--brown-800);
+  writing-mode: vertical-rl;
+  opacity: 0.75;
+}
+
+.sheetVerse {
+  margin: 20px 0 22px;
+  font-family: var(--font-book), serif;
+  font-size: clamp(1.02rem, 1.6vw, 1.2rem);
+  font-weight: 500;
+  line-height: 1.95;
+}
+
+.sheetVerse p {
+  margin: 0;
+}
+
+.inked {
+  color: var(--ink);
+}
+
+.ghost {
+  color: var(--ink-ghost);
+}
+
+.caret {
+  display: inline-block;
+  width: 2px;
+  height: 1.1em;
+  margin: 0 1px -0.18em;
+  background: var(--gold-700);
+  animation: caretBlink 1.1s steps(1) infinite;
+}
+
+@keyframes caretBlink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .caret {
+    animation: none;
+  }
+}
+
+.sheetFoot {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 0.76rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--brown-800);
+}
+
+.sheetBar {
+  flex: 1;
+  height: 4px;
+  overflow: hidden;
+  background: rgba(214, 164, 64, 0.22);
+  border-radius: 999px;
+}
+
+.sheetBar i {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold-300), var(--gold-500));
+  border-radius: inherit;
+}
+
+@media (max-width: 1023px) {
+  .hero {
+    padding: 36px 16px 56px;
+  }
+
+  .heroInner {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 40px;
+  }
+
+  .heroText {
+    align-items: center;
+    text-align: center;
+  }
+
+  .heroEyebrow {
+    letter-spacing: 0.16em;
+  }
+
+  .heroEyebrow::before {
+    display: none;
+  }
+
+  .heroPillars {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 420px) {
+  .heroPillars {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .heroActions {
+    flex-direction: column;
+    align-self: stretch;
+  }
+
+  .sheet {
+    padding: 26px 22px 22px;
+  }
+}
+
+/* ==== Chân trang ==== */
+.footer {
+  margin-top: 24px;
+  padding: 0 20px 28px;
+  background: linear-gradient(180deg, transparent, rgba(246, 230, 190, 0.55) 60%);
+}
+
+.footerInner {
+  max-width: 1152px;
+  margin: 0 auto;
+}
+
+.dedication {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 40px 0 36px;
+}
+
+.dedicationRule {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(214, 164, 64, 0.6), transparent);
+}
+
+.dedicationVerse {
+  margin: 0;
+  font-family: var(--font-display), serif;
+  font-size: 1.05rem;
+  font-style: italic;
+  line-height: 1.8;
+  text-align: center;
+  color: var(--brown-800);
+}
+
+.footerGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) repeat(4, minmax(0, 1fr));
+  gap: 32px;
+  padding: 32px 0;
+  border-top: 1px solid rgba(214, 164, 64, 0.35);
+}
+
+.footerBrand {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.footerBrand p {
+  max-width: 22rem;
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.7;
+  color: var(--brown-800);
+}
+
+.footerBrandLink,
+.footerBrandLink:hover {
+  display: inline-flex;
+  align-self: flex-start;
+  text-decoration: none;
+}
+
+.footerHeading {
+  margin: 0 0 12px;
+  font-family: var(--font-sans), sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold-700);
+}
+
+.footerCol ul {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.footerCol a {
+  font-size: 0.88rem;
+  color: var(--brown-800);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footerCol a:hover {
+  color: var(--brown-900);
+  text-decoration: underline;
+  text-decoration-color: var(--gold-500);
+  text-underline-offset: 3px;
+}
+
+.footerCol a:focus-visible,
+.footerBrandLink:focus-visible {
+  outline: 2px solid var(--gold-500);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.footerBottom {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 24px;
+  padding-top: 18px;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: var(--brown-800);
+  opacity: 0.8;
+  border-top: 1px solid rgba(214, 164, 64, 0.25);
+}
+
+@media (max-width: 1023px) {
+  .footerGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .footerBrand {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer {
+    padding: 0 16px 24px;
+  }
+
+  .dedication {
+    gap: 12px;
+    padding: 32px 0 28px;
+  }
+
+  .dedicationVerse {
+    font-size: 0.98rem;
+  }
+
+  .dedicationVerse span {
+    display: block;
+  }
+
+  .dedicationBreak,
+  .dedicationRule {
+    display: none;
+  }
+
+  .footerGrid {
+    gap: 24px 16px;
+  }
+}
+
+/* ==== Dải phân cách giữa các khối trang chủ (ZenDivider) ==== */
+.divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 40px auto;
+  max-width: 640px;
+}
+
+.dividerLine {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(214, 164, 64, 0.7));
+}
+
+.dividerLineEnd {
+  background: linear-gradient(90deg, rgba(214, 164, 64, 0.7), transparent);
+}
+
+/* Hạt thoi nhỏ ở đầu trong của mỗi nét */
+.dividerDot {
+  flex-shrink: 0;
+  width: 5px;
+  height: 5px;
+  background: var(--gold-500);
+  transform: rotate(45deg);
+}
+
+/* Quầng giấy kem che hoa văn nền để biểu tượng không lẫn vào chữ Vạn */
+.dividerMark {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  padding: 8px 10px;
+  color: var(--gold-700);
+  background: radial-gradient(closest-side, #fffdf8 55%, rgba(255, 253, 248, 0));
+}
+
+@media (max-width: 480px) {
+  .divider {
+    margin: 28px auto;
+    padding: 0 16px;
+  }
+}
+
+/* ==== Khối giới thiệu: ảnh tràn viền + tờ giấy nổi lên mép dưới ảnh ==== */
+.intro {
+  position: relative;
+  margin-top: 8px;
+  padding-bottom: 24px;
+}
+
+.introPhoto {
+  position: relative;
+  height: clamp(440px, 74vh, 720px);
+  overflow: hidden;
+  /* Lúc ảnh chưa tải: để trong suốt, nền hoa văn hiện ra thay vì một mảng màu */
+}
+
+/* Tượng nằm giữa, hơi cao trong khung: giữ nguyên ảnh, không lật */
+.introImage {
+  object-fit: cover;
+  object-position: 50% 40%;
+}
+
+/*
+ * Giao thoa ảnh với nền giấy:
+ * - Mask trên .introPhoto làm chính tấm ảnh trong dần ở mép trên/dưới, nên nền kem hoa văn
+ *   chữ Vạn của `.scene` hiện xuyên qua, không có đường cắt ngang.
+ * - Hai lớp backdrop blur (mép trên ::before, mép dưới .introOverlay) cũng có mask, độ mờ
+ *   tăng dần về phía mép, để ảnh nhòe như sương trước khi tan vào nền.
+ */
+.introPhoto {
+  --fade-top: 180px;
+  --fade-bottom: 220px;
+  -webkit-mask-image: linear-gradient(
+    180deg,
+    transparent 0,
+    #000 var(--fade-top),
+    #000 calc(100% - var(--fade-bottom)),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    180deg,
+    transparent 0,
+    #000 var(--fade-top),
+    #000 calc(100% - var(--fade-bottom)),
+    transparent 100%
+  );
+}
+
+.introPhoto::before,
+.introOverlay {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  pointer-events: none;
+  backdrop-filter: blur(16px) saturate(110%);
+  -webkit-backdrop-filter: blur(16px) saturate(110%);
+}
+
+.introPhoto::before {
+  top: 0;
+  height: calc(var(--fade-top) + 60px);
+  background: linear-gradient(180deg, rgba(255, 250, 236, 0.55), rgba(255, 250, 236, 0));
+  -webkit-mask-image: linear-gradient(180deg, #000 30%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 30%, transparent 100%);
+}
+
+.introOverlay {
+  bottom: 0;
+  height: calc(var(--fade-bottom) + 60px);
+  background: linear-gradient(0deg, rgba(251, 240, 214, 0.6), rgba(251, 240, 214, 0));
+  -webkit-mask-image: linear-gradient(0deg, #000 30%, transparent 100%);
+  mask-image: linear-gradient(0deg, #000 30%, transparent 100%);
+}
+
+.introEyebrow {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-align: center;
+  text-transform: uppercase;
+  color: var(--gold-700);
+}
+
+.introTitle {
+  max-width: 760px;
+  margin: 0 auto 16px;
+  font-family: var(--font-display), serif;
+  font-size: clamp(1.6rem, 3vw, 2.3rem);
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: center;
+  color: var(--brown-900);
+  text-wrap: balance;
+}
+
+.introTitle em {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--gold-700);
+}
+
+.introCaption {
+  position: absolute;
+  z-index: 2;
+  top: 184px;
+  right: 24px;
+  padding: 5px 12px;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: #fff8e6;
+  background: rgba(43, 33, 22, 0.45);
+  border: 1px solid rgba(255, 248, 230, 0.2);
+  border-radius: 999px;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+/* Tờ giấy kem nổi lên đè mép dưới ảnh */
+.introSheet {
+  position: relative;
+  z-index: 1;
+  max-width: 1152px;
+  margin: -96px auto 0;
+  padding: 36px 40px 32px;
+  background: radial-gradient(ellipse at 50% 0%, #fffdf6, var(--paper) 70%);
+  border: 1px solid rgba(214, 164, 64, 0.4);
+  border-radius: 16px;
+  box-shadow: 0 24px 60px rgba(120, 85, 20, 0.16);
+}
+
+.introLead {
+  max-width: 760px;
+  margin: 0 auto 30px;
+  font-size: 1rem;
+  line-height: 1.8;
+  text-align: center;
+  color: var(--brown-800);
+  text-wrap: pretty;
+}
+
+.introLead strong {
+  font-weight: 600;
+  color: var(--brown-900);
+}
+
+.merits {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 0;
+  padding: 26px 0 0;
+  list-style: none;
+  border-top: 1px solid rgba(214, 164, 64, 0.35);
+}
+
+.merits li {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 0 22px;
+}
+
+.merits li + li {
+  border-left: 1px solid rgba(214, 164, 64, 0.3);
+}
+
+.meritNo {
+  font-family: var(--font-display), serif;
+  font-size: 0.85rem;
+  font-style: italic;
+  font-variant-numeric: tabular-nums;
+  color: var(--gold-700);
+}
+
+.merits h3 {
+  margin: 0;
+  font-family: var(--font-display), serif;
+  font-size: 1.12rem;
+  font-weight: 600;
+  color: var(--brown-900);
+}
+
+.merits p {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: var(--brown-800);
+}
+
+@media (max-width: 1023px) {
+  .introSheet {
+    margin: -72px 16px 0;
+    padding: 30px 24px 26px;
+  }
+
+  .merits {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 24px;
+  }
+
+  .merits li:nth-child(odd) {
+    border-left: 0;
+    padding-left: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .introPhoto {
+    height: 480px;
+  }
+
+  .introPhoto {
+    --fade-top: 110px;
+    --fade-bottom: 150px;
+  }
+
+  .introCaption {
+    top: auto;
+    right: 50%;
+    bottom: 84px;
+    transform: translateX(50%);
+    white-space: nowrap;
+    font-size: 0.66rem;
+  }
+
+  .merits {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .merits li,
+  .merits li:nth-child(odd) {
+    padding: 0;
+    border-left: 0;
+  }
+
+  .merits li + li {
+    padding-top: 20px;
+    border-top: 1px solid rgba(214, 164, 64, 0.25);
+  }
+}

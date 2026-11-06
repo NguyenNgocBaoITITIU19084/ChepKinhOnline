@@ -1,0 +1,6 @@
+# Không gửi lên Vercel: biến môi trường máy local (có DATABASE_URL), file build và thư viện cài lại trên server
+.env*
+!.env.example
+node_modules
+.next
+src/generated
