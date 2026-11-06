@@ -18,42 +18,42 @@ export const SUTRA_ARTWORKS: Record<
   }
 > = {
   "kinh-dia-tang": {
-    src: "/images/dia-tang-bo-tat.jpg",
+    src: "/storage/dia-tang-bo-tat.jpg",
     alt: "Tranh Đức Địa Tạng Vương Bồ Tát cầm tích trượng và minh châu, ngồi trên tòa sen",
     tag: "Địa Tạng Vương Bồ Tát",
     meritBadge: "Đại nguyện cứu khổ",
     objectPosition: "center 20%",
   },
   "chu-dai-bi": {
-    src: "/images/quan-the-am.jpg",
+    src: "/storage/quan-the-am.jpg",
     alt: "Tranh Đức Quán Thế Âm Bồ Tát cầm cành dương liễu, rưới nước cam lồ từ bình tịnh thủy",
     tag: "Quán Thế Âm Bồ Tát",
     meritBadge: "Đại bi tâm chú",
     objectPosition: "center 25%",
   },
   "kinh-sam-hoi": {
-    src: "/images/phat-thich-ca.jpg",
+    src: "/storage/phat-thich-ca.jpg",
     alt: "Tranh Đức Bổn Sư Thích Ca Mâu Ni Phật nhập thiền định trên tòa sen",
     tag: "Từ Bi Thủy Sám",
     meritBadge: "Tịnh nghiệp tiêu oan",
     objectPosition: "center 25%",
   },
   "kinh-duoc-su": {
-    src: "/images/phat-duoc-su.jpg",
+    src: "/storage/phat-duoc-su.jpg",
     alt: "Tranh Đức Dược Sư Lưu Ly Quang Như Lai thân xanh lưu ly, tay nâng bát thuốc",
     tag: "Dược Sư Lưu Ly Quang",
     meritBadge: "Tiêu tai diên thọ",
     objectPosition: "center 22%",
   },
   "kinh-vu-lan-bao-hieu": {
-    src: "/images/real/kinh_vu_lan_muc_kien_lien.jpg",
+    src: "/storage/real/kinh_vu_lan_muc_kien_lien.jpg",
     alt: "Tôn tượng Tôn giả Mục Kiền Liên, bậc đại hiếu cứu mẹ",
     tag: "Tôn giả Mục Kiền Liên",
     meritBadge: "Báo hiếu phụ mẫu",
     objectPosition: "center 18%",
   },
   "kinh-sam-hoi-hong-danh": {
-    src: "/images/real/tuong_phat_vang_dien.jpg",
+    src: "/storage/real/tuong_phat_vang_dien.jpg",
     alt: "Chư Phật kim thân an vị trong chánh điện",
     tag: "Hồng danh chư Phật",
     meritBadge: "88 vị Phật Thế Tôn",
@@ -62,7 +62,7 @@ export const SUTRA_ARTWORKS: Record<
 };
 
 const FALLBACK_ARTWORK = {
-  src: "/images/buddha.jpg",
+  src: "/storage/buddha.jpg",
   tag: "Kinh điển huân tu",
   meritBadge: "Công đức thọ trì",
   objectPosition: "center 20%",

@@ -14,21 +14,21 @@ const TEMPLE_SCENES = [
     location: "Ninh Bình",
     subtitle: "Chốn Thiền Môn Non Nước",
     verse: ["Mái chùa cong bóng núi non soi,", "Tiếng mõ hồi chuông rũ bụi đời."],
-    image: "/images/real/chua_bai_dinh.jpg",
+    image: "/storage/real/chua_bai_dinh.jpg",
   },
   {
     title: "Chùa Một Cột (Diên Hựu)",
     location: "Thăng Long - Hà Nội",
     subtitle: "Đài Sen Ngàn Năm Tuổi",
     verse: ["Đài sen ngàn thuở nở ngát hương,", "Chứng kiến thăng trầm cõi thế gian."],
-    image: "/images/real/chua_mot_cot.jpg",
+    image: "/storage/real/chua_mot_cot.jpg",
   },
   {
     title: "Bạch Liên Nở Rộ Chốn Cửa Phật",
     location: "Tịnh Thủy Đạo Tràng",
     subtitle: "Tâm Sen Thanh Tịnh",
     verse: ["Gần bùn chẳng chút bợn mùi tanh,", "Tâm định hoa khai ngát hương lành."],
-    image: "/images/real/hoa_sen_that.jpg",
+    image: "/storage/real/hoa_sen_that.jpg",
   },
 ];
 
@@ -39,7 +39,7 @@ const ARTICLES = [
     title: "Công Đức Chép Kinh Dược Sư: Diệu Dược Trị Lành Thân Tâm Nơi Bụi Trần",
     category: "Kinh Điển",
     date: "Ngày 15 tháng 9 Âm Lịch",
-    image: "/images/real/hoa_sen_that.jpg",
+    image: "/storage/real/hoa_sen_that.jpg",
     excerpt:
       "Mười hai đại nguyện của Đức Phật Dược Sư không chỉ xua tan ách nạn bệnh tật thể xác, mà cốt tủy là chữa lành những khổ đau do tham, sân, si nơi tự tâm.",
     readTime: "5 phút đọc",
@@ -49,7 +49,7 @@ const ARTICLES = [
     title: "Oai Lực Thần Chú Lăng Nghiêm: Định Lực Kiên Cố Trong Thời Mạt Pháp",
     category: "Pháp Môn",
     date: "Ngày 01 tháng 10 Âm Lịch",
-    image: "/images/real/khoi_tram_huong.jpg",
+    image: "/storage/real/khoi_tram_huong.jpg",
     excerpt:
       "Được tôn vinh là 'Vua của các câu chú', Thủ Lăng Nghiêm hộ trì hành giả giữ vững tâm bồ đề, soi tỏ vọng tưởng điên đảo giữa bao cám dỗ trần gian.",
     readTime: "7 phút đọc",
@@ -59,7 +59,7 @@ const ARTICLES = [
     title: "Hiếu Đạo Nơi Trang Kinh Địa Tạng: Nguyện Cầu Cửu Huyền Thất Tổ Siêu Sanh",
     category: "Cảm Niệm",
     date: "Ngày 30 tháng 7 Âm Lịch",
-    image: "/images/real/an_thu_but_long.jpg",
+    image: "/storage/real/an_thu_but_long.jpg",
     excerpt:
       "Từng nét chữ chép kinh bằng lòng chí thành hiếu kính là chiếc cầu nối ánh sáng từ bi của Đức Địa Tạng Vương đến những hương linh thân quyến nơi u đồ.",
     readTime: "6 phút đọc",
@@ -166,7 +166,7 @@ export default function Home() {
       <section id="gioi-thieu" className={site.intro}>
         <div className={site.introPhoto}>
           <Image
-            src="/images/real/quan_am_linh_ung.jpg"
+            src="/storage/real/quan_am_linh_ung.jpg"
             alt="Tượng Phật Thích Ca trắng trên đồi, chùa Linh Ứng Bà Nà, Đà Nẵng"
             fill
             sizes="100vw"
