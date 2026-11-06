@@ -104,10 +104,10 @@ export function LoginForm() {
           endSlot={
             <button
               type="button"
-              className="tw:flex tw:items-center tw:justify-center tw:w-[34px] tw:h-[34px] tw:p-0 tw:text-[var(--brown-800,#6b4a12)] tw:bg-transparent tw:border-0 tw:rounded-lg tw:cursor-pointer tw:transition-colors hover:tw:text-[var(--brown-900,#4a320a)] hover:tw:bg-[#e8c77a]/25 focus-visible:tw:outline-2 focus-visible:tw:outline-[#d6a440] focus-visible:tw:outline-offset-1"
+              className="tw:flex tw:items-center tw:justify-center tw:w-[34px] tw:h-[34px] tw:p-0 tw:text-[var(--brown-800,#6b4a12)] tw:bg-transparent tw:border-0 tw:rounded-lg tw:cursor-pointer tw:transition-colors tw:hover:text-[var(--brown-900,#4a320a)] tw:hover:bg-[#e8c77a]/25 tw:focus-visible:outline-2 tw:focus-visible:outline-[#d6a440] tw:focus-visible:outline-offset-1"
               onClick={() => setShowPassword((prev) => !prev)}
               aria-label={showPassword ? "Ẩn mật khẩu" : "Hiện mật khẩu"}
-              tabIndex={-1}
+              aria-pressed={showPassword}
             >
               {showPassword ? <IconEyeOff size={18} stroke={1.8} /> : <IconEye size={18} stroke={1.8} />}
             </button>
@@ -118,7 +118,7 @@ export function LoginForm() {
           <label className="tw:inline-flex tw:items-center tw:gap-2 tw:text-[var(--brown-800,#6b4a12)] tw:cursor-pointer tw:select-none">
             <input
               type="checkbox"
-              className="tw:w-4 tw:h-4 tw:rounded tw:border tw:border-[rgba(214,164,64,0.5)] tw:bg-[#fbf7ec] tw:accent-[#d6a440] tw:cursor-pointer focus-visible:tw:outline-2 focus-visible:tw:outline-[#d6a440] focus-visible:tw:outline-offset-2"
+              className="tw:w-4 tw:h-4 tw:rounded tw:border tw:border-[rgba(214,164,64,0.5)] tw:bg-[#fbf7ec] tw:accent-[#d6a440] tw:cursor-pointer tw:focus-visible:outline-2 tw:focus-visible:outline-[#d6a440] tw:focus-visible:outline-offset-2"
               checked={rememberMe}
               onChange={(e) => setRememberMe(e.target.checked)}
               disabled={isLoading}
@@ -128,7 +128,7 @@ export function LoginForm() {
 
           <button
             type="button"
-            className="tw:text-[#a8741a] tw:font-medium tw:transition-colors hover:tw:text-[var(--brown-900,#4a320a)] hover:tw:underline focus-visible:tw:outline-2 focus-visible:tw:outline-[#d6a440] focus-visible:tw:outline-offset-2 tw:bg-transparent tw:border-0 tw:p-0 tw:cursor-pointer"
+            className="tw:text-[#a8741a] tw:font-medium tw:transition-colors tw:hover:text-[var(--brown-900,#4a320a)] tw:hover:underline tw:focus-visible:outline-2 tw:focus-visible:outline-[#d6a440] tw:focus-visible:outline-offset-2 tw:bg-transparent tw:border-0 tw:p-0 tw:cursor-pointer"
             onClick={() => handleInfoAction("Quên mật khẩu")}
           >
             Quên mật khẩu?
@@ -137,7 +137,7 @@ export function LoginForm() {
 
         <button
           type="submit"
-          className="tw:relative tw:overflow-hidden tw:inline-flex tw:items-center tw:justify-center tw:gap-2 tw:w-full tw:min-h-[46px] tw:mt-1.5 tw:px-5 tw:font-semibold tw:text-[0.94rem] tw:text-[var(--brown-900,#4a320a)] tw:bg-gradient-to-b tw:from-[#ffe699] tw:via-[#f5d77f] tw:to-[#d6a440] tw:border tw:border-[#edd17b] tw:rounded-full tw:cursor-pointer tw:select-none tw:shadow-[0_4px_14px_rgba(214,164,64,0.35)] tw:transition-all hover:tw:shadow-[0_6px_20px_rgba(214,164,64,0.5)] hover:tw:-translate-y-0.5 active:tw:translate-y-0 disabled:tw:opacity-60 disabled:tw:pointer-events-none font-zen-body"
+          className="tw:relative tw:overflow-hidden tw:inline-flex tw:items-center tw:justify-center tw:gap-2 tw:w-full tw:min-h-[46px] tw:mt-1.5 tw:px-5 tw:font-semibold tw:text-[0.94rem] tw:text-[var(--brown-900,#4a320a)] tw:bg-gradient-to-b tw:from-[#ffe699] tw:via-[#f5d77f] tw:to-[#d6a440] tw:border tw:border-[#edd17b] tw:rounded-full tw:cursor-pointer tw:select-none tw:shadow-[0_4px_14px_rgba(214,164,64,0.35)] tw:transition-all tw:hover:shadow-[0_6px_20px_rgba(214,164,64,0.5)] tw:hover:-translate-y-0.5 tw:active:translate-y-0 tw:disabled:opacity-60 tw:disabled:pointer-events-none font-zen-body"
           disabled={isLoading}
         >
           {isLoading ? (
@@ -154,7 +154,7 @@ export function LoginForm() {
         <span>Chưa có tài khoản?</span>
         <button
           type="button"
-          className="tw:text-[#a8741a] tw:font-semibold hover:tw:text-[var(--brown-900,#4a320a)] hover:tw:underline tw:cursor-pointer tw:bg-transparent tw:border-0 tw:p-0"
+          className="tw:text-[#a8741a] tw:font-semibold tw:hover:text-[var(--brown-900,#4a320a)] tw:hover:underline tw:cursor-pointer tw:bg-transparent tw:border-0 tw:p-0"
           onClick={() => handleInfoAction("Đăng ký tài khoản")}
         >
           Đăng ký ngay

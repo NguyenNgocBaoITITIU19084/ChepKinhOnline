@@ -6,33 +6,35 @@ import site from "@/components/layout/site.module.css";
 
 // Chân trang: lời hồi hướng, logo, danh mục (lấy chung dữ liệu với header), dòng bản quyền.
 // Phải nằm trong `.scene` để có bảng màu --gold-*, --brown-*.
-export function SiteFooter() {
+export function SiteFooter({ showDedication = true }: { showDedication?: boolean }) {
   return (
     <footer className={site.footer}>
       <div className={site.footerInner}>
         {/* Lời hồi hướng: huy hiệu hoa sen, nhãn "Hồi hướng · 迴向", bốn câu kệ chia hai dòng (điện thoại: bốn dòng) */}
-        <div className={site.dedication}>
-          <span className={site.dedicationMark} aria-hidden>
-            <LotusIcon size={22} strokeWidth={1.3} className={site.dividerLotus} />
-          </span>
-          <p className={site.dedicationEyebrow}>
-            <span className={site.dedicationLabel}>Hồi hướng</span>
-            <span className={site.dedicationDot} aria-hidden />
-            <span className={site.dedicationHan} lang="zh-Hant">
-              迴向
+        {showDedication && (
+          <div className={site.dedication}>
+            <span className={site.dedicationMark} aria-hidden>
+              <LotusIcon size={22} strokeWidth={1.3} className={site.dividerLotus} />
             </span>
-          </p>
-          <p className={site.dedicationVerse}>
-            <span className={site.dedicationLine}>
-              <span>Nguyện đem công đức này,</span>
-              <span>hướng về khắp tất cả,</span>
-            </span>
-            <span className={site.dedicationLine}>
-              <span>đệ tử và chúng sinh,</span>
-              <span>đều trọn thành Phật đạo.</span>
-            </span>
-          </p>
-        </div>
+            <p className={site.dedicationEyebrow}>
+              <span className={site.dedicationLabel}>Hồi hướng</span>
+              <span className={site.dedicationDot} aria-hidden />
+              <span className={site.dedicationHan} lang="zh-Hant">
+                迴向
+              </span>
+            </p>
+            <p className={site.dedicationVerse}>
+              <span className={site.dedicationLine}>
+                <span>Nguyện đem công đức này,</span>
+                <span>hướng về khắp tất cả,</span>
+              </span>
+              <span className={site.dedicationLine}>
+                <span>đệ tử và chúng sinh,</span>
+                <span>đều trọn thành Phật đạo.</span>
+              </span>
+            </p>
+          </div>
+        )}
 
         <div className={site.footerGrid}>
           <div className={site.footerBrand}>

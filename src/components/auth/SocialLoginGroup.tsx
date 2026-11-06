@@ -40,18 +40,19 @@ export function SocialLoginGroup({ onSelectProvider }: SocialLoginGroupProps) {
   return (
     <div className="tw:w-full">
       {/* Đường phân cách */}
-      <div className="tw:relative tw:flex tw:items-center tw:justify-center tw:my-5 tw:w-full">
-        <div className="tw:absolute tw:inset-x-0 tw:top-1/2 tw:h-px tw:bg-[rgba(214,164,64,0.3)]" aria-hidden="true" />
-        <span className="tw:relative tw:z-10 tw:px-3 tw:text-[0.8rem] tw:text-[rgba(120,95,55,0.75)] tw:bg-[#fffdfa] tw:rounded-full font-zen-body">
+      <div className="tw:flex tw:items-center tw:gap-3 tw:my-5 tw:w-full">
+        <div className="tw:flex-1 tw:h-px tw:bg-[rgba(214,164,64,0.3)]" aria-hidden="true" />
+        <span className="tw:shrink-0 tw:text-[0.8rem] tw:text-[rgba(120,95,55,0.75)] font-zen-body">
           hoặc tiếp tục với
         </span>
+        <div className="tw:flex-1 tw:h-px tw:bg-[rgba(214,164,64,0.3)]" aria-hidden="true" />
       </div>
 
       {/* 3 Nút đăng nhập mạng xã hội */}
-      <div className="tw:grid tw:grid-cols-3 tw:gap-3 tw:w-full max-[380px]:tw:gap-1.5">
+      <div className="tw:grid tw:grid-cols-3 tw:gap-3 tw:w-full tw:max-[380px]:gap-1.5">
         <button
           type="button"
-          className="tw:relative tw:inline-flex tw:items-center tw:justify-center tw:gap-2 tw:min-h-[42px] tw:px-2.5 tw:text-[0.86rem] tw:font-medium tw:text-[var(--brown-800,#6b4a12)] tw:bg-[#fbf7ec]/85 tw:border tw:border-[rgba(214,164,64,0.4)] tw:rounded-full tw:cursor-pointer tw:select-none tw:transition-all hover:tw:bg-[#e8c77a]/25 hover:tw:border-[#d6a440] hover:tw:text-[var(--brown-900,#4a320a)] hover:tw:-translate-y-0.5 hover:tw:shadow-[0_3px_8px_rgba(150,105,25,0.08)] active:tw:translate-y-0 focus-visible:tw:outline-2 focus-visible:tw:outline-[#d6a440] focus-visible:tw:outline-offset-2 font-zen-body max-[380px]:tw:px-1.5 max-[380px]:tw:text-[0.8rem]"
+          className="tw:relative tw:inline-flex tw:items-center tw:justify-center tw:gap-2 tw:min-h-[42px] tw:px-2.5 tw:text-[0.86rem] tw:font-medium tw:text-[var(--brown-800,#6b4a12)] tw:bg-[#fbf7ec]/85 tw:border tw:border-[rgba(214,164,64,0.4)] tw:rounded-full tw:cursor-pointer tw:select-none tw:transition-all tw:hover:bg-[#e8c77a]/25 tw:hover:border-[#d6a440] tw:hover:text-[var(--brown-900,#4a320a)] tw:hover:-translate-y-0.5 tw:hover:shadow-[0_3px_8px_rgba(150,105,25,0.08)] tw:active:translate-y-0 tw:focus-visible:outline-2 tw:focus-visible:outline-[#d6a440] tw:focus-visible:outline-offset-2 font-zen-body tw:max-[380px]:px-1.5 tw:max-[380px]:gap-1 tw:max-[380px]:text-[0.8rem]"
           onClick={() => handleClick("google")}
           aria-label="Đăng nhập bằng tài khoản Google"
         >
@@ -63,7 +64,7 @@ export function SocialLoginGroup({ onSelectProvider }: SocialLoginGroupProps) {
 
         <button
           type="button"
-          className="tw:relative tw:inline-flex tw:items-center tw:justify-center tw:gap-2 tw:min-h-[42px] tw:px-2.5 tw:text-[0.86rem] tw:font-medium tw:text-[var(--brown-800,#6b4a12)] tw:bg-[#fbf7ec]/85 tw:border tw:border-[rgba(214,164,64,0.4)] tw:rounded-full tw:cursor-pointer tw:select-none tw:transition-all hover:tw:bg-[#e8c77a]/25 hover:tw:border-[#d6a440] hover:tw:text-[var(--brown-900,#4a320a)] hover:tw:-translate-y-0.5 hover:tw:shadow-[0_3px_8px_rgba(150,105,25,0.08)] active:tw:translate-y-0 focus-visible:tw:outline-2 focus-visible:tw:outline-[#d6a440] focus-visible:tw:outline-offset-2 font-zen-body max-[380px]:tw:px-1.5 max-[380px]:tw:text-[0.8rem]"
+          className="tw:relative tw:inline-flex tw:items-center tw:justify-center tw:gap-2 tw:min-h-[42px] tw:px-2.5 tw:text-[0.86rem] tw:font-medium tw:text-[var(--brown-800,#6b4a12)] tw:bg-[#fbf7ec]/85 tw:border tw:border-[rgba(214,164,64,0.4)] tw:rounded-full tw:cursor-pointer tw:select-none tw:transition-all tw:hover:bg-[#e8c77a]/25 tw:hover:border-[#d6a440] tw:hover:text-[var(--brown-900,#4a320a)] tw:hover:-translate-y-0.5 tw:hover:shadow-[0_3px_8px_rgba(150,105,25,0.08)] tw:active:translate-y-0 tw:focus-visible:outline-2 tw:focus-visible:outline-[#d6a440] tw:focus-visible:outline-offset-2 font-zen-body tw:max-[380px]:px-1.5 tw:max-[380px]:gap-1 tw:max-[380px]:text-[0.8rem]"
           onClick={() => handleClick("apple")}
           aria-label="Đăng nhập bằng tài khoản Apple"
         >
@@ -75,7 +76,7 @@ export function SocialLoginGroup({ onSelectProvider }: SocialLoginGroupProps) {
 
         <button
           type="button"
-          className="tw:relative tw:inline-flex tw:items-center tw:justify-center tw:gap-2 tw:min-h-[42px] tw:px-2.5 tw:text-[0.86rem] tw:font-medium tw:text-[var(--brown-800,#6b4a12)] tw:bg-[#fbf7ec]/85 tw:border tw:border-[rgba(214,164,64,0.4)] tw:rounded-full tw:cursor-pointer tw:select-none tw:transition-all hover:tw:bg-[#e8c77a]/25 hover:tw:border-[#d6a440] hover:tw:text-[var(--brown-900,#4a320a)] hover:tw:-translate-y-0.5 hover:tw:shadow-[0_3px_8px_rgba(150,105,25,0.08)] active:tw:translate-y-0 focus-visible:tw:outline-2 focus-visible:tw:outline-[#d6a440] focus-visible:tw:outline-offset-2 font-zen-body max-[380px]:tw:px-1.5 max-[380px]:tw:text-[0.8rem]"
+          className="tw:relative tw:inline-flex tw:items-center tw:justify-center tw:gap-2 tw:min-h-[42px] tw:px-2.5 tw:text-[0.86rem] tw:font-medium tw:text-[var(--brown-800,#6b4a12)] tw:bg-[#fbf7ec]/85 tw:border tw:border-[rgba(214,164,64,0.4)] tw:rounded-full tw:cursor-pointer tw:select-none tw:transition-all tw:hover:bg-[#e8c77a]/25 tw:hover:border-[#d6a440] tw:hover:text-[var(--brown-900,#4a320a)] tw:hover:-translate-y-0.5 tw:hover:shadow-[0_3px_8px_rgba(150,105,25,0.08)] tw:active:translate-y-0 tw:focus-visible:outline-2 tw:focus-visible:outline-[#d6a440] tw:focus-visible:outline-offset-2 font-zen-body tw:max-[380px]:px-1.5 tw:max-[380px]:gap-1 tw:max-[380px]:text-[0.8rem]"
           onClick={() => handleClick("facebook")}
           aria-label="Đăng nhập bằng tài khoản Facebook"
         >
