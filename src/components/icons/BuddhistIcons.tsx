@@ -320,6 +320,36 @@ export function MalaBeadsIcon({
  * Hai nét vàng mảnh nhạt dần ra hai đầu, hạt thoi nhỏ, biểu tượng vàng đồng ở giữa
  * trên quầng giấy kem che hoa văn nền. Dùng biến màu của `.scene`.
  */
+// Cụm hoa văn một bên của dải phân cách: nét chỉ vàng, hạt thoi, cuộn mây lành (như ý).
+// Bên phải dùng lại cụm này và lật ngang bằng CSS.
+function DividerSide({ end = false }: { end?: boolean }) {
+  return (
+    <span className={`${site.dividerSide} ${end ? site.dividerSideEnd : ""}`} aria-hidden="true">
+      <span className={site.dividerLine} />
+      <span className={site.dividerBead} />
+      {/* viewBox lùi 1.5 để đuôi ngang của cuộn mây (y = 11.5) nằm đúng giữa khung, thẳng hàng với nét chỉ */}
+      <svg className={site.dividerCloud} width="46" height="20" viewBox="0 1.5 46 20" fill="none">
+        <path
+          d="M1 11.5h13c3.4 0 4.6-2.2 6.4-5.4C22 3.3 24.2 1.5 27.6 1.5c3.8 0 6.2 2.6 6.2 5.4 0 2.4-1.8 4-3.9 4-1.8 0-3.1-1.2-3.1-2.8 0-1.3.9-2.2 2.1-2.2"
+          stroke="currentColor"
+          strokeWidth="1.15"
+          strokeLinecap="round"
+        />
+        <path
+          d="M33.8 11.5c2.4 2.3 6.3 2.6 8.4.6 1.6-1.5 1.4-3.9-.4-4.6-1.3-.5-2.6.3-2.6 1.5"
+          stroke="currentColor"
+          strokeWidth="1.15"
+          strokeLinecap="round"
+        />
+      </svg>
+    </span>
+  );
+}
+
+/**
+ * Dải phân cách giữa các khối trang chủ: huy hiệu tròn viền vàng hai lớp ở giữa,
+ * hai bên là nét chỉ vàng kết cuộn mây lành. Nét chỉ tự vẽ dần ra khi cuộn tới (trình duyệt hỗ trợ).
+ */
 export function ZenDivider({
   className = "",
   symbol = "lotus",
@@ -329,15 +359,13 @@ export function ZenDivider({
 }) {
   return (
     <div role="separator" className={`${site.divider} ${className}`}>
-      <span className={site.dividerLine} />
-      <span className={site.dividerDot} />
-      <span className={site.dividerMark}>
-        {symbol === "lotus" && <LotusIcon size={26} strokeWidth={1.3} />}
-        {symbol === "wheel" && <DharmaWheelIcon size={24} strokeWidth={1.3} />}
-        {symbol === "knot" && <EndlessKnotIcon size={24} strokeWidth={1.3} />}
+      <DividerSide />
+      <span className={`${site.dividerMedallion} ${symbol === "wheel" ? site.dividerMedallionTurn : ""}`}>
+        {symbol === "lotus" && <LotusIcon size={24} strokeWidth={1.3} className={site.dividerLotus} />}
+        {symbol === "wheel" && <DharmaWheelIcon size={22} strokeWidth={1.3} />}
+        {symbol === "knot" && <EndlessKnotIcon size={22} strokeWidth={1.3} />}
       </span>
-      <span className={site.dividerDot} />
-      <span className={`${site.dividerLine} ${site.dividerLineEnd}`} />
+      <DividerSide end />
     </div>
   );
 }

@@ -74,14 +74,14 @@
 .heroActions {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 14px;
 }
 
-/* Nút banner to hơn nút header một bậc */
+/* Nút banner to hơn nút thường một bậc */
 .heroActions > a {
-  min-height: 48px;
-  padding: 0 22px;
-  font-size: 0.95rem;
+  min-height: 52px;
+  padding: 0 26px;
+  font-size: 0.97rem;
 }
 
 .heroPillars {
@@ -309,27 +309,107 @@
   margin: 0 auto;
 }
 
+/* Lời hồi hướng cuối trang: một khối căn giữa, có quầng sáng giấy kem phía sau che bớt hoa văn nền */
 .dedication {
+  position: relative;
+  isolation: isolate;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 20px;
-  padding: 40px 0 36px;
-}
-
-.dedicationRule {
-  flex: 1;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(214, 164, 64, 0.6), transparent);
-}
-
-.dedicationVerse {
-  margin: 0;
-  font-family: var(--font-display), serif;
-  font-size: 1.05rem;
-  font-style: italic;
-  line-height: 1.8;
+  padding: 64px 0 52px;
   text-align: center;
-  color: var(--brown-800);
+}
+
+.dedication::before {
+  content: "";
+  position: absolute;
+  inset: 10px 8% 0;
+  z-index: -1;
+  background: radial-gradient(ellipse 50% 60% at 50% 50%, rgba(255, 253, 246, 0.95), rgba(255, 253, 246, 0) 72%);
+  pointer-events: none;
+}
+
+.dedicationMark {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  color: #8a5c14;
+  background: radial-gradient(circle at 50% 35%, #fffdf6 0%, #fbf1d8 100%);
+  border: 1px solid rgba(168, 116, 26, 0.5);
+  box-shadow:
+    0 0 0 4px #fffdf8,
+    0 0 0 5px rgba(214, 164, 64, 0.3),
+    0 8px 18px -8px rgba(122, 80, 14, 0.35);
+}
+
+.dedicationEyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin: 22px 0 0;
+  line-height: 1;
+}
+
+/* Hai vạch ngắn hai bên nhãn */
+.dedicationEyebrow::before,
+.dedicationEyebrow::after {
+  content: "";
+  width: 44px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(168, 116, 26, 0.7));
+}
+
+.dedicationEyebrow::after {
+  transform: scaleX(-1);
+}
+
+.dedicationLabel {
+  font-family: var(--font-sans), sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  /* letter-spacing để thừa một khoảng sau chữ cuối: kéo lại cho nhãn cân giữa */
+  margin-right: -0.24em;
+  text-transform: uppercase;
+  color: #a8741a;
+}
+
+.dedicationDot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(168, 116, 26, 0.6);
+}
+
+.dedicationHan {
+  font-family: var(--font-han), serif;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  margin-right: -0.08em;
+  color: #9b2c1a;
+}
+
+/* Hai câu kệ, mỗi câu một dòng căn giữa như thơ; hai câu dài gần bằng nhau nên khối chữ cân đối */
+.dedicationVerse {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  margin: 20px 0 0;
+  font-family: var(--font-display), serif;
+  font-size: clamp(1.1rem, 0.9vw + 0.8rem, 1.32rem);
+  font-style: italic;
+  line-height: 1.75;
+  color: #4a320a;
+}
+
+.dedicationLine {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.32em;
 }
 
 .footerGrid {
@@ -430,71 +510,162 @@
   }
 
   .dedication {
-    gap: 12px;
-    padding: 32px 0 28px;
+    padding: 48px 0 40px;
   }
 
-  .dedicationVerse {
-    font-size: 0.98rem;
+  .dedicationLine {
+    flex-direction: column;
+    gap: 0;
   }
 
-  .dedicationVerse span {
-    display: block;
-  }
-
-  .dedicationBreak,
-  .dedicationRule {
-    display: none;
-  }
 
   .footerGrid {
     gap: 24px 16px;
   }
 }
 
-/* ==== Dải phân cách giữa các khối trang chủ (ZenDivider) ==== */
+/* ==== Dải phân cách giữa các khối trang chủ (ZenDivider) ====
+ * [nét chỉ — hạt thoi — cuộn mây]  (huy hiệu)  [cuộn mây — hạt thoi — nét chỉ]
+ */
 .divider {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  margin: 40px auto;
-  max-width: 640px;
+  gap: 14px;
+  margin: 56px auto;
+  max-width: 720px;
+  color: #a8741a;
 }
 
+.dividerSide {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+/* Bên phải là bản lật ngang của bên trái */
+.dividerSideEnd {
+  transform: scaleX(-1);
+}
+
+/* Nét chỉ: một đường 1px nằm đúng trục giữa, mờ dần ra phía ngoài */
 .dividerLine {
   flex: 1;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(214, 164, 64, 0.7));
+  background: linear-gradient(90deg, transparent, rgba(168, 116, 26, 0.75));
+  transform-origin: right center;
 }
 
-.dividerLineEnd {
-  background: linear-gradient(90deg, rgba(214, 164, 64, 0.7), transparent);
-}
-
-/* Hạt thoi nhỏ ở đầu trong của mỗi nét */
-.dividerDot {
+.dividerBead {
   flex-shrink: 0;
   width: 5px;
   height: 5px;
-  background: var(--gold-500);
+  background: #d6a440;
+  box-shadow: 0 0 0 2px rgba(255, 253, 248, 0.9);
   transform: rotate(45deg);
 }
 
-/* Quầng giấy kem che hoa văn nền để biểu tượng không lẫn vào chữ Vạn */
-.dividerMark {
+.dividerCloud {
+  flex-shrink: 0;
+  display: block;
+  color: #b8862c;
+}
+
+/* Hình hoa sen nằm lệch xuống trong khung vẽ của nó (đế sen dày hơn ngọn), kéo lên cho cân giữa huy hiệu */
+.dividerLotus {
+  transform: translateY(-1.5px);
+}
+
+/* Huy hiệu giữa: đĩa giấy kem, viền vàng hai lớp, che hoa văn nền phía sau */
+.dividerMedallion {
+  position: relative;
   display: grid;
   place-items: center;
   flex-shrink: 0;
-  padding: 8px 10px;
-  color: var(--gold-700);
-  background: radial-gradient(closest-side, #fffdf8 55%, rgba(255, 253, 248, 0));
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  color: #8a5c14;
+  background: radial-gradient(circle at 50% 35%, #fffdf6 0%, #fbf1d8 100%);
+  border: 1px solid rgba(168, 116, 26, 0.55);
+  box-shadow:
+    0 0 0 4px #fffdf8,
+    0 0 0 5px rgba(214, 164, 64, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 8px 18px -8px rgba(122, 80, 14, 0.35);
+}
+
+/* Bánh xe Pháp luân xoay rất chậm */
+.dividerMedallionTurn svg {
+  animation: dividerTurn 40s linear infinite;
+}
+
+@keyframes dividerTurn {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Nét chỉ vẽ dần ra từ huy hiệu khi dải phân cách cuộn vào màn hình */
+@supports (animation-timeline: view()) {
+  .dividerLine {
+    animation: dividerDraw linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 40%;
+  }
+
+  .dividerCloud,
+  .dividerBead {
+    animation: dividerFade linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 30%;
+  }
+}
+
+@keyframes dividerDraw {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes dividerFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dividerLine,
+  .dividerCloud,
+  .dividerBead,
+  .dividerMedallionTurn svg {
+    animation: none;
+  }
 }
 
 @media (max-width: 480px) {
   .divider {
-    margin: 28px auto;
+    gap: 10px;
+    margin: 36px auto;
     padding: 0 16px;
+  }
+
+  .dividerCloud {
+    width: 34px;
+    height: 15px;
+  }
+
+  .dividerMedallion {
+    width: 46px;
+    height: 46px;
   }
 }
 
@@ -737,5 +908,153 @@
   .merits li + li {
     padding-top: 20px;
     border-top: 1px solid rgba(214, 164, 64, 0.25);
+  }
+}
+
+/* ==== Nút "Xem thêm" dưới mỗi block ====
+ * Nghỉ: viên thuốc nền giấy ngà, mũi tên chéo trong vòng tròn nâu.
+ * Rê chuột: lớp vàng thếp tràn từ trái sang, vòng tròn đổi sang màu ngà và mũi tên xoay về thẳng.
+ */
+.seeMore {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 50px;
+  padding: 6px 6px 6px 24px;
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: #4a320a;
+  text-decoration: none;
+  white-space: nowrap;
+  background-color: rgba(255, 252, 244, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(168, 116, 26, 0.35);
+  border-radius: 999px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 1px 2px rgba(74, 50, 10, 0.06),
+    0 6px 14px -8px rgba(74, 50, 10, 0.18);
+  transition:
+    color 0.45s ease,
+    border-color 0.45s ease,
+    box-shadow 0.45s ease,
+    transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Lớp vàng thếp tràn vào */
+.seeMore::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 55%),
+    linear-gradient(180deg, #f3d48a 0%, #e0b252 55%, #c99232 100%);
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* Vệt sáng lướt qua sau khi lớp vàng đã tràn */
+.seeMore::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(105deg, transparent 35%, rgba(255, 252, 240, 0.7) 50%, transparent 65%);
+  transform: translateX(-130%);
+  pointer-events: none;
+}
+
+.seeMore:hover {
+  color: #3d2906;
+  border-color: rgba(138, 92, 20, 0.6);
+  transform: translateY(-2px);
+  text-decoration: none;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 250, 232, 0.9),
+    0 2px 4px rgba(74, 50, 10, 0.12),
+    0 16px 28px -12px rgba(168, 116, 26, 0.6);
+}
+
+.seeMore:hover::before {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+.seeMore:hover::after {
+  transform: translateX(130%);
+  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.35s;
+}
+
+.seeMore:active {
+  transform: translateY(0);
+}
+
+.seeMore:focus-visible {
+  outline: 2px solid #d6a440;
+  outline-offset: 3px;
+}
+
+.seeMoreLabel {
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.seeMore:hover .seeMoreLabel {
+  transform: translateX(-2px);
+}
+
+.seeMoreIcon {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  color: #fff8e6;
+  background: #4a320a;
+  box-shadow: inset 0 1px 0 rgba(255, 236, 186, 0.25);
+  transition:
+    background-color 0.45s ease,
+    color 0.45s ease,
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.seeMoreIcon svg {
+  transform: rotate(-45deg);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.seeMore:hover .seeMoreIcon {
+  color: #4a320a;
+  background: #fff8e6;
+  transform: scale(1.06);
+}
+
+.seeMore:hover .seeMoreIcon svg {
+  transform: rotate(0deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .seeMore,
+  .seeMore::before,
+  .seeMore::after,
+  .seeMoreLabel,
+  .seeMoreIcon,
+  .seeMoreIcon svg {
+    transition: none;
+  }
+  .seeMore:hover {
+    transform: none;
+  }
+  .seeMore::after {
+    display: none;
   }
 }

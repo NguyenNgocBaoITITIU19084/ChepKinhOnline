@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { IconChevronDown, IconLogin, IconLogout, IconUser } from "@tabler/icons-react";
+import { IconChevronDown, IconLogin2, IconLogout, IconUser } from "@tabler/icons-react";
 import type { CurrentUser } from "@/lib/auth";
 import styles from "@/components/copy/copy.module.css";
 
@@ -36,7 +36,8 @@ export function UserMenu({ user }: { user: CurrentUser | null }) {
   if (!user) {
     return (
       <Link href="/dang-nhap" className={styles.goldButton}>
-        <IconLogin size={18} /> <span className={styles.hideSm}>Đăng nhập</span>
+        <IconLogin2 size={18} stroke={1.8} aria-hidden />
+        <span className={styles.hideSm}>Đăng nhập</span>
       </Link>
     );
   }

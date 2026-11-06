@@ -155,7 +155,7 @@ export function SutraCarousel({ sutras }: { sutras: SutraSummary[] }) {
   }
 
   const arrowClass =
-    "tw:group tw:w-11 tw:h-11 tw:rounded-full tw:flex tw:items-center tw:justify-center tw:border tw:border-[#6b4a12]/25 tw:bg-[#fbf7ef]/80 tw:backdrop-blur-sm tw:text-[#4a320a] tw:transition-all tw:duration-300 tw:hover:bg-[#4a320a] tw:hover:text-[#fbf7ef] tw:hover:border-[#4a320a] tw:focus-visible:outline-2 tw:focus-visible:outline-offset-2 tw:focus-visible:outline-[#d6a440] tw:cursor-pointer";
+    "tw:group tw:w-11 tw:h-11 tw:rounded-full tw:flex tw:items-center tw:justify-center tw:border tw:border-[#a8741a]/35 tw:bg-[#fffcf4]/85 tw:backdrop-blur-sm tw:text-[#4a320a] tw:shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_1px_2px_rgba(74,50,10,0.06),0_6px_14px_-8px_rgba(74,50,10,0.2)] tw:transition-all tw:duration-300 tw:hover:-translate-y-px tw:hover:bg-[#fff8e6] tw:hover:border-[#a8741a]/65 tw:hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.95),0_12px_22px_-10px_rgba(168,116,26,0.4)] tw:active:translate-y-0 tw:focus-visible:outline-2 tw:focus-visible:outline-offset-2 tw:focus-visible:outline-[#d6a440] tw:cursor-pointer";
 
   return (
     <div
@@ -266,7 +266,7 @@ export function SutraCarousel({ sutras }: { sutras: SutraSummary[] }) {
 
                 <div className="tw:mt-5 tw:pt-4 tw:border-t tw:border-[#ecc976]/20 tw:flex tw:items-center tw:justify-between tw:gap-3">
                   <span className="font-zen-body tw:min-w-0 tw:truncate tw:text-xs tw:italic tw:text-[#f3e6cc]/65">{art.meritBadge}</span>
-                  <span className="font-zen-body tw:shrink-0 tw:whitespace-nowrap tw:inline-flex tw:items-center tw:gap-2 tw:rounded-full tw:bg-[#fff8e6] tw:pl-4 tw:pr-3 tw:py-2 tw:text-[13px] tw:font-semibold tw:text-[#4a320a] tw:transition-colors tw:duration-300 tw:group-hover:bg-[#ecc976]">
+                  <span className="font-zen-body tw:shrink-0 tw:whitespace-nowrap tw:inline-flex tw:items-center tw:gap-2 tw:rounded-full tw:border tw:border-[#fff8e6]/60 tw:bg-[#fff8e6] tw:pl-4 tw:pr-3.5 tw:py-2.5 tw:text-[13px] tw:font-semibold tw:leading-none tw:text-[#3d2906] tw:shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_6px_16px_-6px_rgba(0,0,0,0.45)] tw:transition-all tw:duration-300 tw:group-hover:border-[#8a5c14]/60 tw:group-hover:bg-[linear-gradient(180deg,#f3d48a_0%,#e0b252_55%,#c99232_100%)] tw:group-hover:shadow-[inset_0_1px_0_rgba(255,250,232,0.9),0_8px_20px_-6px_rgba(201,146,50,0.6)]">
                     Vào chép kinh
                     <svg className="tw:w-3.5 tw:h-3.5 tw:transition-transform tw:duration-300 tw:group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2} aria-hidden="true">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-6-6 6 6-6 6" />

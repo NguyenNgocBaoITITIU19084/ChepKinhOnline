@@ -1,8 +1,8 @@
 import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { IconArrowRight, IconBooks } from "@tabler/icons-react";
 import { SutraList } from "@/components/sutra/SutraList";
-import { IconBooks, IconPencil } from "@tabler/icons-react";
 import { LotusIcon, ZenDivider } from "@/components/icons/BuddhistIcons";
 import copy from "@/components/copy/copy.module.css";
 import site from "@/components/layout/site.module.css";
@@ -15,6 +15,7 @@ const TEMPLE_SCENES = [
     subtitle: "Chốn Thiền Môn Non Nước",
     verse: ["Mái chùa cong bóng núi non soi,", "Tiếng mõ hồi chuông rũ bụi đời."],
     image: "/storage/real/chua_bai_dinh.jpg",
+    objectPosition: "45% center",
   },
   {
     title: "Chùa Một Cột (Diên Hựu)",
@@ -22,6 +23,7 @@ const TEMPLE_SCENES = [
     subtitle: "Đài Sen Ngàn Năm Tuổi",
     verse: ["Đài sen ngàn thuở nở ngát hương,", "Chứng kiến thăng trầm cõi thế gian."],
     image: "/storage/real/chua_mot_cot.jpg",
+    objectPosition: "45% 40%",
   },
   {
     title: "Bạch Liên Nở Rộ Chốn Cửa Phật",
@@ -29,6 +31,7 @@ const TEMPLE_SCENES = [
     subtitle: "Tâm Sen Thanh Tịnh",
     verse: ["Gần bùn chẳng chút bợn mùi tanh,", "Tâm định hoa khai ngát hương lành."],
     image: "/storage/real/hoa_sen_that.jpg",
+    objectPosition: "center 40%",
   },
 ];
 
@@ -86,6 +89,36 @@ const MERITS = [
   },
 ];
 
+// Kệ Khai Kinh: nguyên văn chữ Hán và âm Hán Việt, từng câu đi đôi
+const KE_KHAI_KINH = [
+  { han: "無上甚深微妙法", viet: "Vô thượng thâm thâm vi diệu pháp," },
+  { han: "百千萬劫難遭遇", viet: "Bách thiên vạn kiếp nan tao ngộ." },
+  { han: "我今見聞得受持", viet: "Ngã kim kiến văn đắc thọ trì," },
+  { han: "願解如來真實義", viet: "Nguyện giải Như Lai chân thật nghĩa." },
+];
+
+// Bốn góc bọc đồng của khung Kệ Khai Kinh
+const KINH_CORNERS = [
+  "tw:top-6 tw:left-6 tw:border-t tw:border-l tw:rounded-tl-[10px]",
+  "tw:top-6 tw:right-6 tw:border-t tw:border-r tw:rounded-tr-[10px]",
+  "tw:bottom-6 tw:left-6 tw:border-b tw:border-l tw:rounded-bl-[10px]",
+  "tw:bottom-6 tw:right-6 tw:border-b tw:border-r tw:rounded-br-[10px]",
+];
+
+// Nút "xem thêm" đặt giữa, dưới mỗi block danh sách (cảnh sắc, bộ kinh, bài viết)
+function SeeMore({ href, label }: { href: string; label: string }) {
+  return (
+    <div className="tw:mt-10 tw:flex tw:justify-center">
+      <Link href={href} className={site.seeMore}>
+        <span className={site.seeMoreLabel}>{label}</span>
+        <span className={site.seeMoreIcon} aria-hidden="true">
+          <IconArrowRight size={17} stroke={2} />
+        </span>
+      </Link>
+    </div>
+  );
+}
+
 export default function Home() {
   return (
     <div className="tw:relative">
@@ -107,10 +140,12 @@ export default function Home() {
             </p>
             <div className={site.heroActions}>
               <Link href="/chep-kinh/bat-nha-tam-kinh" className={copy.goldButton}>
-                <IconPencil size={18} /> Chép Bát Nhã Tâm Kinh
+                Chép Bát Nhã Tâm Kinh
+                <IconArrowRight size={18} stroke={2} className={copy.btnArrow} aria-hidden />
               </Link>
               <a href="#gioi-thieu-kinh" className={copy.ghostButton}>
-                <IconBooks size={18} /> Xem các bộ kinh
+                <IconBooks size={18} stroke={1.7} aria-hidden />
+                Xem các bộ kinh
               </a>
             </div>
             <ul className={site.heroPillars}>
@@ -219,46 +254,74 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="tw:grid tw:grid-cols-1 tw:md:grid-cols-3 tw:gap-8">
-            {TEMPLE_SCENES.map((scene) => (
-              <div
-                key={scene.title}
-                className="tw:group tw:flex tw:flex-col tw:bg-[#faf7f0] tw:rounded-2xl tw:overflow-hidden tw:border tw:border-amber-900/15 tw:hover:border-amber-700/40 tw:shadow-[0_4px_20px_rgba(44,36,28,0.04)] tw:hover:shadow-[0_12px_32px_rgba(44,36,28,0.1)] tw:transition-all tw:duration-500"
-              >
-                {/* Ảnh chụp thật phong cảnh chùa chiền */}
-                <div className="tw:relative tw:w-full tw:aspect-[16/10] tw:overflow-hidden tw:bg-stone-200">
+          {/* Bố cục bento: ảnh lớn bên trái chiếm hai hàng, hai ảnh xếp chồng bên phải.
+              Ảnh phủ kín ô, chữ nằm gọn ở chân ảnh. */}
+          <div className="tw:grid tw:grid-cols-1 tw:gap-4 tw:sm:gap-5 tw:lg:grid-cols-12 tw:lg:grid-rows-[300px_300px]">
+            {TEMPLE_SCENES.map((scene, idx) => {
+              const featured = idx === 0;
+              return (
+                <figure
+                  key={scene.title}
+                  className={`tw:group tw:relative tw:m-0 tw:overflow-hidden tw:rounded-[22px] tw:bg-[#2a1d10] tw:shadow-[0_1px_2px_rgba(74,50,10,0.10),0_6px_14px_-6px_rgba(74,50,10,0.22),0_18px_32px_-16px_rgba(74,50,10,0.32)] tw:transition-shadow tw:duration-500 tw:hover:shadow-[0_2px_4px_rgba(74,50,10,0.10),0_14px_24px_-10px_rgba(74,50,10,0.28),0_30px_48px_-20px_rgba(74,50,10,0.42)] ${
+                    featured
+                      ? "tw:aspect-[4/3] tw:sm:aspect-[16/10] tw:lg:aspect-auto tw:lg:col-span-7 tw:lg:row-span-2"
+                      : "tw:aspect-[4/3] tw:sm:aspect-[16/9] tw:lg:aspect-auto tw:lg:col-span-5"
+                  }`}
+                >
                   <Image
                     src={scene.image}
-                    alt={scene.title}
+                    alt={`${scene.title}, ${scene.location}`}
                     fill
-                    className="tw:object-cover tw:object-center tw:group-hover:scale-105 tw:transition-transform tw:duration-700"
-                    sizes="(max-width: 768px) 100vw, 33vw"
+                    className="tw:object-cover tw:transition-transform tw:duration-[1400ms] tw:ease-out tw:group-hover:scale-[1.05]"
+                    style={{ objectPosition: scene.objectPosition }}
+                    sizes={featured ? "(max-width: 1024px) 100vw, 58vw" : "(max-width: 1024px) 100vw, 42vw"}
                   />
-                  <div className="tw:absolute tw:inset-0 tw:bg-linear-to-t tw:from-[#faf7f0] tw:via-transparent tw:to-transparent" />
-                  <div className="tw:absolute tw:top-3.5 tw:left-3.5 tw:px-3 tw:py-1 tw:rounded-md tw:bg-[#1f1a14]/75 tw:backdrop-blur-md tw:text-[11px] tw:font-semibold tw:tracking-wider tw:uppercase tw:text-amber-100 font-zen-body">
-                    {scene.location}
-                  </div>
-                </div>
 
-                {/* Tên chùa và lời kệ */}
-                <div className="tw:p-6 tw:pt-3 tw:flex tw:flex-col tw:flex-1 tw:justify-between">
-                  <div>
-                    <div className="tw:text-xs tw:font-medium tw:text-amber-800 tw:mb-1 font-zen-body">
+                  {/* Lớp tối mỏng ở chân ảnh để chữ đọc rõ, phần còn lại giữ nguyên màu cảnh */}
+                  <div className="tw:absolute tw:inset-x-0 tw:bottom-0 tw:h-3/5 tw:bg-linear-to-t tw:from-[#140c05]/90 tw:via-[#140c05]/40 tw:to-transparent" />
+
+                  {/* Viền chỉ vàng bên trong như khung tranh */}
+                  <div className="tw:absolute tw:inset-2.5 tw:rounded-[16px] tw:border tw:border-[#ecc976]/0 tw:pointer-events-none tw:transition-colors tw:duration-500 tw:group-hover:border-[#ecc976]/45" />
+
+                  <span className="font-zen-body tw:absolute tw:top-4 tw:left-4 tw:inline-flex tw:items-center tw:gap-1.5 tw:rounded-full tw:bg-[#140c05]/45 tw:backdrop-blur-md tw:px-3 tw:py-1.5 tw:text-[11px] tw:font-semibold tw:uppercase tw:tracking-[0.14em] tw:text-[#fff3dc] tw:ring-1 tw:ring-white/15">
+                    <svg className="tw:w-3 tw:h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 21s-7-6.1-7-11.5a7 7 0 1 1 14 0C19 14.9 12 21 12 21Z" />
+                      <circle cx="12" cy="9.5" r="2.5" />
+                    </svg>
+                    {scene.location}
+                  </span>
+
+                  <figcaption className={`tw:absolute tw:inset-x-0 tw:bottom-0 ${featured ? "tw:p-6 tw:sm:p-8" : "tw:p-5 tw:sm:p-6"}`}>
+                    <span className="font-zen-body tw:inline-flex tw:items-center tw:gap-2 tw:text-[11px] tw:font-semibold tw:uppercase tw:tracking-[0.16em] tw:text-[#ecc976]">
+                      <span className="tw:w-5 tw:h-px tw:bg-[#ecc976]/70" aria-hidden="true" />
                       {scene.subtitle}
-                    </div>
-                    <h3 className="font-zen-title tw:text-lg tw:sm:text-xl tw:font-semibold tw:text-[#2c2218] tw:mb-3">
+                    </span>
+                    <h3
+                      className={`font-zen-title tw:mt-1.5 tw:font-semibold tw:leading-snug tw:text-[#fff8e6] tw:text-balance ${
+                        featured ? "tw:text-2xl tw:sm:text-[28px]" : "tw:text-xl tw:sm:text-[22px]"
+                      }`}
+                    >
                       {scene.title}
                     </h3>
-                    <div className="font-zen-title tw:text-sm tw:text-stone-700 tw:italic tw:leading-relaxed tw:border-l-2 tw:border-amber-800/30 tw:pl-3 tw:space-y-1">
-                      {scene.verse.map((line, idx) => (
-                        <p key={idx}>{line}</p>
-                      ))}
+
+                    {/* Lời kệ: ẩn trên điện thoại để nhường chỗ cho ảnh, hiện trên máy tính bảng, máy tính thì mở ra khi rê chuột */}
+                    <div className="tw:grid tw:grid-rows-[0fr] tw:sm:grid-rows-[1fr] tw:lg:grid-rows-[0fr] tw:lg:group-hover:grid-rows-[1fr] tw:transition-[grid-template-rows] tw:duration-500 tw:ease-out">
+                      <div className="tw:overflow-hidden">
+                        <div className="font-zen-title tw:mt-3 tw:border-l tw:border-[#ecc976]/50 tw:pl-3 tw:text-[13.5px] tw:sm:text-sm tw:italic tw:leading-relaxed tw:text-[#f3e6cc]/85 tw:opacity-0 tw:sm:opacity-100 tw:lg:opacity-0 tw:lg:group-hover:opacity-100 tw:transition-opacity tw:duration-500">
+                          {scene.verse.map((line) => (
+                            <p key={line} className="tw:m-0">
+                              {line}
+                            </p>
+                          ))}
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              </div>
-            ))}
+                  </figcaption>
+                </figure>
+              );
+            })}
           </div>
+          <SeeMore href="/canh-sac" label="Xem thêm cảnh sắc" />
         </section>
 
         <ZenDivider symbol="wheel" />
@@ -288,6 +351,7 @@ export default function Home() {
           >
             <SutraList />
           </Suspense>
+          <SeeMore href="/kinh" label="Xem tất cả bộ kinh" />
         </section>
 
         <ZenDivider symbol="lotus" />
@@ -356,34 +420,80 @@ export default function Home() {
               </article>
             ))}
           </div>
+          <SeeMore href="/bai-viet" label="Xem thêm bài viết" />
         </section>
 
         {/* ====================================================================
             6. BLOCK KỆ KHAI KINH CỔ ĐIỂN
             ==================================================================== */}
-        <section id="khai-kinh" className="tw:pt-6 tw:pb-16">
-          <div className="tw:max-w-2xl tw:mx-auto tw:p-8 tw:sm:p-12 tw:rounded-2xl tw:bg-[#faf6ee] tw:border tw:border-amber-900/20 tw:text-center tw:shadow-[0_8px_30px_rgba(44,36,28,0.04)] tw:relative">
-            <div className="tw:absolute tw:top-6 tw:right-6 tw:w-9 tw:h-9 tw:rounded tw:border tw:border-red-800/40 tw:bg-red-900/10 tw:flex tw:items-center tw:justify-center font-zen-han tw:text-xs tw:font-semibold tw:text-red-900">
-              佛心
-            </div>
+        <section id="khai-kinh" className="tw:pt-6 tw:pb-20">
+          <div className="tw:relative tw:max-w-5xl tw:mx-auto tw:overflow-hidden tw:rounded-[28px] tw:bg-[radial-gradient(ellipse_80%_70%_at_30%_20%,#fffdf6_0%,#fbf3df_60%,#f5e6c4_100%)] tw:shadow-[0_1px_2px_rgba(74,50,10,0.08),0_10px_24px_-10px_rgba(74,50,10,0.22),0_30px_60px_-30px_rgba(74,50,10,0.35)]">
+            {/* Khung chỉ vàng hai lớp và bốn góc bọc đồng */}
+            <div className="tw:pointer-events-none tw:absolute tw:inset-3 tw:rounded-[20px] tw:border tw:border-[#a8741a]/35" aria-hidden="true" />
+            <div className="tw:pointer-events-none tw:absolute tw:inset-[18px] tw:rounded-[16px] tw:border tw:border-[#a8741a]/15" aria-hidden="true" />
+            {KINH_CORNERS.map((pos) => (
+              <span key={pos} className={`tw:pointer-events-none tw:absolute tw:w-7 tw:h-7 tw:border-[#a8741a]/70 ${pos}`} aria-hidden="true" />
+            ))}
 
-            <LotusIcon size={30} className="tw:mx-auto tw:text-amber-800 tw:mb-4" strokeWidth={1.2} />
+            <div className="tw:relative tw:grid tw:grid-cols-1 tw:md:grid-cols-12 tw:items-stretch">
+              {/* Bên trái: nguyên văn chữ Hán viết dọc, đọc từ phải sang trái, có triện son */}
+              <div className="tw:md:col-span-5 tw:flex tw:items-center tw:justify-center tw:px-8 tw:pt-14 tw:pb-6 tw:md:py-16 tw:md:border-r tw:md:border-[#a8741a]/20">
+                <div className="tw:relative">
+                  <p
+                    lang="zh-Hant"
+                    className="font-zen-han tw:m-0 tw:text-[22px] tw:sm:text-[26px] tw:leading-[1.9] tw:tracking-[0.32em] tw:text-[#3d2906]"
+                    style={{ writingMode: "vertical-rl" }}
+                  >
+                    {KE_KHAI_KINH.map((line) => (
+                      <span key={line.han} className="tw:block">
+                        {line.han}
+                      </span>
+                    ))}
+                  </p>
+                  <span
+                    lang="zh-Hant"
+                    className="font-zen-han tw:absolute tw:bottom-1.5 tw:-left-14 tw:grid tw:place-items-center tw:w-11 tw:h-11 tw:rounded-[6px] tw:bg-[#9b2c1a] tw:text-[#fff1dc] tw:text-[13px] tw:leading-none tw:tracking-normal tw:shadow-[0_4px_10px_-2px_rgba(120,30,10,0.45)] tw:ring-1 tw:ring-[#fff1dc]/40 tw:ring-inset"
+                    style={{ writingMode: "vertical-rl" }}
+                    aria-label="Triện Phật Tâm"
+                  >
+                    佛心
+                  </span>
+                </div>
+              </div>
 
-            <h3 className="font-zen-title tw:text-xl tw:sm:text-2xl tw:font-semibold tw:text-[#2c2218] tw:mb-6">
-              Kệ Khai Kinh
-            </h3>
+              {/* Bên phải: âm Hán Việt, lời dịch và lời niệm Phật */}
+              <div className="tw:md:col-span-7 tw:px-6 tw:pb-14 tw:pt-6 tw:sm:px-12 tw:md:py-16 tw:md:pl-12 tw:md:pr-16 tw:text-center tw:md:text-left">
+                <span className="font-zen-body tw:inline-flex tw:items-center tw:gap-2 tw:text-[11px] tw:font-semibold tw:uppercase tw:tracking-[0.2em] tw:text-[#a8741a]">
+                  <LotusIcon size={16} strokeWidth={1.4} />
+                  Trước giờ chép kinh
+                </span>
+                <h2 className="font-zen-title tw:mt-3 tw:mb-0 tw:text-3xl tw:sm:text-[34px] tw:font-semibold tw:leading-tight tw:text-[#231b14]">
+                  Kệ Khai Kinh
+                </h2>
 
-            <div className="font-zen-title tw:text-base tw:sm:text-lg tw:italic tw:text-stone-800 tw:space-y-2.5 tw:leading-relaxed">
-              <p>Vô thượng thâm thâm vi diệu pháp,</p>
-              <p>Bách thiên vạn kiếp nan tao ngộ.</p>
-              <p>Ngã kim kiến văn đắc thọ trì,</p>
-              <p className="tw:text-amber-950 tw:font-medium">
-                Nguyện giải Như Lai chân thật nghĩa.
-              </p>
-            </div>
+                <ol className="font-zen-title tw:mt-7 tw:mb-0 tw:p-0 tw:list-none tw:space-y-2.5 tw:text-[16.5px] tw:sm:text-xl tw:italic tw:leading-relaxed tw:text-[#3a2c1c]">
+                  {KE_KHAI_KINH.map((line, idx) => (
+                    <li key={line.viet} className={idx === KE_KHAI_KINH.length - 1 ? "tw:text-[#7a3f0e] tw:font-medium" : undefined}>
+                      {line.viet}
+                    </li>
+                  ))}
+                </ol>
 
-            <div className="tw:mt-8 tw:pt-6 tw:border-t tw:border-amber-900/10 tw:text-xs tw:font-semibold tw:tracking-wider tw:uppercase tw:text-stone-500 font-zen-title">
-              Nam Mô Bổn Sư Thích Ca Mâu Ni Phật
+                <p className="font-zen-body tw:mt-7 tw:mb-0 tw:text-sm tw:leading-relaxed tw:text-stone-600 tw:md:border-l-2 tw:md:border-[#d6a440]/50 tw:md:pl-4">
+                  Pháp vô thượng sâu xa mầu nhiệm, trăm nghìn muôn kiếp khó gặp. Nay con được thấy nghe, thọ trì,
+                  nguyện hiểu thấu nghĩa chân thật của Như Lai.
+                </p>
+
+                <div className="tw:mt-9 tw:flex tw:flex-col tw:md:flex-row tw:md:flex-wrap tw:items-center tw:gap-5 tw:md:gap-x-6 tw:md:gap-y-4">
+                  <Link href="/chep-kinh/bat-nha-tam-kinh" className={copy.goldButton}>
+                    Khai kinh, bắt đầu chép
+                    <IconArrowRight size={18} stroke={2} className={copy.btnArrow} aria-hidden />
+                  </Link>
+                  <span className="font-zen-title tw:whitespace-nowrap tw:text-[11px] tw:font-semibold tw:uppercase tw:tracking-[0.12em] tw:text-[#8a6a3a]">
+                    Nam Mô Bổn Sư Thích Ca Mâu Ni Phật
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         </section>
