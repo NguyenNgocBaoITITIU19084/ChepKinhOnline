@@ -51,11 +51,11 @@ src/
 - Kiểu `SutraCatalogItem`: `id`, `slug`, `title`, `originalTitle`, `aspiration`, `aspirationLabel`, `meritBadge`, `image`, `objectPosition`, `verseExcerpt`, `estimatedMinutes`, `chapterCount`, `description`
 - Danh mục `SUTRA_CATALOG_ITEMS`: Chứa đầy đủ dữ liệu phong phú cho tất cả các bộ kinh sẵn có trong dự án (Tâm Kinh Bát Nhã, Chú Đại Bi, Kinh Dược Sư, Kinh Địa Tạng, Kinh Vu Lan Báo Hiếu, Kinh Sám Hối Hồng Danh, Kinh Kim Cương, Kinh Phổ Môn...).
 
-- [ ] **Bước 1.1: Tạo file types `src/types/sutra-catalog.ts`**
-- [ ] **Bước 1.2: Tạo file dữ liệu `src/data/sutra-catalog.ts` với hàm helper `getSutraCatalog(): Promise<SutraCatalogItem[]>`**
-- [ ] **Bước 1.3: Viết tiện ích chuẩn hóa chuỗi tìm kiếm không dấu `searchNormalized(text, query)`**
-- [ ] **Bước 1.4: Kiểm tra typecheck (`npx tsc --noEmit`)**
-- [ ] **Bước 1.5: Commit Nhiệm vụ 1**
+- [x] **Bước 1.1: Tạo file types `src/types/sutra-catalog.ts`**
+- [x] **Bước 1.2: Tạo file dữ liệu `src/data/sutra-catalog.ts` với hàm helper `getSutraCatalog(): Promise<SutraCatalogItem[]>`**
+- [x] **Bước 1.3: Viết tiện ích chuẩn hóa chuỗi tìm kiếm không dấu `searchNormalized(text, query)`**
+- [x] **Bước 1.4: Kiểm tra typecheck (`npx tsc --noEmit`)**
+- [x] **Bước 1.5: Commit Nhiệm vụ 1**
 
 ---
 
@@ -72,12 +72,12 @@ src/
 - `SutraEmptyState`: Icon đóa sen tĩnh lặng, thông điệp nhẹ nhàng và nút "Xem tất cả kinh điển" để làm mới bộ lọc.
 - `SutraGuidanceFooter`: 3 bước chuẩn bị tâm thế: Tịnh thủ đoan trang, Nhiếp tâm an trụ, Hồi hướng công đức.
 
-- [ ] **Bước 2.1: Tạo component `SutraLibraryHero.tsx`**
-- [ ] **Bước 2.2: Tạo component `SutraCard.tsx`**
-- [ ] **Bước 2.3: Tạo component `SutraEmptyState.tsx`**
-- [ ] **Bước 2.4: Tạo component `SutraGuidanceFooter.tsx`**
-- [ ] **Bước 2.5: Kiểm tra typecheck (`npx tsc --noEmit`)**
-- [ ] **Bước 2.6: Commit Nhiệm vụ 2**
+- [x] **Bước 2.1: Tạo component `SutraLibraryHero.tsx`**
+- [x] **Bước 2.2: Tạo component `SutraCard.tsx`**
+- [x] **Bước 2.3: Tạo component `SutraEmptyState.tsx`**
+- [x] **Bước 2.4: Tạo component `SutraGuidanceFooter.tsx`**
+- [x] **Bước 2.5: Kiểm tra typecheck (`npx tsc --noEmit`)**
+- [x] **Bước 2.6: Commit Nhiệm vụ 2**
 
 ---
 
@@ -90,10 +90,10 @@ src/
 - `SutraFilterBar`: Ô tìm kiếm (input với icon kính lúp, nút xóa nhanh), hàng nút chọn nhóm tâm nguyện với trạng thái Active/Inactive trực quan, nhãn đếm số bộ kinh tìm thấy.
 - `SutraCatalogClient`: Client Component (`"use client"`), quản lý state `searchQuery` và `activeAspiration`, lọc danh sách kinh theo thời gian thực (hỗ trợ tiếng Việt không dấu), render danh sách `SutraCard` theo lưới responsive (1 cột mobile, 2 cột tablet, 3 cột desktop) hoặc `SutraEmptyState` khi không có kết quả.
 
-- [ ] **Bước 3.1: Tạo component `SutraFilterBar.tsx`**
-- [ ] **Bước 3.2: Tạo component `SutraCatalogClient.tsx` tích hợp logic lọc và tìm kiếm**
-- [ ] **Bước 3.3: Kiểm tra typecheck (`npx tsc --noEmit`)**
-- [ ] **Bước 3.4: Commit Nhiệm vụ 3**
+- [x] **Bước 3.1: Tạo component `SutraFilterBar.tsx`**
+- [x] **Bước 3.2: Tạo component `SutraCatalogClient.tsx` tích hợp logic lọc và tìm kiếm**
+- [x] **Bước 3.3: Kiểm tra typecheck (`npx tsc --noEmit`)**
+- [x] **Bước 3.4: Commit Nhiệm vụ 3**
 
 ---
 
@@ -108,10 +108,10 @@ src/
 - `SiteHeader.tsx`: Cập nhật thanh điều hướng để người dùng từ bất kỳ trang nào cũng có thể bấm vào mục "Kinh Điển".
 - Trang chủ (`page.tsx`): Bổ sung liên kết dẫn vào trang thư viện đầy đủ ở khu vực giới thiệu kinh.
 
-- [ ] **Bước 4.1: Tạo trang `src/app/(app)/kinh-dien/page.tsx`**
-- [ ] **Bước 4.2: Cập nhật `SiteHeader.tsx` và Trang chủ `page.tsx`**
-- [ ] **Bước 4.3: Chạy `npm run build` để kiểm tra toàn bộ luồng biên dịch Next.js**
-- [ ] **Bước 4.4: Commit Nhiệm vụ 4**
+- [x] **Bước 4.1: Tạo trang `src/app/(app)/kinh-dien/page.tsx`**
+- [x] **Bước 4.2: Cập nhật `SiteHeader.tsx` và Trang chủ `page.tsx`**
+- [x] **Bước 4.3: Chạy `npm run build` để kiểm tra toàn bộ luồng biên dịch Next.js**
+- [x] **Bước 4.4: Commit Nhiệm vụ 4**
 
 ---
 
@@ -126,6 +126,6 @@ src/
 - Kiểm tra click "Vào chép kinh" chuyển đúng sang `/chep-kinh/[slug]`.
 - Kiểm tra hiển thị responsive trên màn hình mobile, tablet và desktop.
 
-- [ ] **Bước 5.1: Kiểm tra thực tế bằng trình duyệt / dev server**
-- [ ] **Bước 5.2: Chạy kiểm tra lint & build cuối cùng (`npm run build`)**
-- [ ] **Bước 5.3: Hoàn tất commit và tổng kết**
+- [x] **Bước 5.1: Kiểm tra thực tế bằng trình duyệt / dev server**
+- [x] **Bước 5.2: Chạy kiểm tra lint & build cuối cùng (`npm run build`)**
+- [x] **Bước 5.3: Hoàn tất commit và tổng kết**
