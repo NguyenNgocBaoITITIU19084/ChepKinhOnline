@@ -53,13 +53,13 @@ src/
 
 ### 3.3. Các trường nhập liệu (Form Fields)
 - Tối giản 3 trường:
-  1. **Thư điện tử**: `AuthInput` type `email`, icon `IconMail`, placeholder `"ban@vidu.vn"`.
-  2. **Mật khẩu**: `AuthInput` type `password`/`text`, icon `IconLock`, nút bật/tắt hiển thị mật khẩu (`IconEye`/`IconEyeOff`), placeholder `"Nhập mật khẩu (tối thiểu 6 ký tự)..."`.
-  3. **Nhập lại mật khẩu**: `AuthInput` type `password`/`text`, icon `IconLockCheck`, nút bật/tắt hiển thị mật khẩu riêng, placeholder `"Xác nhận lại mật khẩu..."`.
+  1. **Thư điện tử**: `AuthInput` type `email`, icon `IconMail`, label `"Thư điện tử"`, placeholder `"ban@vidu.vn"`.
+  2. **Mật khẩu**: `AuthInput` type `password`/`text`, icon `IconLock`, label `"Mật khẩu"`, nút bật/tắt hiển thị mật khẩu (`IconEye`/`IconEyeOff`), placeholder `"Nhập mật khẩu (tối thiểu 6 ký tự)..."`.
+  3. **Xác nhận mật khẩu**: `AuthInput` type `password`/`text`, icon `IconLockCheck`, label `"Xác nhận mật khẩu"`, nút bật/tắt hiển thị mật khẩu riêng, placeholder `"Nhập lại mật khẩu để xác nhận..."`.
 - **Validation**:
   - Email rỗng hoặc sai định dạng: `"Địa chỉ thư điện tử không hợp lệ."`
   - Mật khẩu < 6 ký tự: `"Mật khẩu cần tối thiểu 6 ký tự."`
-  - Nhập lại mật khẩu không khớp: `"Mật khẩu xác nhận không trùng khớp."`
+  - Xác nhận mật khẩu không khớp: `"Mật khẩu xác nhận không trùng khớp."`
   - Viền đỏ mực `tw:!border-[#b45309]` và thông báo lỗi hiển thị ngay dưới ô tương ứng.
 
 ### 3.4. Nút Hành động & Mạng xã hội
