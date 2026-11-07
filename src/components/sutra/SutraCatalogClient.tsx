@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import type { SutraCatalogItem, SutraAspiration } from "@/types/sutra-catalog";
 import { searchNormalized } from "@/lib/search-utils";
@@ -19,17 +19,15 @@ export function SutraCatalogClient({ sutras }: SutraCatalogClientProps) {
   const paramAspiration = searchParams.get("tam-nguyen") as SutraAspiration | null;
 
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeAspiration, setActiveAspiration] = useState<SutraAspiration>(() => {
-    return paramAspiration && VALID_ASPIRATIONS.includes(paramAspiration)
-      ? paramAspiration
-      : "all";
-  });
+  const [selectedAspiration, setSelectedAspiration] = useState<SutraAspiration | null>(null);
 
-  useEffect(() => {
+  const activeAspiration = useMemo(() => {
+    if (selectedAspiration !== null) return selectedAspiration;
     if (paramAspiration && VALID_ASPIRATIONS.includes(paramAspiration)) {
-      setActiveAspiration(paramAspiration);
+      return paramAspiration;
     }
-  }, [paramAspiration]);
+    return "all";
+  }, [selectedAspiration, paramAspiration]);
 
   const filteredSutras = useMemo(() => {
     return sutras.filter((item) => {
@@ -55,7 +53,7 @@ export function SutraCatalogClient({ sutras }: SutraCatalogClientProps) {
 
   const handleReset = () => {
     setSearchQuery("");
-    setActiveAspiration("all");
+    setSelectedAspiration("all");
   };
 
   return (
@@ -65,7 +63,7 @@ export function SutraCatalogClient({ sutras }: SutraCatalogClientProps) {
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
         activeAspiration={activeAspiration}
-        onAspirationChange={setActiveAspiration}
+        onAspirationChange={setSelectedAspiration}
         totalMatches={filteredSutras.length}
       />
 
