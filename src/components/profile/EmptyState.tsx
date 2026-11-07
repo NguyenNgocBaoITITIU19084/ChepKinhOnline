@@ -1,31 +1,25 @@
-import { LotusIcon } from "@/components/icons/BuddhistIcons";
+import Link from "next/link";
+import { LotusLogo } from "@/components/brand/LotusLogo";
+import { fontDisplay } from "@/components/article/styles";
+import { cx } from "@/components/article/utils";
 
 interface EmptyStateProps {
   title: string;
   description: string;
-  action?: {
-    label: string;
-    href: string;
-  };
+  action?: { label: string; href: string };
 }
 
+/** Danh sách trống: logo sen nhỏ, một câu nhẹ nhàng và nút viền dẫn tới việc nên làm. */
 export function EmptyState({ title, description, action }: EmptyStateProps) {
   return (
-    <div className="tw:flex tw:flex-col tw:items-center tw:justify-center tw:text-center tw:py-8 tw:px-4 tw:rounded-xl tw:bg-amber-50/40 tw:border tw:border-dashed tw:border-amber-300/50">
-      <div className="tw:p-2.5 tw:rounded-full tw:bg-amber-100/60 tw:text-gold-700 tw:mb-2.5">
-        <LotusIcon size={28} strokeWidth={1.4} />
-      </div>
-      <h4 className="tw:text-sm tw:font-bold tw:text-brown-900 tw:font-serif tw:mb-1">{title}</h4>
-      <p className="tw:text-xs tw:text-brown-600 tw:max-w-sm tw:leading-relaxed tw:mb-3">
-        {description}
-      </p>
+    <div className="tw:flex tw:flex-col tw:items-center tw:gap-2 tw:py-8 tw:px-4 tw:text-center tw:rounded-[10px] tw:border tw:border-dashed tw:border-[rgba(214,164,64,0.45)]">
+      <LotusLogo size={36} />
+      <p className={cx("tw:m-0 tw:text-[1rem] tw:font-semibold tw:text-brown-900", fontDisplay)}>{title}</p>
+      <p className="tw:m-0 tw:max-w-sm tw:text-[0.86rem] tw:leading-[1.6] tw:text-brown-800">{description}</p>
       {action && (
-        <a
-          href={action.href}
-          className="tw:inline-flex tw:items-center tw:gap-1.5 tw:px-3.5 tw:py-1.5 tw:rounded-lg tw:text-xs tw:font-semibold tw:text-brown-900 tw:bg-gold-400 tw:hover:bg-gold-500 tw:transition-colors"
-        >
+        <Link href={action.href} className="ck-btn-ghost tw:mt-2 tw:no-underline">
           {action.label}
-        </a>
+        </Link>
       )}
     </div>
   );

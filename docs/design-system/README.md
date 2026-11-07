@@ -18,6 +18,7 @@ Bộ quy chuẩn giao diện của trang chép kinh. Giá trị lấy từ [`src
 | [PaperSheet](components/PaperSheet.md) | Kiểu tờ giấy: một tờ rời trên chồng giấy, chép xong tờ thì rút tờ đó sang trái để lộ tờ kế tiếp. |
 | [BookCover](components/BookCover.md) | Bìa trước cuốn kinh, bọc vải vàng, hiện trong lúc tải trang rồi mở sang trái. |
 | [BrandMark](components/BrandMark.md) | Logo hoa sen kèm tên web "Chép Kinh Online" và khẩu hiệu "Tâm an · Pháp lạc". |
+| [ProfileHero](components/ProfileHero.md) | Thẻ hành giả ở đầu trang tài khoản: ảnh nền chụp thật, ảnh đại diện, pháp danh, câu kinh tâm đắc. |
 | [ArticleBlocks](components/ArticleBlocks.md) | Các block của chuyên trang bài viết: banner, tìm kiếm, danh mục, bài nổi bật, danh sách bài, trích kệ, lời mời chép kinh. |
 
 Chép Kinh Online là nơi người ta chép kinh như ngồi trước một cuốn kinh thật: giấy ngà, mực nâu, viền vàng, hoa văn chữ Vạn chìm. Mọi quyết định giao diện phục vụ một việc: giữ tâm yên trong lúc gõ. Ít màu, ít chuyển động, chữ kinh luôn là thứ rõ nhất trên màn hình.
