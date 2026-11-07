@@ -1822,6 +1822,38 @@
   font-size: 0.88rem;
 }
 
+/*
+ * Điện thoại rất hẹp (320–360px): chữ trong nút đã ẩn (hideSm), nên thu nút thành hình tròn,
+ * khép khoảng cách và thu nhỏ thêm cụm logo để logo + nút + tài khoản vẫn nằm gọn một hàng.
+ * Đặt sau quy tắc .headerActions ở trên để ghi đè padding.
+ */
+@media (max-width: 360px) {
+  .siteHeader {
+    gap: 8px;
+    margin-right: 10px;
+    margin-left: 10px;
+  }
+
+  .brandLink {
+    zoom: 0.7;
+  }
+
+  .headerActions {
+    gap: 6px;
+  }
+
+  .headerActions .goldButton,
+  .headerActions .ghostButton {
+    width: 40px;
+    padding: 0;
+  }
+
+  .userButton {
+    gap: 2px;
+    padding-right: 6px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .goldButton,
   .ghostButton,
