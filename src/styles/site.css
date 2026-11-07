@@ -1,0 +1,165 @@
+/* Xem src/styles/ui.css. Chỉ giữ ở đây phần khó viết bằng class Tailwind (keyframes, pseudo-element, trạng thái lồng nhau). */
+
+/* Con trỏ nhấp nháy trên tờ kinh minh họa ở banner trang chủ */
+@keyframes ck-site-caret-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Bánh xe Pháp luân trong huy hiệu dải phân cách xoay rất chậm */
+@keyframes ck-site-turn {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes ck-site-draw {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes ck-site-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@layer components {
+  /*
+   * Dải phân cách (ZenDivider): nét chỉ vẽ dần ra từ huy hiệu khi cuộn vào màn hình.
+   * `animation` phải đứng trước `animation-timeline` trong cùng một rule (shorthand reset timeline),
+   * nên không tách thành các class Tailwind riêng lẻ.
+   */
+  @supports (animation-timeline: view()) {
+    .ck-divider-line {
+      animation: ck-site-draw linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 40%;
+    }
+
+    .ck-divider-ornament {
+      animation: ck-site-fade linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 30%;
+    }
+  }
+
+  /* ==== Nút "Xem thêm" dưới mỗi block ====
+   * Nghỉ: viên thuốc nền giấy ngà, mũi tên chéo trong vòng tròn nâu.
+   * Rê chuột: lớp vàng thếp tràn từ trái sang, vòng tròn đổi sang màu ngà và mũi tên xoay về thẳng.
+   * Hai lớp ::before/::after có transition riêng (vệt sáng chạy trễ), nên giữ ở đây như ck-btn-gold.
+   */
+  .ck-see-more {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    min-height: 50px;
+    padding: 6px 6px 6px 24px;
+    font-family: var(--font-sans), system-ui, sans-serif;
+    font-size: 0.92rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: #4a320a;
+    text-decoration: none;
+    white-space: nowrap;
+    background-color: rgba(255, 252, 244, 0.85);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(168, 116, 26, 0.35);
+    border-radius: 999px;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.9),
+      0 1px 2px rgba(74, 50, 10, 0.06),
+      0 6px 14px -8px rgba(74, 50, 10, 0.18);
+    transition:
+      color 0.45s ease,
+      border-color 0.45s ease,
+      box-shadow 0.45s ease,
+      transform 0.45s var(--ease-out-soft);
+  }
+
+  /* Lớp vàng thếp tràn vào */
+  .ck-see-more::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 55%),
+      linear-gradient(180deg, #f3d48a 0%, #e0b252 55%, #c99232 100%);
+    transform: scaleX(0);
+    transform-origin: right center;
+    transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+  }
+
+  /* Vệt sáng lướt qua sau khi lớp vàng đã tràn */
+  .ck-see-more::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(105deg, transparent 35%, rgba(255, 252, 240, 0.7) 50%, transparent 65%);
+    transform: translateX(-130%);
+    pointer-events: none;
+  }
+
+  .ck-see-more:hover {
+    color: #3d2906;
+    border-color: rgba(138, 92, 20, 0.6);
+    transform: translateY(-2px);
+    text-decoration: none;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 250, 232, 0.9),
+      0 2px 4px rgba(74, 50, 10, 0.12),
+      0 16px 28px -12px rgba(168, 116, 26, 0.6);
+  }
+
+  .ck-see-more:hover::before {
+    transform: scaleX(1);
+    transform-origin: left center;
+  }
+
+  .ck-see-more:hover::after {
+    transform: translateX(130%);
+    transition: transform 0.9s var(--ease-out-soft) 0.35s;
+  }
+
+  .ck-see-more:active {
+    transform: translateY(0);
+  }
+
+  .ck-see-more:focus-visible {
+    outline: 2px solid #d6a440;
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ck-divider-line,
+    .ck-divider-ornament {
+      animation: none;
+    }
+
+    .ck-see-more,
+    .ck-see-more::before,
+    .ck-see-more::after {
+      transition: none;
+    }
+    .ck-see-more:hover {
+      transform: none;
+    }
+    .ck-see-more::after {
+      display: none;
+    }
+  }
+}

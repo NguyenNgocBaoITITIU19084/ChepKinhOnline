@@ -1,8 +1,8 @@
 # Design system Chép Kinh Online
 
-Bộ quy chuẩn giao diện của trang chép kinh. Giá trị lấy từ [`src/components/copy/copy.module.css`](../../src/components/copy/copy.module.css) và font trong [`src/app/layout.tsx`](../../src/app/layout.tsx). Sửa giao diện thì cập nhật cả thư mục này.
+Bộ quy chuẩn giao diện của trang chép kinh. Giá trị lấy từ [`src/styles/ui.css`](../../src/styles/ui.css) (bảng màu, kính mờ, nút), [`src/styles/book.css`](../../src/styles/book.css) (cuốn sách), class Tailwind `tw:` trong các component và font trong [`src/app/layout.tsx`](../../src/app/layout.tsx). Sửa giao diện thì cập nhật cả thư mục này.
 
-- [`tokens.json`](tokens.json): toàn bộ màu, kiểu chữ, khoảng cách, góc bo, bóng đổ. Các màu `gold-*`, `brown-*`, `paper`, `ink`, `ink-ghost`, `ink-wrong` đã là biến CSS trên `.scene` (ví dụ `gold-500` là `--gold-500`). Các token còn lại hiện vẫn là giá trị viết thẳng trong CSS; tên token là tên gọi chung để trao đổi và để đổi thành biến CSS sau này.
+- [`tokens.json`](tokens.json): toàn bộ màu, kiểu chữ, khoảng cách, góc bo, bóng đổ. Các màu `gold-*`, `brown-*`, `paper`, `ink`, `ink-ghost`, `ink-wrong` đã là biến CSS trên `:root` (ví dụ `gold-500` là `--gold-500`) và là màu Tailwind (`tw:text-gold-500`, `tw:bg-paper`...). Các token còn lại hiện vẫn là giá trị viết thẳng trong CSS; tên token là tên gọi chung để trao đổi và để đổi thành biến CSS sau này.
 - [`components/`](components): hướng dẫn từng thành phần.
 
 ## Thành phần

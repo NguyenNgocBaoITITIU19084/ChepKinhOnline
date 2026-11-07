@@ -1,6 +1,6 @@
 import type { Article } from "@/types/article";
 import { ArticleHero } from "./ArticleHero";
-import shared from "./shared.module.css";
+import { block, eyebrow as eyebrowClass, sectionDesc, sectionHead, sectionHeading } from "./styles";
 import { cx, type ArticleHrefBuilder } from "./utils";
 
 export interface FeaturedArticlesBlockProps {
@@ -28,11 +28,11 @@ export function FeaturedArticlesBlock({
   if (!featuredArticle) return null;
 
   return (
-    <section className={cx(shared.block, className)} aria-label={title}>
-      <div className={shared.sectionHead}>
-        {eyebrow && <span className={shared.eyebrow}>{eyebrow}</span>}
-        <h2 className={shared.sectionHeading}>{title}</h2>
-        {description && <p className={shared.sectionDesc}>{description}</p>}
+    <section className={cx(block, className)} aria-label={title}>
+      <div className={sectionHead}>
+        {eyebrow && <span className={eyebrowClass}>{eyebrow}</span>}
+        <h2 className={sectionHeading}>{title}</h2>
+        {description && <p className={sectionDesc}>{description}</p>}
       </div>
       <ArticleHero
         featuredArticle={featuredArticle}

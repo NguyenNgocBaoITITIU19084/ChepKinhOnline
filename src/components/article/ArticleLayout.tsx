@@ -1,5 +1,4 @@
 import type { ReactNode } from "react";
-import styles from "./ArticleLayout.module.css";
 import { cx } from "./utils";
 
 export interface ArticleLayoutProps {
@@ -20,10 +19,24 @@ export function ArticleLayout({
   className,
 }: ArticleLayoutProps) {
   return (
-    <div className={cx(styles.layout, className)}>
-      <div className={styles.main}>{children}</div>
+    // Hai cột: nội dung chính và cột phụ 300px. Màn hẹp: cột phụ xuống dưới
+    <div
+      className={cx(
+        "tw:grid tw:grid-cols-[minmax(0,1fr)_300px] tw:gap-10 tw:[align-items:start] tw:upto-1024:grid-cols-[minmax(0,1fr)]",
+        className,
+      )}
+    >
+      <div className="tw:flex tw:flex-col tw:gap-8 tw:min-w-0">{children}</div>
       {sidebar && (
-        <aside className={cx(styles.sidebar, stickySidebar && styles.sticky)} aria-label={sidebarLabel}>
+        <aside
+          className={cx(
+            "tw:flex tw:flex-col tw:gap-6 tw:min-w-0",
+            // Chỉ dính khi màn đủ cao để thấy trọn cột phụ, tránh phần dưới bị khuất; top 92px: dưới thanh header nổi
+            stickySidebar &&
+              "tw:[@media(min-width:1025px)_and_(min-height:900px)]:sticky tw:[@media(min-width:1025px)_and_(min-height:900px)]:top-[92px]",
+          )}
+          aria-label={sidebarLabel}
+        >
           {sidebar}
         </aside>
       )}

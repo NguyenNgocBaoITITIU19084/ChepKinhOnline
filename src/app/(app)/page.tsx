@@ -6,8 +6,6 @@ import { SutraList } from "@/components/sutra/SutraList";
 import { ArticleTeaserCard } from "@/components/article";
 import { PhotoBanner } from "@/components/layout/PhotoBanner";
 import { LotusIcon, ZenDivider } from "@/components/icons/BuddhistIcons";
-import copy from "@/components/copy/copy.module.css";
-import site from "@/components/layout/site.module.css";
 
 // 3 Cảnh Sắc Chùa & Thiền Môn (Ảnh chụp thật 100%, bản quyền Creative Commons / Public Domain)
 const TEMPLE_SCENES = [
@@ -91,6 +89,13 @@ const MERITS = [
   },
 ];
 
+// Ba trụ ở chân banner
+const HERO_PILLARS = [
+  { title: "Chánh niệm", text: "Thân khẩu ý tương ứng" },
+  { title: "Viên mãn", text: "Đủ nghi thức hồi hướng" },
+  { title: "Tịch tịnh", text: "Không gian không phân tâm" },
+];
+
 // Kệ Khai Kinh: nguyên văn chữ Hán và âm Hán Việt, từng câu đi đôi
 const KE_KHAI_KINH = [
   { han: "無上甚深微妙法", viet: "Vô thượng thâm thâm vi diệu pháp," },
@@ -111,10 +116,19 @@ const KINH_CORNERS = [
 function SeeMore({ href, label }: { href: string; label: string }) {
   return (
     <div className="tw:mt-10 tw:flex tw:justify-center">
-      <Link href={href} className={site.seeMore}>
-        <span className={site.seeMoreLabel}>{label}</span>
-        <span className={site.seeMoreIcon} aria-hidden="true">
-          <IconArrowRight size={17} stroke={2} />
+      <Link href={href} className="ck-see-more tw:group">
+        <span className="tw:[transition:transform_0.45s_var(--ease-out-soft)] tw:group-hover:[transform:translateX(-2px)] tw:motion-reduce:[transition:none]">
+          {label}
+        </span>
+        <span
+          className="tw:grid tw:place-items-center tw:w-[38px] tw:h-[38px] tw:shrink-0 tw:rounded-[50%] tw:text-gold-100 tw:bg-brown-900 tw:[box-shadow:inset_0_1px_0_rgba(255,236,186,0.25)] tw:[transition:background-color_0.45s_ease,color_0.45s_ease,transform_0.5s_var(--ease-out-soft)] tw:group-hover:text-brown-900 tw:group-hover:bg-gold-100 tw:group-hover:[transform:scale(1.06)] tw:motion-reduce:[transition:none]"
+          aria-hidden="true"
+        >
+          <IconArrowRight
+            size={17}
+            stroke={2}
+            className="tw:[transform:rotate(-45deg)] tw:[transition:transform_0.5s_var(--ease-out-soft)] tw:group-hover:[transform:rotate(0deg)] tw:motion-reduce:[transition:none]"
+          />
         </span>
       </Link>
     </div>
@@ -128,68 +142,75 @@ export default function Home() {
       {/* ====================================================================
           1. BANNER: lời mời chép kinh bên trái, một tờ kinh đang chép dở bên phải
           ==================================================================== */}
-      <section className={site.hero}>
-        <div className={site.heroInner}>
-          <div className={site.heroText}>
-            <span className={site.heroEyebrow}>Không gian chép kinh trực tuyến</span>
-            <h1 className={site.heroTitle}>
+      <section className="tw:relative tw:px-5 tw:pt-14 tw:pb-[72px] tw:max-lg:px-4 tw:max-lg:pt-9 tw:max-lg:pb-14">
+        <div className="tw:grid tw:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] tw:items-center tw:gap-14 tw:max-w-[1152px] tw:mx-auto tw:my-0 tw:max-lg:grid-cols-[minmax(0,1fr)] tw:max-lg:gap-10">
+          <div className="tw:flex tw:flex-col tw:items-start tw:gap-[22px] tw:max-lg:items-center tw:max-lg:text-center">
+            <span className="tw:inline-flex tw:items-center tw:gap-2.5 tw:text-[0.74rem] tw:font-semibold tw:tracking-[0.22em] tw:uppercase tw:text-gold-700 tw:before:content-[''] tw:before:w-7 tw:before:h-px tw:before:bg-gold-500 tw:max-lg:tracking-[0.16em] tw:max-lg:before:hidden">
+              Không gian chép kinh trực tuyến
+            </span>
+            <h1 className="tw:m-0 tw:font-title tw:text-[clamp(2.2rem,4.6vw,3.6rem)] tw:font-semibold tw:leading-[1.16] tw:tracking-[-0.01em] tw:text-brown-900 tw:text-balance">
               Từng nét chữ
-              <em>lắng đọng tâm hương</em>
+              <em className="tw:block tw:italic tw:font-medium tw:text-gold-700">lắng đọng tâm hương</em>
             </h1>
-            <p className={site.heroLead}>
+            <p className="tw:max-w-[34rem] tw:m-0 tw:text-[1.05rem] tw:leading-[1.75] tw:text-brown-800 tw:text-pretty">
               Mượn ngón tay làm bút, bàn phím làm nghiên mực. Mỗi câu kinh được chép là một niệm buông bỏ muộn
               phiền, nuôi lớn tuệ giác và gieo mầm an lạc trong hiện tại.
             </p>
-            <div className={site.heroActions}>
-              <Link href="/chep-kinh/bat-nha-tam-kinh" className={copy.goldButton}>
+            {/* Nút banner to hơn nút thường một bậc */}
+            <div className="tw:flex tw:flex-wrap tw:gap-3.5 tw:upto-480:flex-col tw:upto-480:self-stretch">
+              <Link href="/chep-kinh/bat-nha-tam-kinh" className="ck-btn-gold tw:min-h-[52px] tw:px-[26px] tw:text-[0.97rem]">
                 Chép Bát Nhã Tâm Kinh
-                <IconArrowRight size={18} stroke={2} className={copy.btnArrow} aria-hidden />
+                <IconArrowRight size={18} stroke={2} className="ck-btn-arrow" aria-hidden />
               </Link>
-              <a href="#gioi-thieu-kinh" className={copy.ghostButton}>
+              <a href="#gioi-thieu-kinh" className="ck-btn-ghost tw:min-h-[52px] tw:px-[26px] tw:text-[0.97rem]">
                 <IconBooks size={18} stroke={1.7} aria-hidden />
                 Xem các bộ kinh
               </a>
             </div>
-            <ul className={site.heroPillars}>
-              <li>
-                <strong>Chánh niệm</strong>
-                <span>Thân khẩu ý tương ứng</span>
-              </li>
-              <li>
-                <strong>Viên mãn</strong>
-                <span>Đủ nghi thức hồi hướng</span>
-              </li>
-              <li>
-                <strong>Tịch tịnh</strong>
-                <span>Không gian không phân tâm</span>
-              </li>
+            <ul className="tw:grid tw:grid-cols-[repeat(3,auto)] tw:gap-x-7 tw:gap-y-2.5 tw:mt-1.5 tw:mx-0 tw:mb-0 tw:p-0 tw:pt-[18px] tw:list-none tw:border-t tw:border-t-[rgba(214,164,64,0.35)] tw:max-lg:justify-center tw:upto-420:flex tw:upto-420:flex-wrap">
+              {HERO_PILLARS.map((pillar) => (
+                <li key={pillar.title} className="tw:flex tw:flex-col tw:gap-0.5">
+                  <strong className="tw:font-title tw:text-[1.02rem] tw:font-semibold tw:text-brown-900">{pillar.title}</strong>
+                  <span className="tw:text-[0.82rem] tw:text-brown-800 tw:opacity-85">{pillar.text}</span>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Minh họa trang chép kinh: chữ đã chép thấm mực, con trỏ, chữ mờ hướng dẫn */}
-          <div className={site.heroVisual} aria-hidden>
-            <div className={site.sheet}>
-              <div className={site.sheetHead}>
+          {/* Minh họa trang chép kinh: chữ đã chép thấm mực, con trỏ, chữ mờ hướng dẫn.
+              Quầng sáng vàng sau tờ giấy (::before). */}
+          <div
+            className="tw:relative tw:flex tw:justify-center tw:px-3 tw:py-6 tw:before:content-[''] tw:before:absolute tw:before:[inset:-8%_-4%] tw:before:bg-[radial-gradient(closest-side,rgba(240,196,100,0.38),transparent)] tw:before:pointer-events-none"
+            aria-hidden
+          >
+            <div className="tw:relative tw:w-[min(100%,420px)] tw:pt-[34px] tw:px-9 tw:pb-7 tw:bg-[radial-gradient(ellipse_at_50%_30%,#fffdf6,var(--paper)_70%,#f3e7c8)] tw:border tw:border-[rgba(214,164,64,0.45)] tw:rounded-[6px] tw:[box-shadow:0_2px_0_#efe2c0,5px_7px_0_-1px_#f6ecd2,5px_7px_0_0_rgba(214,164,64,0.35),10px_14px_0_-1px_#f1e4c4,10px_14px_0_0_rgba(214,164,64,0.28),0_30px_60px_rgba(120,85,20,0.18)] tw:[transform:rotate(-1.2deg)] tw:upto-480:pt-[26px] tw:upto-480:px-[22px] tw:upto-480:pb-[22px]">
+              <div className="tw:flex tw:items-start tw:justify-between tw:gap-3 tw:pb-3.5 tw:border-b tw:border-b-[rgba(214,164,64,0.4)]">
                 <div>
-                  <span className={site.sheetEyebrow}>Khai kinh kệ</span>
-                  <p className={site.sheetTitle}>Ma Ha Bát Nhã Ba La Mật Đa Tâm Kinh</p>
+                  <span className="tw:block tw:mb-1 tw:text-[0.66rem] tw:font-semibold tw:tracking-[0.22em] tw:uppercase tw:text-gold-700">
+                    Khai kinh kệ
+                  </span>
+                  <p className="tw:m-0 tw:font-title tw:text-[1.05rem] tw:font-semibold tw:leading-[1.35] tw:text-brown-900">
+                    Ma Ha Bát Nhã Ba La Mật Đa Tâm Kinh
+                  </p>
                 </div>
-                <span className={site.sheetHan}>心經</span>
+                <span className="tw:shrink-0 tw:font-hanzi tw:text-[0.95rem] tw:font-semibold tw:leading-[1.25] tw:text-brown-800 tw:[writing-mode:vertical-rl] tw:opacity-75">
+                  心經
+                </span>
               </div>
-              <div className={site.sheetVerse}>
-                <p className={site.inked}>Vô thượng thâm thâm vi diệu pháp,</p>
-                <p>
-                  <span className={site.inked}>Bách thiên vạn kiếp</span>
-                  <span className={site.caret} />
-                  <span className={site.ghost}> nan tao ngộ,</span>
+              <div className="tw:mt-5 tw:mx-0 tw:mb-[22px] tw:[font-family:var(--font-book),serif] tw:text-[clamp(1.02rem,1.6vw,1.2rem)] tw:font-medium tw:leading-[1.95]">
+                <p className="tw:m-0 tw:text-ink">Vô thượng thâm thâm vi diệu pháp,</p>
+                <p className="tw:m-0">
+                  <span className="tw:text-ink">Bách thiên vạn kiếp</span>
+                  <span className="tw:inline-block tw:w-0.5 tw:h-[1.1em] tw:mx-px tw:mt-0 tw:mb-[-0.18em] tw:bg-gold-700 tw:animate-[ck-site-caret-blink_1.1s_steps(1)_infinite] tw:motion-reduce:animate-none" />
+                  <span className="tw:text-ink-ghost"> nan tao ngộ,</span>
                 </p>
-                <p className={site.ghost}>Ngã kim kiến văn đắc thọ trì,</p>
-                <p className={site.ghost}>Nguyện giải Như Lai chân thật nghĩa.</p>
+                <p className="tw:m-0 tw:text-ink-ghost">Ngã kim kiến văn đắc thọ trì,</p>
+                <p className="tw:m-0 tw:text-ink-ghost">Nguyện giải Như Lai chân thật nghĩa.</p>
               </div>
-              <div className={site.sheetFoot}>
+              <div className="tw:flex tw:items-center tw:gap-3.5 tw:text-[0.76rem] tw:tabular-nums tw:text-brown-800">
                 <span>Trang 1/6 · 12%</span>
-                <span className={site.sheetBar}>
-                  <i style={{ width: "12%" }} />
+                <span className="tw:flex-1 tw:h-1 tw:overflow-hidden tw:bg-[rgba(214,164,64,0.22)] tw:rounded-[999px]">
+                  <i className="tw:block tw:h-full tw:bg-[linear-gradient(90deg,var(--gold-300),var(--gold-500))] tw:rounded-[inherit]" style={{ width: "12%" }} />
                 </span>
               </div>
             </div>
@@ -219,12 +240,17 @@ export default function Home() {
           </>
         }
       >
-        <ul className={site.merits}>
+        <ul className="tw:grid tw:grid-cols-[repeat(4,minmax(0,1fr))] tw:m-0 tw:p-0 tw:pt-[26px] tw:list-none tw:border-t tw:border-t-[rgba(214,164,64,0.35)] tw:max-lg:grid-cols-[repeat(2,minmax(0,1fr))] tw:max-lg:gap-y-6 tw:upto-560:grid-cols-[minmax(0,1fr)]">
           {MERITS.map((merit, i) => (
-            <li key={merit.title}>
-              <span className={site.meritNo}>{String(i + 1).padStart(2, "0")}</span>
-              <h3>{merit.title}</h3>
-              <p>{merit.text}</p>
+            <li
+              key={merit.title}
+              className="tw:flex tw:flex-col tw:gap-1.5 tw:px-[22px] tw:py-0 tw:not-first:border-l tw:not-first:border-l-[rgba(214,164,64,0.3)] tw:max-lg:odd:[border-left:0] tw:max-lg:odd:pl-0 tw:upto-560:p-0 tw:upto-560:not-first:pt-5 tw:upto-560:not-first:[border-left:0] tw:upto-560:not-first:border-t tw:upto-560:not-first:border-t-[rgba(214,164,64,0.25)]"
+            >
+              <span className="tw:font-title tw:text-[0.85rem] tw:italic tw:tabular-nums tw:text-gold-700">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <h3 className="tw:m-0 tw:font-title tw:text-[1.12rem] tw:font-semibold tw:text-brown-900">{merit.title}</h3>
+              <p className="tw:m-0 tw:text-[0.88rem] tw:leading-[1.65] tw:text-brown-800">{merit.text}</p>
             </li>
           ))}
         </ul>
@@ -448,9 +474,9 @@ export default function Home() {
                 </p>
 
                 <div className="tw:mt-9 tw:flex tw:flex-col tw:md:flex-row tw:md:flex-wrap tw:items-center tw:gap-5 tw:md:gap-x-6 tw:md:gap-y-4">
-                  <Link href="/chep-kinh/bat-nha-tam-kinh" className={copy.goldButton}>
+                  <Link href="/chep-kinh/bat-nha-tam-kinh" className="ck-btn-gold">
                     Khai kinh, bắt đầu chép
-                    <IconArrowRight size={18} stroke={2} className={copy.btnArrow} aria-hidden />
+                    <IconArrowRight size={18} stroke={2} className="ck-btn-arrow" aria-hidden />
                   </Link>
                   <span className="font-zen-title tw:whitespace-nowrap tw:text-[11px] tw:font-semibold tw:uppercase tw:tracking-[0.12em] tw:text-[#8a6a3a]">
                     Nam Mô Bổn Sư Thích Ca Mâu Ni Phật

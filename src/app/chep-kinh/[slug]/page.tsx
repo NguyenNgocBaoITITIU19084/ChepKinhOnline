@@ -7,16 +7,16 @@ import { splitSutraChapters } from "@/lib/sutra";
 import { SutraBook } from "@/components/copy/SutraBook";
 import { SutraBookSkeleton } from "@/components/copy/SutraBookSkeleton";
 import { SiteHeader } from "@/components/layout/SiteHeader";
-import styles from "@/components/copy/copy.module.css";
+import { headerButton, hideSm } from "@/components/ui/classes";
 
 export default function CopySutraPage({ params }: PageProps<"/chep-kinh/[slug]">) {
   return (
-    <main className={styles.scene}>
+    <main className="ck-scene ck-scene-bg">
       <SiteHeader
         actions={
-          <Link href="/" className={styles.ghostButton}>
+          <Link href="/" className={`ck-btn-ghost ${headerButton}`}>
             <IconBooks size={18} stroke={1.7} aria-hidden />
-            <span className={styles.hideSm}>Danh sách kinh</span>
+            <span className={hideSm}>Danh sách kinh</span>
           </Link>
         }
       />

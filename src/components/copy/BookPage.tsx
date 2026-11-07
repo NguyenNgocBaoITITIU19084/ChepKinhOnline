@@ -1,6 +1,8 @@
 import { useLayoutEffect, useRef, type CSSProperties } from "react";
 import type { CopyProgress } from "@/lib/sutra";
-import styles from "./copy.module.css";
+
+// Class của trang sách nằm trong src/styles/book.css
+const PAGE_SIDE = { left: "ck-page-left", right: "ck-page-right", single: "ck-page-single" };
 
 type Props = {
   index: number | null; // null: trang trắng (mặt sau tờ cuối)
@@ -28,7 +30,7 @@ export function BookPage({
   side,
 }: Props) {
   return (
-    <article className={`${styles.page} ${styles[`page_${side}`]}`} aria-hidden={!active}>
+    <article className={`ck-page ${PAGE_SIDE[side]}`} aria-hidden={!active}>
       {index !== null && text && progress && (
         <>
           <PageText
@@ -41,7 +43,7 @@ export function BookPage({
             fontSize={fontSize}
             showGuide={showGuide}
           />
-          <footer className={styles.folio}>{index + 1}</footer>
+          <footer className="ck-folio">{index + 1}</footer>
         </>
       )}
     </article>
@@ -116,9 +118,9 @@ function PageText({ text, continued, runsOn, progress, currentWord, active, font
   // Con trỏ không chiếm chỗ; chữ gõ sai (hoặc đang ghép dấu) nổi phía trên con trỏ
   // để dòng chữ kinh đứng yên, không xô lệch khi gõ
   const cursor = active ? (
-    <span className={styles.caret} aria-hidden>
+    <span className="ck-caret" aria-hidden>
       {showRest && (
-        <span ref={floatRef} className={`${styles.typedFloat} ${isWrong ? styles.typedWrong : styles.typedPending}`}>
+        <span ref={floatRef} className={`ck-typed-float ${isWrong ? "ck-typed-wrong" : "ck-typed-pending"}`}>
           {tipText}
         </span>
       )}
@@ -128,7 +130,7 @@ function PageText({ text, continued, runsOn, progress, currentWord, active, font
   return (
     <div
       ref={boxRef}
-      className={`${styles.pageText} ${showGuide ? "" : styles.noGuide}`}
+      className={`ck-page-text ${showGuide ? "" : "ck-no-guide"}`}
       // Cỡ chữ co giãn theo bề rộng trang; cài đặt cỡ chữ là hệ số nhân (22 = mặc định)
       style={{ "--fs": fontSize / 22 } as CSSProperties}
     >
@@ -138,7 +140,7 @@ function PageText({ text, continued, runsOn, progress, currentWord, active, font
         return (
           <p
             key={lineIndex}
-            className={`${styles.verse} ${lineIndex === 0 && continued ? styles.continued : ""} ${lineIndex === lines.length - 1 && runsOn ? styles.runOn : ""}`}
+            className={`ck-verse ${lineIndex === 0 && continued ? "ck-continued" : ""} ${lineIndex === lines.length - 1 && runsOn ? "ck-run-on" : ""}`}
           >
             {chars.map((ch, i) => {
               const g = start + i;
@@ -148,12 +150,12 @@ function PageText({ text, continued, runsOn, progress, currentWord, active, font
                   <span
                     className={
                       g < matched
-                        ? styles.ink
+                        ? "ck-ink"
                         : g < caretAt
                           ? typingWord
-                            ? styles.pending
-                            : styles.pendingWrong
-                          : styles.ghost
+                            ? "ck-pending"
+                            : "ck-pending-wrong"
+                          : "ck-ghost"
                     }
                   >
                     {ch}

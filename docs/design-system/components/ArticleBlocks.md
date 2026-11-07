@@ -23,7 +23,7 @@ Các block dựng chuyên trang bài viết (trang `/tu-hoc`, `/tu-hoc/[slug]`),
 | `CategoryList` | Ô "Danh mục" cho cột phụ: mỗi dòng có mũi tên, tên chuyên mục, số bài (nhãn nâu tối, đang chọn thì vàng). |
 | `ArticleHeader` | Đầu trang bài viết, canh giữa, không nền. |
 | `QuoteBox` | Bài kệ kiểu trang sách: không khung, cột trái ghi nhãn và nguồn, bài kệ căn trái chữ `merit-verse` cỡ lớn, ngăn bằng đường kẻ vàng mảnh. |
-| `SutraCtaCard` | Lời mời chép kinh trên kính mờ, một nút vàng `goldButton`. |
+| `SutraCtaCard` | Lời mời chép kinh trên kính mờ, một nút vàng `ck-btn-gold`. |
 
 ## Bố cục trang /tu-hoc
 
@@ -38,7 +38,7 @@ Các block dựng chuyên trang bài viết (trang `/tu-hoc`, `/tu-hoc/[slug]`),
 
 - Đường dẫn bài viết đi qua prop `getHref` (mặc định `/tu-hoc/{slug}`). Muốn dùng block cho chuyên trang khác thì truyền hàm khác, không sửa trong block.
 - Lọc và tìm bài dùng `filterArticles` trong `src/lib/article-filter.ts`. Tìm không phân biệt dấu: "bat nha" khớp "Bát Nhã".
-- Mỗi block có file CSS riêng cạnh nó. Phần dùng chung (`eyebrow`, đầu block, thẻ giấy, nút viên thuốc, viền focus) ở `shared.module.css`. Kính mờ và nút vàng dùng lại `.glass`, `.goldButton` của `copy.module.css`, không viết lại.
+- Mỗi block viết bằng class Tailwind `tw:` ngay trong JSX. Phần dùng chung (`eyebrow`, đầu block, thẻ giấy, nút viên thuốc, viền focus) là các chuỗi class trong `src/components/article/styles.ts`. Kính mờ và nút vàng dùng lại `ck-glass`, `ck-btn-gold` của `src/styles/ui.css`, không viết lại.
 - Trang xếp các block bằng `shared.page` (cột flex, `gap`), block không tự đặt margin.
 - Mọi phần tử bấm được gắn `shared.focusable` để có viền focus 2px `gold-500`.
 - Rê chuột chỉ đổi màu nền, viền hoặc bóng (`hover-tint`, `gold-500`), không nhấc thẻ hay phóng to ảnh.

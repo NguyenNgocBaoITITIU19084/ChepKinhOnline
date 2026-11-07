@@ -1,7 +1,7 @@
 /*
  * Lớp chữ dùng chung cho trang chủ (viết cùng class Tailwind `tw:`).
- * Màu, nền, kính mờ và nút lấy từ design system trong src/components/copy/copy.module.css
- * (bảng biến --gold-*, --brown-* đặt trên `.scene`), không khai báo bảng màu thứ hai ở đây.
+ * Màu, nền, kính mờ và nút lấy từ design system trong src/styles/ui.css
+ * (bảng biến --gold-*, --brown-* trên :root, class `ck-glass`, `ck-btn-gold`...), không khai báo bảng màu thứ hai ở đây.
  *
  * Hệ chữ (xem docs/design-system/README.md, mục "Chữ"):
  * - font-zen-title: Lora, cho tiêu đề, tên kinh, câu kệ

@@ -1,7 +1,6 @@
 "use client";
 
-import shared from "./shared.module.css";
-import styles from "./PopularArticles.module.css";
+import { focusable, paperPanel, panelHeading, pill } from "./styles";
 import { cx } from "./utils";
 
 export interface KeywordListProps {
@@ -25,9 +24,13 @@ export function KeywordList({
   const active = activeKeyword.trim().toLowerCase();
 
   return (
-    <section className={cx(shared.paperPanel, styles.panel, className)} aria-label={title}>
-      <h2 className={styles.heading}>{title}</h2>
-      <ul className={styles.keywords}>
+    <section
+      className={cx(paperPanel, "tw:flex tw:flex-col tw:gap-3 tw:pt-5 tw:px-4 tw:pb-4", className)}
+      aria-label={title}
+    >
+      <h2 className={panelHeading}>{title}</h2>
+      {/* Các nút viên thuốc xếp dòng */}
+      <ul className="tw:flex tw:flex-wrap tw:gap-2 tw:m-0 tw:py-0 tw:px-1 tw:list-none">
         {keywords.map((keyword) => {
           const isActive = active === keyword.toLowerCase();
           return (
@@ -36,7 +39,7 @@ export function KeywordList({
                 type="button"
                 aria-pressed={isActive}
                 onClick={() => onSelect(isActive ? "" : keyword)}
-                className={cx(shared.pill, shared.focusable, isActive && shared.pillActive)}
+                className={cx(pill(isActive), focusable)}
               >
                 {keyword}
               </button>

@@ -1,8 +1,7 @@
 "use client";
 
 import type { ArticleCategory, ArticleCategorySlug } from "@/types/article";
-import shared from "./shared.module.css";
-import styles from "./CategoryFilter.module.css";
+import { focusable, pill } from "./styles";
 import { cx } from "./utils";
 
 export interface CategoryFilterProps {
@@ -27,14 +26,24 @@ export function CategoryFilter({
   if (categories.length === 0) return null;
 
   return (
-    <ul className={cx(styles.bar, align === "center" && styles.center, className)} aria-label={label}>
+    <ul
+      className={cx(
+        "tw:flex tw:flex-wrap tw:gap-2 tw:m-0 tw:p-0.5 tw:list-none",
+        // Màn hẹp: một hàng cuộn ngang
+        "tw:upto-768:flex-nowrap tw:upto-768:overflow-x-auto tw:upto-768:[scrollbar-width:none] tw:upto-768:[&::-webkit-scrollbar]:hidden tw:upto-768:[&>li]:shrink-0",
+        // "safe center": hàng tràn thì vẫn cuộn được từ nút đầu tiên
+        align === "center" && "tw:justify-center-safe",
+        className,
+      )}
+      aria-label={label}
+    >
       {categories.map((category) => {
         const isActive = category.slug === activeSlug;
         return (
           <li key={category.id}>
             <button
               type="button"
-              className={cx(shared.pill, shared.focusable, isActive && shared.pillActive)}
+              className={cx(pill(isActive), focusable)}
               onClick={() => onSelect(category.slug)}
               aria-pressed={isActive}
             >

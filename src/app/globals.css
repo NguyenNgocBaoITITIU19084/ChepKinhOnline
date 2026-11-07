@@ -11,6 +11,9 @@
 @import "@tabler/core/dist/css/tabler.min.css" layer(tabler);
 @import "tailwindcss/utilities.css" layer(utilities) prefix(tw);
 @import "./zen-theme.css";
+@import "../styles/ui.css";
+@import "../styles/site.css";
+@import "../styles/book.css";
 
 :root {
   /* Tiêu đề và tên web dùng chung serif với chữ kinh (Lora), xem src/app/layout.tsx */

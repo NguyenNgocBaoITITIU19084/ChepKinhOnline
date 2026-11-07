@@ -1,5 +1,4 @@
 import React from "react";
-import site from "@/components/layout/site.module.css";
 
 export interface IconProps {
   size?: number;
@@ -318,17 +317,23 @@ export function MalaBeadsIcon({
 /**
  * 9. Dải Phân Cách Hoa Văn Cát Tường (Zen Decorative Divider)
  * Hai nét vàng mảnh nhạt dần ra hai đầu, hạt thoi nhỏ, biểu tượng vàng đồng ở giữa
- * trên quầng giấy kem che hoa văn nền. Dùng biến màu của `.scene`.
+ * trên quầng giấy kem che hoa văn nền. Dùng bảng biến màu trong src/styles/ui.css.
  */
 // Cụm hoa văn một bên của dải phân cách: nét chỉ vàng, hạt thoi, cuộn mây lành (như ý).
 // Bên phải dùng lại cụm này và lật ngang bằng CSS.
 function DividerSide({ end = false }: { end?: boolean }) {
   return (
-    <span className={`${site.dividerSide} ${end ? site.dividerSideEnd : ""}`} aria-hidden="true">
-      <span className={site.dividerLine} />
-      <span className={site.dividerBead} />
+    <span
+      className={`tw:flex-1 tw:flex tw:items-center tw:gap-2 tw:min-w-0 ${end ? "tw:[transform:scaleX(-1)]" : ""}`}
+      aria-hidden="true"
+    >
+      {/* Nét chỉ: một đường 1px nằm đúng trục giữa, mờ dần ra phía ngoài; tự vẽ ra khi cuộn tới (ck-divider-line) */}
+      <span className="ck-divider-line tw:flex-1 tw:h-px tw:bg-[linear-gradient(90deg,transparent,rgba(168,116,26,0.75))] tw:origin-[right_center]" />
+      <span className="ck-divider-ornament tw:shrink-0 tw:w-[5px] tw:h-[5px] tw:bg-gold-500 tw:[box-shadow:0_0_0_2px_rgba(255,253,248,0.9)] tw:[transform:rotate(45deg)]" />
       {/* viewBox lùi 1.5 để đuôi ngang của cuộn mây (y = 11.5) nằm đúng giữa khung, thẳng hàng với nét chỉ */}
-      <svg className={site.dividerCloud} width="46" height="20" viewBox="0 1.5 46 20" fill="none">
+      <svg
+        className="ck-divider-ornament tw:shrink-0 tw:block tw:text-[#b8862c] tw:upto-480:w-[34px] tw:upto-480:h-[15px]"
+        width="46" height="20" viewBox="0 1.5 46 20" fill="none">
         <path
           d="M1 11.5h13c3.4 0 4.6-2.2 6.4-5.4C22 3.3 24.2 1.5 27.6 1.5c3.8 0 6.2 2.6 6.2 5.4 0 2.4-1.8 4-3.9 4-1.8 0-3.1-1.2-3.1-2.8 0-1.3.9-2.2 2.1-2.2"
           stroke="currentColor"
@@ -358,10 +363,19 @@ export function ZenDivider({
   symbol?: "lotus" | "wheel" | "knot";
 }) {
   return (
-    <div role="separator" className={`${site.divider} ${className}`}>
+    <div
+      role="separator"
+      className={`tw:flex tw:items-center tw:justify-center tw:gap-3.5 tw:my-14 tw:mx-auto tw:max-w-[720px] tw:text-gold-700 tw:upto-480:gap-2.5 tw:upto-480:my-9 tw:upto-480:px-4 ${className}`}
+    >
       <DividerSide />
-      <span className={`${site.dividerMedallion} ${symbol === "wheel" ? site.dividerMedallionTurn : ""}`}>
-        {symbol === "lotus" && <LotusIcon size={24} strokeWidth={1.3} className={site.dividerLotus} />}
+      {/* Huy hiệu giữa: đĩa giấy kem, viền vàng hai lớp, che hoa văn nền phía sau. Bánh xe Pháp luân xoay rất chậm. */}
+      <span
+        className={`tw:relative tw:grid tw:place-items-center tw:shrink-0 tw:w-[54px] tw:h-[54px] tw:rounded-[50%] tw:text-[#8a5c14] tw:bg-[radial-gradient(circle_at_50%_35%,#fffdf6_0%,#fbf1d8_100%)] tw:border tw:border-[rgba(168,116,26,0.55)] tw:[box-shadow:0_0_0_4px_#fffdf8,0_0_0_5px_rgba(214,164,64,0.35),inset_0_1px_0_rgba(255,255,255,0.9),0_8px_18px_-8px_rgba(122,80,14,0.35)] tw:upto-480:w-[46px] tw:upto-480:h-[46px] ${
+          symbol === "wheel" ? "tw:[&_svg]:animate-[ck-site-turn_40s_linear_infinite] tw:motion-reduce:[&_svg]:animate-none" : ""
+        }`}
+      >
+        {/* Hoa sen nằm lệch xuống trong khung vẽ (đế sen dày hơn ngọn), kéo lên cho cân giữa huy hiệu */}
+        {symbol === "lotus" && <LotusIcon size={24} strokeWidth={1.3} className="tw:[transform:translateY(-1.5px)]" />}
         {symbol === "wheel" && <DharmaWheelIcon size={22} strokeWidth={1.3} />}
         {symbol === "knot" && <EndlessKnotIcon size={22} strokeWidth={1.3} />}
       </span>

@@ -7,7 +7,7 @@ export interface AuthCardProps {
 }
 
 // Khung thẻ kính dùng chung cho các trang xác thực (đăng nhập, đăng ký...).
-// Màu lấy từ biến của `.scene` (xem src/components/copy/copy.module.css).
+// Màu lấy từ bảng biến --gold-*, --brown-* (xem src/styles/ui.css).
 export function AuthCard({ title, subtitle, children }: AuthCardProps) {
   return (
     <div className="tw:flex tw:flex-1 tw:items-center tw:justify-center tw:px-4 tw:py-10 tw:md:py-14">

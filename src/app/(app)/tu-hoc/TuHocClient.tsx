@@ -24,8 +24,7 @@ import {
   SutraCtaCard,
 } from "@/components/article";
 import { PhotoBanner } from "@/components/layout/PhotoBanner";
-import shared from "@/components/article/shared.module.css";
-import styles from "./TuHoc.module.css";
+import { block, page, sectionDesc, sectionHead, sectionHeading } from "@/components/article/styles";
 
 const VALID_SLUGS = new Set<ArticleCategorySlug>(
   ARTICLE_CATEGORIES.map((c) => c.slug),
@@ -61,12 +60,12 @@ function Sidebar({
 }) {
   return (
     <>
-      {/* Máy tính: danh mục ở đầu cột phụ. Màn hẹp cột phụ xuống cuối nên dùng hàng nút trong banner */}
+      {/* Máy tính (> 1024px): danh mục ở đầu cột phụ. Màn hẹp cột phụ xuống cuối nên dùng hàng nút trong banner */}
       <CategoryList
         categories={ARTICLE_CATEGORIES}
         activeSlug={activeCategory}
         onSelect={onCategory}
-        className={styles.desktopOnly}
+        className="tw:upto-1024:hidden!"
       />
       <SutraCtaCard
         size="sm"
@@ -142,7 +141,8 @@ export function TuHocContent() {
         lead={activeCategory === "all" ? PAGE_DESC : category?.description}
         imagePosition={BANNER_POSITION}
       >
-        <div className={styles.bannerTools}>
+        {/* Ô tìm kiếm và hàng chuyên mục nằm trong tờ giấy của PhotoBanner */}
+        <div className="tw:flex tw:flex-col tw:items-center tw:gap-4 tw:w-full tw:min-w-0 tw:*:max-w-full">
           <ArticleSearchBar
             query={searchQuery}
             onQueryChange={setSearchQuery}
@@ -153,12 +153,13 @@ export function TuHocContent() {
             activeSlug={activeCategory}
             onSelect={handleCategorySelect}
             align="center"
-            className={styles.mobileOnly}
+            // Màn hẹp (≤ 1024px, cột phụ xuống cuối): hàng nút chuyên mục hiện trong banner
+            className="tw:hidden! tw:upto-1024:flex!"
           />
         </div>
       </PhotoBanner>
 
-      <div className={shared.page}>
+      <div className={page}>
         {/* Khối nổi bật trải hết bề rộng nội dung, trên cả cột chính lẫn cột phụ */}
         {!query && lead && (
           <ArticleFeatureBlock lead={lead} items={secondary} />
@@ -175,10 +176,10 @@ export function TuHocContent() {
           }
         >
           {query ? (
-            <section className={shared.block} aria-label="Kết quả tìm kiếm">
-              <div className={shared.sectionHead}>
-                <h2 className={shared.sectionHeading}>Kết quả tìm kiếm</h2>
-                <p className={shared.sectionDesc} aria-live="polite">
+            <section className={block} aria-label="Kết quả tìm kiếm">
+              <div className={sectionHead}>
+                <h2 className={sectionHeading}>Kết quả tìm kiếm</h2>
+                <p className={sectionDesc} aria-live="polite">
                   Tìm thấy {filtered.length} bài với từ khóa “{query}”
                 </p>
               </div>
@@ -199,8 +200,8 @@ export function TuHocContent() {
                 <QuoteBox quote={MOCK_DAILY_QUOTE} eyebrow="Lời Phật dạy hôm nay" />
               )}
               {rows.length > 0 && (
-                <section className={shared.block} aria-label="Bài viết mới">
-                  <h2 className={shared.sectionHeading}>Bài viết mới</h2>
+                <section className={block} aria-label="Bài viết mới">
+                  <h2 className={sectionHeading}>Bài viết mới</h2>
                   <ArticleRowList
                     key={listKey}
                     articles={rows}

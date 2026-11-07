@@ -1,5 +1,4 @@
 import { LotusLogo } from "@/components/brand/LotusLogo";
-import styles from "./copy.module.css";
 
 type Props = {
   title: string;
@@ -9,12 +8,12 @@ type Props = {
 // Bìa trước cuốn kinh: bọc vải vàng, viền dập nổi, hoa sen và tên kinh ở giữa
 export function BookCover({ title, subtitle = "Chép Kinh Online" }: Props) {
   return (
-    <div className={styles.coverFace}>
-      <div className={styles.coverFrame}>
+    <div className="ck-cover-face">
+      <div className="ck-cover-frame">
         <LotusLogo size={72} title="" />
-        <p className={styles.coverTitle}>{title}</p>
-        <span className={styles.coverRule} aria-hidden />
-        <p className={styles.coverSub}>{subtitle}</p>
+        <p className="ck-cover-title">{title}</p>
+        <span className="ck-cover-rule" aria-hidden />
+        <p className="ck-cover-sub">{subtitle}</p>
       </div>
     </div>
   );

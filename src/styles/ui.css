@@ -1,0 +1,264 @@
+/*
+ * Design system dùng chung: bảng màu, nền trang, kính mờ, nút.
+ *
+ * - Bảng màu khai báo trên :root rồi đăng ký vào @theme, nên dùng được cả
+ *   `var(--gold-500)` lẫn class Tailwind `tw:text-gold-700`, `tw:bg-paper`...
+ * - Các mảnh giao diện lặp lại khắp nơi (`ck-scene`, `ck-glass`, `ck-btn-gold`, `ck-btn-ghost`)
+ *   nằm trong layer `components`: thắng Tabler, nhưng class `tw:` luôn ghi đè được.
+ * - Tiền tố `ck-` để không đụng tên class của Tabler/Bootstrap.
+ */
+
+:root {
+  --gold-100: #fff8e6;
+  --gold-300: #ecc976;
+  --gold-500: #d6a440;
+  --gold-700: #a8741a;
+  --brown-800: #6b4a12;
+  --brown-900: #4a320a;
+  --paper: #fbf7ec;
+  --ink: #2b2116;
+  --ink-ghost: rgba(120, 95, 55, 0.42);
+  --ink-wrong: #b45309;
+  --noise: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.42 0 0 0 0 0.3 0 0 0 0 0.16 0 0 0 0.1 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@theme inline {
+  --color-gold-100: var(--gold-100);
+  --color-gold-300: var(--gold-300);
+  --color-gold-500: var(--gold-500);
+  --color-gold-700: var(--gold-700);
+  --color-brown-800: var(--brown-800);
+  --color-brown-900: var(--brown-900);
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-ink-ghost: var(--ink-ghost);
+  --color-ink-wrong: var(--ink-wrong);
+  --font-title: var(--font-display), serif;
+  --font-ui: var(--font-sans), system-ui, sans-serif;
+  --font-hanzi: var(--font-han), serif;
+  --ease-soft: var(--ease-out-soft);
+}
+
+
+/*
+ * Breakpoint "max-width" đúng như CSS cũ (bao gồm cả mốc): `tw:upto-768:hidden` = @media (max-width: 768px).
+ * (`tw:max-md:` của Tailwind là < 768px, lệch 1px ngay tại mốc.) Mốc 1023px dùng `tw:max-lg:`, 767px dùng `tw:max-md:`.
+ * Khai báo từ lớn đến nhỏ để mốc nhỏ hơn đứng sau và thắng khi cả hai cùng khớp.
+ */
+@custom-variant upto-1100 (@media (max-width: 1100px));
+@custom-variant upto-1024 (@media (max-width: 1024px));
+@custom-variant upto-768 (@media (max-width: 768px));
+@custom-variant upto-640 (@media (max-width: 640px));
+@custom-variant upto-560 (@media (max-width: 560px));
+@custom-variant upto-480 (@media (max-width: 480px));
+@custom-variant upto-420 (@media (max-width: 420px));
+@custom-variant upto-400 (@media (max-width: 400px));
+@custom-variant upto-360 (@media (max-width: 360px));
+@custom-variant from-769 (@media (min-width: 769px));
+
+/*
+ * `tw:hover:` giữ đúng hành vi `:hover` của CSS cũ: Tailwind v4 mặc định chỉ bật hover khi
+ * @media (hover: hover), làm dropdown danh mục không mở được khi chạm trên máy tính bảng.
+ */
+@custom-variant hover (&:hover);
+
+@layer components {
+  /* ==== Nền trang: kem phủ hoa văn chữ Vạn liên hoàn vàng chìm, quầng sáng vàng ở hai góc ==== */
+  .ck-scene-bg {
+    color: var(--brown-900);
+    font-family: var(--font-sans), system-ui, sans-serif;
+    background-color: #fffdf8;
+    background-image:
+      radial-gradient(ellipse 70% 60% at 50% 50%, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0) 75%),
+      radial-gradient(ellipse 50% 70% at 0% 0%, rgba(240, 196, 100, 0.34), transparent 70%),
+      radial-gradient(ellipse 50% 70% at 100% 100%, rgba(240, 196, 100, 0.34), transparent 70%),
+      url("../assets/sayagata-pattern.svg"),
+      linear-gradient(180deg, #fffdf8, #fbf0d6);
+    background-size: auto, auto, auto, 190px 190px, auto;
+  }
+
+  .ck-scene {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    /* Tờ giấy rút sang trái không làm hiện thanh cuộn ngang */
+    overflow-x: clip;
+  }
+
+  /*
+   * Cho nút/ô chọn kế thừa toàn bộ font của cha (như `font: inherit`). Đặt ở layer components
+   * để các class `tw:text-*`, `tw:font-*` vẫn ghi đè được (viết `tw:[font:inherit]` thì lại đè ngược chúng).
+   */
+  .ck-font-inherit {
+    font: inherit;
+  }
+
+  /* ==== Kính mờ sáng ==== */
+  .ck-glass {
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(214, 164, 64, 0.35);
+    box-shadow:
+      0 8px 24px rgba(150, 105, 25, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(12px) saturate(140%);
+    border-radius: 16px;
+  }
+
+  /* ==== Nút ==== */
+  .ck-btn-gold,
+  .ck-btn-ghost {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 22px;
+    font-family: var(--font-sans), system-ui, sans-serif;
+    font-size: 0.92rem;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.01em;
+    border-radius: 999px;
+    text-decoration: none;
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+    -webkit-tap-highlight-color: transparent;
+    transition:
+      transform 0.3s var(--ease-out-soft),
+      box-shadow 0.3s ease,
+      background-color 0.3s ease,
+      border-color 0.3s ease,
+      color 0.3s ease;
+  }
+
+  .ck-btn-gold svg,
+  .ck-btn-ghost svg {
+    flex-shrink: 0;
+  }
+
+  /* Mũi tên trong nút: nhích sang phải khi rê chuột */
+  .ck-btn-arrow {
+    transition: transform 0.3s var(--ease-out-soft);
+  }
+
+  .ck-btn-gold:hover .ck-btn-arrow,
+  .ck-btn-ghost:hover .ck-btn-arrow {
+    transform: translateX(3px);
+  }
+
+  /* Nút chính: vàng thếp, viền nâu mảnh, chỉ sáng bên trong như lớp sơn mài */
+  .ck-btn-gold {
+    color: #3d2906;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0) 52%),
+      linear-gradient(180deg, #f3d48a 0%, #e0b252 55%, #c99232 100%);
+    border: 1px solid rgba(138, 92, 20, 0.6);
+    text-shadow: 0 1px 0 rgba(255, 244, 214, 0.55);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 250, 232, 0.9),
+      inset 0 0 0 1px rgba(255, 236, 186, 0.35),
+      inset 0 -2px 0 rgba(122, 80, 14, 0.18),
+      0 1px 2px rgba(74, 50, 10, 0.16),
+      0 8px 18px -8px rgba(168, 116, 26, 0.55);
+  }
+
+  /* Vệt sáng chéo lướt qua mặt nút */
+  .ck-btn-gold::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(105deg, transparent 30%, rgba(255, 252, 240, 0.75) 48%, transparent 66%);
+    transform: translateX(-120%);
+    transition: transform 0.75s var(--ease-out-soft);
+    pointer-events: none;
+  }
+
+  .ck-btn-gold:hover {
+    color: #3d2906;
+    border-color: rgba(107, 74, 18, 0.75);
+    transform: translateY(-1px);
+    text-decoration: none;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 250, 232, 0.95),
+      inset 0 0 0 1px rgba(255, 236, 186, 0.45),
+      inset 0 -2px 0 rgba(122, 80, 14, 0.2),
+      0 2px 4px rgba(74, 50, 10, 0.14),
+      0 14px 26px -10px rgba(168, 116, 26, 0.65);
+  }
+
+  .ck-btn-gold:hover::after {
+    transform: translateX(120%);
+  }
+
+  .ck-btn-gold:active {
+    transform: translateY(0);
+    box-shadow:
+      inset 0 2px 4px rgba(107, 74, 18, 0.3),
+      0 1px 2px rgba(74, 50, 10, 0.12);
+  }
+
+  /* Nút phụ: nền giấy ngà kính mờ, viền chỉ vàng; rê chuột thì ửng vàng nhạt */
+  .ck-btn-ghost {
+    color: var(--brown-900);
+    background-color: rgba(255, 252, 244, 0.82);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(168, 116, 26, 0.32);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.9),
+      0 1px 2px rgba(74, 50, 10, 0.06),
+      0 6px 14px -8px rgba(74, 50, 10, 0.18);
+  }
+
+  .ck-btn-ghost:hover {
+    color: var(--brown-900);
+    background-color: var(--gold-100);
+    border-color: rgba(168, 116, 26, 0.6);
+    transform: translateY(-1px);
+    text-decoration: none;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.95),
+      0 2px 4px rgba(74, 50, 10, 0.06),
+      0 12px 22px -10px rgba(168, 116, 26, 0.35);
+  }
+
+  .ck-btn-gold:focus-visible,
+  .ck-btn-ghost:focus-visible {
+    outline: 2px solid var(--gold-500);
+    outline-offset: 2px;
+  }
+
+  .ck-btn-ghost:active {
+    transform: translateY(0);
+    background-color: #fbefcf;
+    box-shadow: inset 0 1px 3px rgba(74, 50, 10, 0.16);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ck-btn-gold,
+    .ck-btn-ghost,
+    .ck-btn-gold::after,
+    .ck-btn-arrow {
+      transition: none;
+    }
+    .ck-btn-gold:hover,
+    .ck-btn-ghost:hover {
+      transform: none;
+    }
+  }
+
+  /* Người dùng muốn giảm chuyển động: tắt mọi hoạt cảnh trong trang */
+  @media (prefers-reduced-motion: reduce) {
+    .ck-scene *,
+    .ck-scene *::before,
+    .ck-scene *::after {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+}

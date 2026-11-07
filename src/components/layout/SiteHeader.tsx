@@ -5,7 +5,7 @@ import { BrandMark } from "@/components/brand/LotusLogo";
 import { SiteNav } from "@/components/layout/SiteNav";
 import { UserMenu } from "@/components/layout/UserMenu";
 import { getCurrentUser } from "@/lib/auth";
-import styles from "@/components/copy/copy.module.css";
+import { avatar } from "@/components/ui/classes";
 
 type Props = {
   // Nút riêng của từng trang, đứng trước menu tài khoản
@@ -15,17 +15,21 @@ type Props = {
 };
 
 // Thanh kính mờ trên cùng, dùng chung cho mọi trang: logo | danh mục | nút + tài khoản.
-// Phải nằm trong một phần tử có class `.scene` để có bảng màu --gold-*, --brown-*.
 export function SiteHeader({ actions, sticky = false }: Props) {
   return (
-    <header className={`${styles.glass} ${styles.siteHeader} ${sticky ? styles.siteHeaderSticky : ""}`}>
-      <Link href="/" className={styles.brandLink} aria-label="Chép Kinh Online - trang chủ">
+    <header
+      className={`ck-glass tw:flex tw:items-center tw:justify-between tw:gap-4 tw:mx-5 tw:mt-3 tw:mb-0 tw:py-[7px] tw:pr-2 tw:pl-3.5 tw:max-lg:mx-4 tw:max-lg:mt-2.5 tw:upto-480:pl-2 tw:upto-360:mx-2.5 tw:upto-360:gap-2 ${
+        // Trang chủ: header dính trên cùng khi cuộn; còn lại z-20 để menu tài khoản nổi trên sách
+        sticky ? "tw:sticky tw:top-3 tw:z-40" : "tw:relative tw:z-20"
+      }`}
+    >
+      <Link href="/" className="tw:inline-flex tw:no-underline tw:hover:no-underline tw:focus-visible:outline-2 tw:focus-visible:outline-solid tw:focus-visible:outline-gold-500 tw:focus-visible:outline-offset-2 tw:upto-480:[zoom:0.85] tw:upto-360:[zoom:0.7]" aria-label="Chép Kinh Online - trang chủ">
         <BrandMark size={34} light={false} />
       </Link>
       <SiteNav />
-      <nav className={styles.headerActions} aria-label="Tài khoản">
+      <nav className="tw:flex tw:items-center tw:gap-2 tw:upto-360:gap-1.5" aria-label="Tài khoản">
         {actions}
-        <Suspense fallback={<span className={styles.avatar} aria-hidden />}>
+        <Suspense fallback={<span className={avatar} aria-hidden />}>
           <HeaderUser />
         </Suspense>
       </nav>

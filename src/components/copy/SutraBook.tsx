@@ -22,7 +22,7 @@ import { useCopySession } from "@/stores/copy-session";
 import { useCopySettings } from "@/stores/copy-settings";
 import { BookCover } from "./BookCover";
 import { BookPage } from "./BookPage";
-import styles from "./copy.module.css";
+import * as ui from "./panelClasses";
 
 const FLIP_MS = 900;
 // Kiểu tờ giấy: thời gian rút tờ trên cùng ra khỏi chồng giấy
@@ -44,9 +44,24 @@ function initialRanges(pages: string[]): PageRange[] {
   });
 }
 
+// Tên class đầy đủ theo phía trang (src/styles/book.css)
+const FLIP_SHADE = { left: "ck-flip-shade-left", right: "ck-flip-shade-right", single: "ck-flip-shade-single" };
+const LEAF = { left: "ck-leaf-left", right: "ck-leaf-right", single: "ck-leaf-single" };
+
+// Hộp hoàn thành (chép xong chương / cả bộ kinh)
+const overlay =
+  "tw:fixed tw:inset-0 tw:z-50 tw:grid tw:place-items-center tw:p-4 tw:bg-[rgba(70,50,15,0.32)] tw:backdrop-blur-[6px] tw:animate-[ck-fade-in_0.5s_ease]";
+const meritCard =
+  "ck-glass tw:w-full tw:max-w-[420px] tw:py-8 tw:px-7 tw:text-center tw:text-brown-900 tw:bg-transparent tw:bg-[linear-gradient(160deg,#fffdf6,#fbefd0)] tw:animate-[ck-rise_0.6s_cubic-bezier(0.2,0.7,0.2,1)]";
+const meritTitle = "tw:mt-3 tw:mx-0 tw:mb-3.5 tw:font-title tw:font-bold tw:text-[1.9rem] tw:text-gold-700";
+const meritVerse = "tw:m-0 tw:[font-family:var(--font-book),serif] tw:italic tw:text-[1.12rem] tw:leading-[1.8]";
+const meritNamo = "tw:mt-3.5 tw:mx-0 tw:mb-[22px] tw:text-[0.9rem] tw:text-gold-700";
+const meritActions = "tw:flex tw:flex-wrap tw:justify-center tw:gap-2.5";
+const chapterDoneActions = `${meritActions} tw:flex-col tw:items-stretch tw:mt-[18px]`;
+
 // Thanh chờ cao đúng một dòng chữ, đặt thay cho số liệu lúc chưa tải xong
 function SkeletonText({ width }: { width: string }) {
-  return <span className={`${styles.skeleton} ${styles.skeletonText}`} style={{ width }} aria-hidden />;
+  return <span className={ui.skeletonText} style={{ width }} aria-hidden />;
 }
 
 type Props = {
@@ -159,7 +174,7 @@ export function SutraBook({ slug, title, chapters }: Props) {
     const run = () => {
       cancelAnimationFrame(frame);
       frame = requestAnimationFrame(() => {
-        const next = paginate(text, box, styles.verse, styles.continued);
+        const next = paginate(text, box, "ck-verse", "ck-continued");
         if (next) {
           setRanges(next);
           setPaginated(true);
@@ -353,16 +368,16 @@ export function SutraBook({ slug, title, chapters }: Props) {
   }
 
   return (
-    <div ref={stageRef} className={`${styles.stage} ${fullscreen ? styles.stageFullscreen : ""}`}>
+    <div ref={stageRef} className={`ck-stage ${fullscreen ? "ck-stage-fullscreen ck-scene-bg" : ""}`}>
       {/* Toàn màn hình: thanh nhỏ ở góc thay cho cột công cụ, xem tiến độ và thoát */}
       {fullscreen && (
-        <div className={`${styles.glass} ${styles.fullscreenBar}`}>
-          <span className={styles.fullscreenProgress}>
+        <div className="ck-glass tw:fixed tw:top-3 tw:right-3 tw:z-45 tw:flex tw:items-center tw:gap-1 tw:py-0.5 tw:pr-0.5 tw:pl-3.5 tw:rounded-xl">
+          <span className="tw:text-[0.8rem] tw:tabular-nums tw:text-brown-800">
             Trang {caretPage + 1}/{ranges.length} · {percent}%
           </span>
           <button
             type="button"
-            className={styles.iconButton}
+            className={ui.iconButton}
             onClick={toggleFullscreen}
             aria-label="Thoát toàn màn hình"
             title="Thoát toàn màn hình (Esc)"
@@ -371,28 +386,28 @@ export function SutraBook({ slug, title, chapters }: Props) {
           </button>
         </div>
       )}
-      <section className={`${styles.bookArea} ${sheet ? styles.areaSheet : ""}`} aria-label="Sách kinh">
+      <section className={`ck-book-area ${sheet ? "ck-area-sheet" : ""}`} aria-label="Sách kinh">
         {/* Lúc đang tải: sách gấp, chỉ thấy bìa. Tải xong: bìa mở sang trái như mở cuốn kinh thật */}
         <div
-          className={`${styles.bookStage} ${opened ? styles.stageDone : isOpen ? styles.stageOpen : styles.stageClosed} ${
-            isSpread ? styles.stageSpread : ""
-          } ${sheet ? styles.stageSheet : ""}`}
+          className={`ck-book-stage ${opened ? "ck-stage-done" : isOpen ? "ck-stage-open" : "ck-stage-closed"} ${
+            isSpread ? "ck-stage-spread" : ""
+          } ${sheet ? "ck-stage-sheet" : ""}`}
         >
           <div
             ref={bookRef}
-            className={`${styles.book} ${isSpread ? styles.bookSpread : styles.bookSingle} ${sheet ? styles.bookSheet : ""}`}
+            className={`ck-book ${isSpread ? "ck-book-spread" : "ck-book-single"} ${sheet ? "ck-book-sheet" : ""}`}
           >
-            <div ref={blockRef} className={styles.block}>
+            <div ref={blockRef} className="ck-block">
               {base.map((p, i) => renderPage(p, isSpread ? (i === 0 ? "left" : "right") : "single", !flip))}
-              {isSpread && <div className={styles.gutter} aria-hidden />}
+              {isSpread && <div className="ck-gutter" aria-hidden />}
 
               {/* Trang ẩn cùng khổ để đo xem bao nhiêu chữ thì vừa kín một trang; khung bọc rộng đúng một trang
                 để padding % của trang tính theo bề rộng trang như trang thật */}
-              <div className={styles.measure} aria-hidden>
-                <article className={`${styles.page} ${styles[isSpread ? "page_left" : "page_single"]}`}>
+              <div className="ck-measure" aria-hidden>
+                <article className={`ck-page ${isSpread ? "ck-page-left" : "ck-page-single"}`}>
                   <div
                     ref={measureRef}
-                    className={styles.pageText}
+                    className="ck-page-text"
                     style={{ "--fs": fontSize / 22 } as CSSProperties}
                   />
                 </article>
@@ -404,7 +419,7 @@ export function SutraBook({ slug, title, chapters }: Props) {
               {leaf && sheet && (
                 <div
                   key={`sheet-${flip!.from}-${flip!.to}`}
-                  className={`${styles.sheetLeaf} ${forward ? styles.sheetOut : styles.sheetIn}`}
+                  className={`ck-sheet-leaf ${forward ? "ck-sheet-out" : "ck-sheet-in"}`}
                   style={{ animationDuration: `${SHEET_MS}ms` }}
                   aria-hidden
                 >
@@ -415,7 +430,7 @@ export function SutraBook({ slug, title, chapters }: Props) {
               {leaf && !sheet && (
                 <div
                   key={`shade-${flip!.from}-${flip!.to}`}
-                  className={`${styles.flipShade} ${styles[`flipShade_${leaf.side}`]}`}
+                  className={`ck-flip-shade ${FLIP_SHADE[leaf.side]}`}
                   style={{ animationDuration: `${FLIP_MS}ms` }}
                   aria-hidden
                 />
@@ -424,12 +439,12 @@ export function SutraBook({ slug, title, chapters }: Props) {
               {leaf && !sheet && (
                 <div
                   key={`${flip!.from}-${flip!.to}`}
-                  className={`${styles.leaf} ${styles[`leaf_${leaf.side}`]} ${forward ? styles.leafForward : styles.leafBackward}`}
+                  className={`ck-leaf ${LEAF[leaf.side]} ${forward ? "ck-leaf-forward" : "ck-leaf-backward"}`}
                   style={{ animationDuration: `${FLIP_MS}ms` }}
                   aria-hidden
                 >
-                  <div className={styles.leafFace}>{renderPage(leaf.front, leaf.side, false)}</div>
-                  <div className={`${styles.leafFace} ${styles.leafBack}`}>
+                  <div className="ck-leaf-face">{renderPage(leaf.front, leaf.side, false)}</div>
+                  <div className="ck-leaf-face ck-leaf-back">
                     {renderPage(
                       leaf.back,
                       leaf.side === "right" ? "left" : leaf.side === "left" ? "right" : "single",
@@ -443,7 +458,7 @@ export function SutraBook({ slug, title, chapters }: Props) {
             {/* Ô nhập ẩn phủ lên trang sách: người dùng gõ trực tiếp trên sách */}
             <textarea
               ref={inputRef}
-              className={styles.hiddenInput}
+              className="ck-hidden-input"
               value={typed}
               onChange={(e) => handleType(e.target.value)}
               onKeyDown={(e) => {
@@ -468,7 +483,7 @@ export function SutraBook({ slug, title, chapters }: Props) {
             {/* Góc trang để lật như sách thật */}
             <button
               type="button"
-              className={`${styles.corner} ${styles.cornerPrev}`}
+              className="ck-corner ck-corner-prev"
               onClick={() => turnTo(view * perView - 1)}
               disabled={prevDisabled}
               aria-label="Lật về trang trước"
@@ -478,7 +493,7 @@ export function SutraBook({ slug, title, chapters }: Props) {
             </button>
             <button
               type="button"
-              className={`${styles.corner} ${styles.cornerNext}`}
+              className="ck-corner ck-corner-next"
               onClick={() => turnTo((view + 1) * perView)}
               disabled={nextDisabled}
               aria-label="Lật sang trang sau"
@@ -494,39 +509,39 @@ export function SutraBook({ slug, title, chapters }: Props) {
               {OPEN_LEAF_DELAYS.map((delay, i) => (
                 <div
                   key={i}
-                  className={styles.openLeaf}
+                  className="ck-open-leaf"
                   style={{ "--leaf-delay": `${delay}s`, zIndex: 9 - i } as CSSProperties}
                   aria-hidden
                 >
-                  <div className={styles.openLeafFront} />
-                  <div className={styles.openLeafBack} />
+                  <div className="ck-open-leaf-front" />
+                  <div className="ck-open-leaf-back" />
                 </div>
               ))}
               {/* Bìa kết thúc sau cùng (các tờ giấy đã hạ xong trước đó): mở xong thì gỡ bìa và các tờ */}
               <div
-                className={styles.coverLeaf}
+                className="ck-cover-leaf"
                 onAnimationEnd={(e) => {
                   if (e.target === e.currentTarget) setCoverGone(true);
                 }}
                 aria-hidden
               >
-                <div className={styles.coverLeafFront}>
+                <div className="ck-cover-leaf-front">
                   <BookCover title={title} />
                 </div>
-                <div className={styles.coverLeafBack} />
+                <div className="ck-cover-leaf-back" />
               </div>
             </>
           )}
         </div>
 
         {allDone && sutraDone && (
-          <div className={styles.overlay} role="dialog" aria-modal="true" aria-labelledby="merit-title">
-            <div className={`${styles.glass} ${styles.meritCard}`}>
+          <div className={overlay} role="dialog" aria-modal="true" aria-labelledby="merit-title">
+            <div className={meritCard}>
               <LotusLogo size={64} />
-              <h2 id="merit-title" className={styles.meritTitle}>
+              <h2 id="merit-title" className={meritTitle}>
                 Công Đức Viên Mãn
               </h2>
-              <p className={styles.meritVerse}>
+              <p className={meritVerse}>
                 Nguyện đem công đức này
                 <br />
                 Hướng về khắp tất cả
@@ -535,12 +550,12 @@ export function SutraBook({ slug, title, chapters }: Props) {
                 <br />
                 Đều trọn thành Phật đạo.
               </p>
-              <p className={styles.meritNamo}>Nam Mô Bổn Sư Thích Ca Mâu Ni Phật</p>
-              <div className={styles.meritActions}>
-                <button type="button" className={styles.goldButton} onClick={restartAll}>
+              <p className={meritNamo}>Nam Mô Bổn Sư Thích Ca Mâu Ni Phật</p>
+              <div className={meritActions}>
+                <button type="button" className="ck-btn-gold" onClick={restartAll}>
                   <IconRefresh size={18} /> Chép lại
                 </button>
-                <Link href="/" className={styles.ghostButton}>
+                <Link href="/" className="ck-btn-ghost">
                   Về trang chủ
                 </Link>
               </div>
@@ -550,18 +565,18 @@ export function SutraBook({ slug, title, chapters }: Props) {
 
         {/* Xong một chương nhưng cả bộ kinh chưa xong: mời chép chương kế */}
         {allDone && !sutraDone && nextChapter !== undefined && (
-          <div className={styles.overlay} role="dialog" aria-modal="true" aria-labelledby="chapter-done-title">
-            <div className={`${styles.glass} ${styles.meritCard}`}>
+          <div className={overlay} role="dialog" aria-modal="true" aria-labelledby="chapter-done-title">
+            <div className={meritCard}>
               <LotusLogo size={52} />
-              <h2 id="chapter-done-title" className={styles.meritTitle}>
+              <h2 id="chapter-done-title" className={meritTitle}>
                 Đã chép xong
               </h2>
-              <p className={styles.meritVerse}>{chapter.title}</p>
-              <div className={`${styles.meritActions} ${styles.chapterDoneActions}`}>
-                <button type="button" className={styles.goldButton} onClick={() => selectChapter(nextChapter)}>
+              <p className={meritVerse}>{chapter.title}</p>
+              <div className={chapterDoneActions}>
+                <button type="button" className="ck-btn-gold" onClick={() => selectChapter(nextChapter)}>
                   Chép tiếp: {chapters[nextChapter].title} <IconChevronRight size={18} />
                 </button>
-                <button type="button" className={styles.ghostButton} onClick={restartChapter}>
+                <button type="button" className="ck-btn-ghost" onClick={restartChapter}>
                   <IconRefresh size={18} /> Chép lại chương này
                 </button>
               </div>
@@ -571,12 +586,13 @@ export function SutraBook({ slug, title, chapters }: Props) {
       </section>
 
       {/* Cột phải: tên kinh, tiến độ, công cụ. Màn hình hẹp thì thành thanh gọn phía trên sách */}
-      <aside className={`${styles.glass} ${styles.panel}`}>
-        <div className={styles.info}>
-          <p className={styles.eyebrow}>Đang chép</p>
-          <h1 className={styles.titleVi}>{title}</h1>
+      {/* Toàn màn hình: chỉ còn cuốn sách ở giữa */}
+      <aside className={fullscreen ? `${ui.panel} tw:hidden!` : ui.panel}>
+        <div className={ui.info}>
+          <p className={ui.eyebrow}>Đang chép</p>
+          <h1 className={ui.titleVi}>{title}</h1>
           {hasChapters && (
-            <p className={styles.chapterName}>
+            <p className={ui.chapterName}>
               {panelReady ? (
                 <>
                   Phần {chapterIndex + 1}/{chapters.length} · {chapter.title}
@@ -586,7 +602,7 @@ export function SutraBook({ slug, title, chapters }: Props) {
               )}
             </p>
           )}
-          <div className={styles.progressRow}>
+          <div className={ui.progressRow}>
             {panelReady ? (
               <>
                 <span>
@@ -602,35 +618,35 @@ export function SutraBook({ slug, title, chapters }: Props) {
             )}
           </div>
           <div
-            className={styles.progressTrack}
+            className={ui.progressTrack}
             role="progressbar"
             aria-valuenow={percent}
             aria-valuemin={0}
             aria-valuemax={100}
             aria-label="Tiến độ chép kinh"
           >
-            <div className={styles.progressBar} style={{ width: `${panelReady ? percent : 0}%` }} />
+            <div className={ui.progressBar} style={{ width: `${panelReady ? percent : 0}%` }} />
           </div>
         </div>
 
-        <div className={styles.tools}>
-          <div className={styles.stepper}>
-            <span className={styles.toolLabel}>Cỡ chữ</span>
+        <div className={ui.tools}>
+          <div className={ui.stepper}>
+            <span className={`${ui.toolLabel} tw:flex-1`}>Cỡ chữ</span>
             <button
               type="button"
-              className={styles.iconButton}
+              className={ui.iconButton}
               onClick={() => setFontSize(fontSize - 2)}
               aria-label="Giảm cỡ chữ"
               title="Giảm cỡ chữ"
             >
               <IconMinus size={18} />
             </button>
-            <span className={styles.fontSizeLabel} aria-live="polite">
+            <span className={ui.fontSizeLabel} aria-live="polite">
               {panelReady ? `${Math.round((fontSize / 22) * 100)}%` : <SkeletonText width="2.6em" />}
             </span>
             <button
               type="button"
-              className={styles.iconButton}
+              className={ui.iconButton}
               onClick={() => setFontSize(fontSize + 2)}
               aria-label="Tăng cỡ chữ"
               title="Tăng cỡ chữ"
@@ -640,43 +656,45 @@ export function SutraBook({ slug, title, chapters }: Props) {
           </div>
           <button
             type="button"
-            className={styles.toolRow}
+            className={ui.toolRow}
             onClick={restartChapter}
             title={hasChapters ? "Chép lại chương này" : "Chép lại từ đầu"}
           >
             <IconRefresh size={18} />
-            <span className={styles.toolLabel}>{hasChapters ? "Chép lại chương này" : "Chép lại từ đầu"}</span>
+            <span className={ui.toolLabel}>{hasChapters ? "Chép lại chương này" : "Chép lại từ đầu"}</span>
           </button>
           <button
             type="button"
-            className={styles.toolRow}
+            className={ui.toolRow}
             onClick={() => setLayout(sheet ? "book" : "sheet")}
             title={sheet ? "Chép kiểu sách mở" : "Chép kiểu tờ giấy"}
           >
             {sheet ? <IconBook2 size={18} /> : <IconFile size={18} />}
-            <span className={styles.toolLabel}>{sheet ? "Kiểu sách mở" : "Kiểu tờ giấy"}</span>
+            <span className={ui.toolLabel}>{sheet ? "Kiểu sách mở" : "Kiểu tờ giấy"}</span>
           </button>
-          <button type="button" className={styles.toolRow} onClick={toggleFullscreen} title="Toàn màn hình">
+          <button type="button" className={ui.toolRow} onClick={toggleFullscreen} title="Toàn màn hình">
             <IconMaximize size={18} />
-            <span className={styles.toolLabel}>Toàn màn hình</span>
+            <span className={ui.toolLabel}>Toàn màn hình</span>
           </button>
         </div>
 
         {hasChapters && (
-          <nav className={styles.toc} aria-label="Mục lục">
-            <p className={styles.eyebrow}>Mục lục</p>
-            <ol className={styles.tocList}>
-              {chapters.map((c, i) => (
+          <nav className={ui.toc} aria-label="Mục lục">
+            <p className={ui.eyebrow}>Mục lục</p>
+            <ol className={ui.tocList}>
+              {chapters.map((c, i) => {
+                const active = panelReady && i === chapterIndex;
+                return (
                 <li key={i}>
                   <button
                     type="button"
-                    className={`${styles.tocItem} ${panelReady && i === chapterIndex ? styles.tocActive : ""}`}
+                    className={active ? ui.tocItemActive : ui.tocItem}
                     onClick={() => selectChapter(i)}
                     aria-current={i === chapterIndex ? "true" : undefined}
                   >
-                    <span className={styles.tocNo}>{i + 1}</span>
-                    <span className={styles.tocTitle}>{c.title}</span>
-                    <span className={styles.tocMeta}>
+                    <span className={active ? ui.tocNoActive : ui.tocNo}>{i + 1}</span>
+                    <span className={ui.tocTitle}>{c.title}</span>
+                    <span className={ui.tocMeta}>
                       {!panelReady ? null : chapterPercents[i] === 100 ? (
                         <IconCheck size={16} aria-label="Đã chép xong" />
                       ) : chapterPercents[i] > 0 ? (
@@ -685,11 +703,12 @@ export function SutraBook({ slug, title, chapters }: Props) {
                     </span>
                   </button>
                 </li>
-              ))}
+                );
+              })}
             </ol>
             {/* Màn hình hẹp: mục lục gọn thành ô chọn */}
             <select
-              className={styles.tocSelect}
+              className={ui.tocSelect}
               value={chapterIndex}
               onChange={(e) => selectChapter(Number(e.target.value))}
               aria-label="Chọn chương"
@@ -705,35 +724,35 @@ export function SutraBook({ slug, title, chapters }: Props) {
         )}
 
         {/* Hướng dẫn gập lại cho gọn, cần thì mở */}
-        <details className={styles.tips}>
-          <summary>Cách chép & phím tắt</summary>
-          <p>
+        <details className={ui.tips}>
+          <summary className={ui.tipsSummary}>Cách chép & phím tắt</summary>
+          <p className={ui.tipsText}>
             Gõ theo chữ mờ, chữ đúng sẽ thấm mực hiện rõ. Không cần gõ dấu câu. Chữ đang gõ hiện phía trên con trỏ, gõ
             sai thì đổi màu báo sai.
           </p>
-          <ul className={styles.shortcuts}>
-            <li>
-              <span>
-                <kbd>←</kbd>
-                <kbd>→</kbd>
+          <ul className={ui.shortcuts}>
+            <li className={ui.shortcutRow}>
+              <span className={ui.shortcutKeys}>
+                <kbd className={ui.kbd}>←</kbd>
+                <kbd className={ui.kbd}>→</kbd>
               </span>
               Lật trang
             </li>
-            <li>
-              <span>
-                <kbd>Dấu cách</kbd>
+            <li className={ui.shortcutRow}>
+              <span className={ui.shortcutKeys}>
+                <kbd className={ui.kbd}>Dấu cách</kbd>
               </span>
               Cách chữ
             </li>
-            <li>
-              <span>
-                <kbd>Enter</kbd>
+            <li className={ui.shortcutRow}>
+              <span className={ui.shortcutKeys}>
+                <kbd className={ui.kbd}>Enter</kbd>
               </span>
               Xuống dòng (hết câu)
             </li>
-            <li>
-              <span>
-                <kbd>⌫</kbd>
+            <li className={ui.shortcutRow}>
+              <span className={ui.shortcutKeys}>
+                <kbd className={ui.kbd}>⌫</kbd>
               </span>
               Xóa chữ gõ sai
             </li>

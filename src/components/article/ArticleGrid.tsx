@@ -2,7 +2,6 @@ import type { ReactNode } from "react";
 import { IconBook2 } from "@tabler/icons-react";
 import type { Article } from "@/types/article";
 import { ArticleCard } from "./ArticleCard";
-import styles from "./ArticleGrid.module.css";
 import { cx, type ArticleHrefBuilder } from "./utils";
 
 export interface ArticleGridProps {
@@ -27,15 +26,30 @@ export function ArticleGrid({
 }: ArticleGridProps) {
   if (articles.length === 0) {
     return (
-      <div className={cx(styles.empty, className)} role="status">
-        <IconBook2 size={36} stroke={1.5} className={styles.emptyIcon} aria-hidden />
-        <p className={styles.emptyText}>{emptyMessage}</p>
+      <div
+        className={cx(
+          "tw:flex tw:flex-col tw:items-center tw:gap-3 tw:py-12 tw:px-4 tw:text-center tw:text-[0.95rem] tw:leading-[1.6] tw:text-brown-800",
+          className,
+        )}
+        role="status"
+      >
+        <IconBook2 size={36} stroke={1.5} className="tw:text-gold-700" aria-hidden />
+        <p className="tw:max-w-[480px] tw:m-0">{emptyMessage}</p>
       </div>
     );
   }
 
   return (
-    <ul className={cx(styles.grid, variant === "compact" && styles.compactGrid, className)}>
+    <ul
+      className={cx(
+        "tw:grid tw:grid-cols-[repeat(3,minmax(0,1fr))] tw:m-0 tw:p-0 tw:list-none",
+        variant === "compact"
+          ? // Hàng thẻ gọn: 3 cột, gap nhỏ hơn; dưới 560px thành 1 cột
+            "tw:gap-4 tw:upto-560:grid-cols-[minmax(0,1fr)]"
+          : "tw:gap-6 tw:upto-1024:grid-cols-[repeat(2,minmax(0,1fr))] tw:upto-1024:gap-5 tw:upto-640:grid-cols-[minmax(0,1fr)] tw:upto-640:gap-4",
+        className,
+      )}
+    >
       {articles.map((article) => (
         <li key={article.id}>
           <ArticleCard article={article} getHref={getHref} headingLevel={cardHeadingLevel} variant={variant} />

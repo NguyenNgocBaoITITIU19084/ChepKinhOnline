@@ -5,10 +5,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { IconChevronDown } from "@tabler/icons-react";
 import type { Article } from "@/types/article";
-import copy from "@/components/copy/copy.module.css";
 import { ArticleGrid } from "./ArticleGrid";
-import shared from "./shared.module.css";
-import styles from "./ArticleRowList.module.css";
+import { categoryLabel, cover, coverImage, focusable, fontDisplay, hoverTint } from "./styles";
 import { cx, defaultArticleHref, FALLBACK_COVER, type ArticleHrefBuilder } from "./utils";
 
 export interface ArticleRowProps {
@@ -17,28 +15,53 @@ export interface ArticleRowProps {
   headingLevel?: "h2" | "h3" | "h4";
 }
 
+const metaItem =
+  "tw:relative tw:ml-4 tw:whitespace-nowrap tw:before:content-['·'] tw:before:absolute tw:before:-left-[11px]";
+
 /** Một hàng bài: ảnh bên trái, chuyên mục, tiêu đề, tóm tắt bên phải. */
 export function ArticleRow({ article, getHref = defaultArticleHref, headingLevel: Heading = "h3" }: ArticleRowProps) {
   return (
-    <Link href={getHref(article)} className={cx(styles.row, shared.focusable)}>
-      <div className={cx(shared.cover, styles.cover)}>
+    // Hàng bài: ảnh bên trái, chữ bên phải. Rê chuột: nền hover-tint
+    <Link
+      href={getHref(article)}
+      className={cx(
+        "tw:grid tw:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] tw:gap-5 tw:[align-items:start] tw:my-2 tw:-mx-3 tw:p-3",
+        "tw:text-inherit tw:no-underline tw:rounded-[10px] tw:[transition:background-color_0.2s_ease] tw:motion-reduce:transition-none",
+        hoverTint,
+        "tw:upto-560:grid-cols-[112px_minmax(0,1fr)] tw:upto-560:gap-3.5",
+        focusable,
+      )}
+    >
+      <div className={cx(cover, "tw:aspect-[16/9] tw:rounded-[10px] tw:upto-560:aspect-[4/3]")}>
         <Image
           src={article.coverImage || FALLBACK_COVER}
           alt=""
           fill
           sizes="(max-width: 560px) 112px, 300px"
-          className={shared.coverImage}
+          className={coverImage}
         />
       </div>
-      <div className={styles.body}>
-        <span className={shared.categoryLabel}>{article.categoryLabel}</span>
-        <Heading className={cx(styles.title, shared.clamp2)}>{article.title}</Heading>
-        <p className={cx(styles.excerpt, shared.clamp3)}>{article.excerpt}</p>
-        {/* Dấu chấm vẽ bằng ::before; mục nào rớt xuống đầu dòng thì dấu bị cắt đi */}
-        <span className={styles.metaClip}>
-          <span className={cx(shared.meta, styles.metaList)}>
-            <span className={styles.metaItem}>{article.readTime}</span>
-            <span className={styles.metaItem}>{article.publishedAt}</span>
+      <div className="tw:flex tw:flex-col tw:gap-2 tw:min-w-0">
+        <span className={categoryLabel}>{article.categoryLabel}</span>
+        <Heading
+          className={cx(
+            "tw:m-0 tw:text-[1.15rem] tw:font-semibold tw:leading-[1.4] tw:text-brown-900 tw:line-clamp-2 tw:upto-560:text-[1rem]",
+            fontDisplay,
+          )}
+        >
+          {article.title}
+        </Heading>
+        <p className="tw:m-0 tw:text-[0.9rem] tw:leading-[1.6] tw:text-brown-800 tw:line-clamp-3 tw:upto-560:hidden">
+          {article.excerpt}
+        </p>
+        {/*
+          Dòng meta: mỗi mục có lề trái 16px, dấu chấm (::before) nằm trong lề đó. Cả hàng kéo lùi 16px
+          và khung ngoài cắt phần tràn, nên mục ở đầu mỗi dòng không còn dấu chấm treo.
+        */}
+        <span className="tw:block tw:overflow-hidden">
+          <span className="tw:flex tw:flex-wrap tw:items-center tw:gap-0 tw:-ml-4 tw:text-[0.8rem] tw:leading-[1.45] tw:text-brown-800 tw:tabular-nums">
+            <span className={metaItem}>{article.readTime}</span>
+            <span className={metaItem}>{article.publishedAt}</span>
           </span>
         </span>
       </div>
@@ -87,15 +110,19 @@ export function ArticleRowList({
   const interludeIndex = Math.min(interludeAfter, shown.length) - 1;
 
   return (
-    <div className={cx(styles.wrap, className)}>
-      <ul className={styles.list} aria-label={label}>
+    <div className={cx("tw:flex tw:flex-col tw:gap-5", className)}>
+      {/* Mỗi hàng ngăn bằng một đường kẻ vàng mảnh */}
+      <ul
+        className="tw:flex tw:flex-col tw:m-0 tw:p-0 tw:list-none tw:[&>li+li]:[border-top:1px_solid_rgba(214,164,64,0.25)]"
+        aria-label={label}
+      >
         {shown.map((article, index) => (
           <Fragment key={article.id}>
-            <li className={styles.item}>
+            <li>
               <ArticleRow article={article} getHref={getHref} />
             </li>
             {interlude && index === interludeIndex && (
-              <li className={cx(styles.item, styles.interlude)}>{interlude}</li>
+              <li className="tw:py-5 tw:px-0">{interlude}</li>
             )}
           </Fragment>
         ))}
@@ -104,7 +131,7 @@ export function ArticleRowList({
       {pageSize && remaining > 0 && (
         <button
           type="button"
-          className={cx(copy.ghostButton, styles.more)}
+          className="ck-btn-ghost tw:self-center"
           onClick={() => setVisible((v) => v + pageSize)}
         >
           <span>

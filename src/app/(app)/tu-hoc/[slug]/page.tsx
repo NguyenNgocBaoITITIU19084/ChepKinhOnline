@@ -6,9 +6,15 @@ import { notFound } from "next/navigation";
 import { IconArrowLeft } from "@tabler/icons-react";
 import { MOCK_ARTICLES } from "@/data/articles-mock";
 import { ArticleGrid, ArticleHeader, SutraCtaCard } from "@/components/article";
-import copy from "@/components/copy/copy.module.css";
-import shared from "@/components/article/shared.module.css";
-import styles from "./ArticleDetail.module.css";
+import {
+  block,
+  cover,
+  coverImage,
+  eyebrow,
+  page,
+  sectionHead,
+  sectionHeading,
+} from "@/components/article/styles";
 
 type Props = PageProps<"/tu-hoc/[slug]">;
 
@@ -30,7 +36,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default function ArticlePage({ params }: Props) {
   return (
-    <div className={shared.page}>
+    <div className={page}>
       <Suspense fallback={null}>
         <ArticleContent params={params} />
       </Suspense>
@@ -47,8 +53,8 @@ async function ArticleContent({ params }: Pick<Props, "params">) {
 
   return (
     <>
-      <article className={styles.article}>
-        <Link href="/tu-hoc" className={`${copy.ghostButton} ${styles.back}`}>
+      <article className="tw:flex tw:flex-col tw:gap-8 tw:w-full tw:max-w-[820px] tw:mx-auto tw:my-0">
+        <Link href="/tu-hoc" className="ck-btn-ghost tw:self-start">
           <IconArrowLeft size={18} stroke={2} aria-hidden />
           <span>Về trang tu học</span>
         </Link>
@@ -65,19 +71,20 @@ async function ArticleContent({ params }: Pick<Props, "params">) {
           }
         />
 
-        <div className={`${shared.cover} ${styles.cover}`}>
+        {/* Ảnh bìa 16:9, góc radius-panel */}
+        <div className={`${cover} tw:aspect-[16/9] tw:rounded-2xl tw:[box-shadow:0_8px_24px_rgba(150,105,25,0.1)]`}>
           <Image
             src={article.coverImage}
             alt=""
             fill
             priority
             sizes="(max-width: 860px) 100vw, 820px"
-            className={shared.coverImage}
+            className={coverImage}
           />
         </div>
 
-        <p className={styles.lead}>{article.excerpt}</p>
-        <p className={styles.note}>Toàn văn bài viết đang được biên soạn.</p>
+        <p className="tw:m-0 tw:text-[1.08rem] tw:leading-[1.8] tw:text-brown-900 tw:text-pretty">{article.excerpt}</p>
+        <p className="tw:m-0 tw:text-[0.88rem] tw:leading-[1.6] tw:text-brown-800">Toàn văn bài viết đang được biên soạn.</p>
 
         {article.relatedSutraSlug && (
           <SutraCtaCard
@@ -91,10 +98,10 @@ async function ArticleContent({ params }: Pick<Props, "params">) {
       </article>
 
       {related.length > 0 && (
-        <section className={shared.block} aria-label="Bài cùng chuyên mục">
-          <div className={shared.sectionHead}>
-            <span className={shared.eyebrow}>{article.categoryLabel}</span>
-            <h2 className={shared.sectionHeading}>Bài cùng chuyên mục</h2>
+        <section className={block} aria-label="Bài cùng chuyên mục">
+          <div className={sectionHead}>
+            <span className={eyebrow}>{article.categoryLabel}</span>
+            <h2 className={sectionHeading}>Bài cùng chuyên mục</h2>
           </div>
           <ArticleGrid articles={related} />
         </section>
