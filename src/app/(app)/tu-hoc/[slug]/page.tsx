@@ -1,10 +1,8 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
-  IconArrowLeft,
   IconListDetails,
   IconQuote,
   IconSparkles,
@@ -58,13 +56,8 @@ export default async function ArticlePage({ params }: Props) {
 
   return (
     <>
-      {/* Thanh tiến độ đọc dính trên cùng (Mini-bar) */}
-      <ArticleReadingBar
-        title={article.title}
-        categoryLabel={article.categoryLabel}
-        backHref="/tu-hoc"
-        backLabel="Tu học"
-      />
+      {/* Vòng tròn tiến độ đọc ở góc dưới phải, bấm để lên đầu trang */}
+      <ArticleReadingBar title={article.title} />
 
       <div className={page}>
         <Suspense fallback={null}>
@@ -130,12 +123,6 @@ function ArticleContent({ article }: { article: Article }) {
           {/* Breadcrumb điều hướng */}
           <ArticleBreadcrumb items={breadcrumbItems} />
 
-          {/* Nút quay lại trang tu học */}
-          <Link href="/tu-hoc" className="ck-btn-ghost tw:self-start">
-            <IconArrowLeft size={18} stroke={2} aria-hidden />
-            <span>Về chuyên trang tu học</span>
-          </Link>
-
           {/* Tiêu đề & Thông tin bài viết */}
           <ArticleHeader
             eyebrow={article.categoryLabel}
@@ -170,7 +157,7 @@ function ArticleContent({ article }: { article: Article }) {
           </div>
 
           {/* Đoạn mở đầu (Lead excerpt) */}
-          <div className="tw:p-5 tw:rounded-2xl tw:bg-[rgba(255,248,230,0.65)] tw:border-l-4 tw:border-gold-500 tw:border tw:border-[rgba(214,164,64,0.3)]">
+          <div className="tw:p-5 tw:rounded-2xl tw:bg-[rgba(255,248,230,0.65)] tw:border tw:border-[rgba(214,164,64,0.3)] tw:border-l-4 tw:border-l-gold-500">
             <p className="tw:m-0 tw:text-[1.1rem] tw:leading-[1.8] tw:text-brown-900 tw:italic tw:text-pretty">
               {article.excerpt}
             </p>
@@ -186,12 +173,12 @@ function ArticleContent({ article }: { article: Article }) {
                 <IconListDetails size={18} className="tw:text-gold-700" aria-hidden />
                 <span>Mục lục bài viết</span>
               </div>
-              <ol className="tw:m-0 tw:p-0 tw:pl-4 tw:flex tw:flex-col tw:gap-2 tw:text-[0.9rem] tw:text-brown-800">
+              <ol className="tw:m-0 tw:p-0 tw:list-none tw:flex tw:flex-col tw:gap-2 tw:text-[0.9rem] tw:text-brown-800">
                 {article.sections.map((section) => (
                   <li key={section.id}>
                     <a
                       href={`#${section.id}`}
-                      className="tw:text-brown-800 tw:hover:text-gold-700 tw:transition-colors tw:no-underline hover:tw:underline"
+                      className="tw:text-brown-800 tw:hover:text-gold-700 tw:transition-colors tw:no-underline tw:hover:underline"
                     >
                       {section.title}
                     </a>
@@ -200,7 +187,7 @@ function ArticleContent({ article }: { article: Article }) {
                 <li>
                   <a
                     href="#binh-luan"
-                    className="tw:text-brown-800 tw:hover:text-gold-700 tw:transition-colors tw:no-underline hover:tw:underline"
+                    className="tw:text-brown-800 tw:hover:text-gold-700 tw:transition-colors tw:no-underline tw:hover:underline"
                   >
                     Cảm ngộ & Bình luận ({article.comments?.length ?? 0})
                   </a>
@@ -238,7 +225,7 @@ function ArticleContent({ article }: { article: Article }) {
                     <blockquote className="tw:my-2 tw:p-6 tw:rounded-2xl tw:bg-gradient-to-br tw:from-[rgba(255,248,230,0.85)] tw:to-[rgba(245,235,210,0.5)] tw:border tw:border-[rgba(214,164,64,0.45)] tw:shadow-[0_4px_16px_rgba(150,105,25,0.06)] tw:flex tw:flex-col tw:gap-3 tw:relative">
                       <IconQuote
                         size={32}
-                        className="tw:text-gold-600/35 tw:absolute tw:top-4 tw:right-4"
+                        className="tw:text-gold-500/40 tw:absolute tw:top-4 tw:right-4"
                         aria-hidden
                       />
                       <p
@@ -248,7 +235,7 @@ function ArticleContent({ article }: { article: Article }) {
                       </p>
                       {section.quote.source && (
                         <cite className="tw:text-[0.84rem] tw:font-medium tw:text-gold-700 tw:not-italic tw:self-end">
-                          — {section.quote.source}
+                          {section.quote.source}
                         </cite>
                       )}
                     </blockquote>
@@ -256,7 +243,7 @@ function ArticleContent({ article }: { article: Article }) {
 
                   {/* Hộp chiêm nghiệm thiền định */}
                   {section.callout && (
-                    <aside className="tw:my-2 tw:p-5 tw:rounded-2xl tw:bg-[rgba(255,250,240,0.85)] tw:border-l-4 tw:border-gold-600 tw:border tw:border-[rgba(214,164,64,0.35)] tw:flex tw:flex-col tw:gap-2">
+                    <aside className="tw:my-2 tw:p-5 tw:rounded-2xl tw:bg-[rgba(255,250,240,0.85)] tw:border tw:border-[rgba(214,164,64,0.35)] tw:border-l-4 tw:border-l-gold-700 tw:flex tw:flex-col tw:gap-2">
                       <div className="tw:flex tw:items-center tw:gap-2 tw:font-semibold tw:text-[0.92rem] tw:text-brown-900">
                         <IconSparkles size={17} className="tw:text-gold-700" aria-hidden />
                         <span>{section.callout.title}</span>
@@ -274,7 +261,7 @@ function ArticleContent({ article }: { article: Article }) {
               <p className="tw:m-0 tw:text-[1.05rem] tw:leading-[1.85] tw:text-brown-900">
                 {article.excerpt}
               </p>
-              <p className="tw:m-0 tw:text-[0.92rem] tw:leading-[1.6] tw:text-brown-700">
+              <p className="tw:m-0 tw:text-[0.92rem] tw:leading-[1.6] tw:text-brown-800">
                 Toàn văn bài viết đang được Ban biên tập cập nhật thêm các bản dịch và chú giải chi tiết.
               </p>
             </div>
@@ -292,7 +279,7 @@ function ArticleContent({ article }: { article: Article }) {
           )}
 
           {/* Lời kết & Tôn chỉ trang web */}
-          <div className="tw:pt-6 tw:pb-2 tw:border-t tw:border-[rgba(214,164,64,0.25)] tw:text-[0.84rem] tw:leading-relaxed tw:text-brown-700/90 tw:italic">
+          <div className="tw:pt-6 tw:pb-2 tw:border-t tw:border-[rgba(214,164,64,0.25)] tw:text-[0.84rem] tw:leading-relaxed tw:text-brown-800/90 tw:italic">
             Biên soạn và chọn lọc bởi Ban biên tập Chép Kinh Online. Nguyện hồi hướng công đức này đến khắp tất cả chúng sinh đều được an lạc và khai mở trí tuệ Bát Nhã.
           </div>
 

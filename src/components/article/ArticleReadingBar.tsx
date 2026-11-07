@@ -1,169 +1,135 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
-import {
-  IconArrowLeft,
-  IconCheck,
-  IconShare,
-} from "@tabler/icons-react";
+import { IconArrowUp } from "@tabler/icons-react";
 import { focusable } from "./styles";
 import { cx } from "./utils";
 
 export interface ArticleReadingBarProps {
-  title: string;
-  categoryLabel?: string;
-  backHref?: string;
-  backLabel?: string;
+  /** Tiêu đề bài, dùng cho nhãn trợ năng */
+  title?: string;
   className?: string;
 }
 
+const SIZE = 56;
+const STROKE = 3;
+const RADIUS = (SIZE - STROKE) / 2;
+const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
+
 /**
- * Thanh mini-bar theo dõi tiến độ đọc bài (Reading Progress Indicator).
- * Ghim ở cạnh trên, đổi từ đường line mảnh sang mini-bar đầy đủ khi cuộn qua tiêu đề.
+ * Vòng tròn tiến độ đọc bài ở góc dưới phải.
+ * Hiện khi cuộn qua phần đầu bài; viền vàng chạy theo % đã đọc, bấm để lên đầu trang.
  */
-export function ArticleReadingBar({
-  title,
-  categoryLabel,
-  backHref = "/tu-hoc",
-  backLabel = "Tu học",
-  className,
-}: ArticleReadingBarProps) {
+export function ArticleReadingBar({ title, className }: ArticleReadingBarProps) {
   const [progress, setProgress] = useState(0);
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [copied, setCopied] = useState(false);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    let ticking = false;
+    let frame = 0;
 
-    const handleScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          const scrollTop = window.scrollY || document.documentElement.scrollTop;
-          const scrollHeight =
-            document.documentElement.scrollHeight - document.documentElement.clientHeight;
-          const calculated = scrollHeight > 0 ? Math.min(100, Math.max(0, (scrollTop / scrollHeight) * 100)) : 0;
-
-          setProgress(Math.round(calculated));
-          setIsScrolled(scrollTop > 220);
-          ticking = false;
-        });
-        ticking = true;
-      }
+    const update = () => {
+      frame = 0;
+      const doc = document.documentElement;
+      const scrollTop = window.scrollY || doc.scrollTop;
+      const scrollable = doc.scrollHeight - doc.clientHeight;
+      const value = scrollable > 0 ? Math.min(100, Math.max(0, (scrollTop / scrollable) * 100)) : 0;
+      setProgress(Math.round(value));
+      setVisible(scrollTop > 320);
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
+    const schedule = () => {
+      if (!frame) frame = window.requestAnimationFrame(update);
+    };
 
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    update();
+
+    return () => {
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
   }, []);
 
-  const handleShare = async () => {
-    if (typeof window === "undefined") return;
-
-    try {
-      if (navigator.clipboard) {
-        await navigator.clipboard.writeText(window.location.href);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2500);
-      }
-    } catch {
-      // Fallback
-    }
+  const scrollToTop = () => {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
   };
 
+  const done = progress >= 100;
+  const label = `Đã đọc ${progress}%${title ? ` bài “${title}”` : ""}. Bấm để lên đầu trang`;
+
   return (
-    <div
+    <button
+      type="button"
+      onClick={scrollToTop}
+      inert={!visible}
+      aria-label={label}
+      title="Lên đầu trang"
       className={cx(
-        "tw:sticky tw:top-0 tw:left-0 tw:w-full tw:z-40 tw:transition-all tw:duration-300 tw:motion-reduce:transition-none",
-        isScrolled
-          ? "tw:bg-[rgba(255,250,240,0.92)] tw:backdrop-blur-md tw:border-b tw:border-[rgba(214,164,64,0.35)] tw:shadow-[0_4px_16px_rgba(150,105,25,0.06)]"
-          : "tw:bg-transparent tw:pointer-events-none",
+        "tw:group tw:fixed tw:z-40 tw:right-6 tw:bottom-6 tw:upto-768:right-4 tw:upto-768:bottom-4",
+        "tw:appearance-none tw:p-0 tw:border-0 tw:rounded-full tw:cursor-pointer",
+        "tw:bg-[rgba(255,251,242,0.94)] tw:backdrop-blur-md tw:shadow-[0_8px_24px_rgba(150,105,25,0.18)]",
+        "tw:hover:shadow-[0_10px_28px_rgba(150,105,25,0.26)] tw:hover:-translate-y-0.5",
+        "tw:transition-[opacity,transform,box-shadow] tw:duration-200 tw:ease-out tw:motion-reduce:transition-none",
+        visible ? "tw:opacity-100 tw:scale-100" : "tw:opacity-0 tw:scale-75 tw:pointer-events-none",
+        focusable,
         className,
       )}
-      aria-hidden={!isScrolled && progress === 0}
+      style={{ width: SIZE, height: SIZE }}
     >
-      {/* Đường vạch tiến độ đọc 3px */}
-      <div className="tw:w-full tw:h-[3px] tw:bg-[rgba(214,164,64,0.18)] tw:overflow-hidden">
-        <div
-          role="progressbar"
-          aria-valuenow={progress}
-          aria-valuemin={0}
-          aria-valuemax={100}
-          aria-label="Tiến độ đọc bài viết"
-          style={{ width: `${progress}%` }}
-          className="tw:h-full tw:bg-gradient-to-r tw:from-gold-600 tw:via-gold-500 tw:to-gold-400 tw:transition-all tw:duration-150 tw:ease-out"
-        />
-      </div>
-
-      {/* Nội dung mini bar khi cuộn xuống */}
-      <div
-        className={cx(
-          "tw:max-w-[1200px] tw:mx-auto tw:px-6 tw:py-2.5 tw:flex tw:items-center tw:justify-between tw:gap-4 tw:transition-all tw:duration-200",
-          isScrolled
-            ? "tw:opacity-100 tw:translate-y-0 tw:pointer-events-auto"
-            : "tw:opacity-0 tw:-translate-y-2 tw:pointer-events-none tw:h-0 tw:py-0 tw:overflow-hidden",
-        )}
+      <svg
+        width={SIZE}
+        height={SIZE}
+        viewBox={`0 0 ${SIZE} ${SIZE}`}
+        className="tw:absolute tw:inset-0 tw:-rotate-90"
+        aria-hidden
       >
-        {/* Nút quay lại + Tiêu đề rút gọn */}
-        <div className="tw:flex tw:items-center tw:gap-3 tw:min-w-0">
-          <Link
-            href={backHref}
-            className={cx(
-              "tw:inline-flex tw:items-center tw:gap-1.5 tw:text-[0.82rem] tw:font-medium tw:text-brown-700 tw:hover:text-gold-700 tw:transition-colors tw:shrink-0",
-              focusable,
-            )}
-            title={`Về trang ${backLabel}`}
-          >
-            <IconArrowLeft size={16} stroke={2} aria-hidden />
-            <span className="tw:upto-640:hidden">{backLabel}</span>
-          </Link>
+        <defs>
+          <linearGradient id="reading-ring" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor="var(--gold-300)" />
+            <stop offset="100%" stopColor="var(--gold-700)" />
+          </linearGradient>
+        </defs>
+        <circle
+          cx={SIZE / 2}
+          cy={SIZE / 2}
+          r={RADIUS}
+          fill="none"
+          stroke="rgba(214,164,64,0.22)"
+          strokeWidth={STROKE}
+        />
+        <circle
+          cx={SIZE / 2}
+          cy={SIZE / 2}
+          r={RADIUS}
+          fill="none"
+          stroke="url(#reading-ring)"
+          strokeWidth={STROKE}
+          strokeLinecap="round"
+          strokeDasharray={CIRCUMFERENCE}
+          strokeDashoffset={CIRCUMFERENCE * (1 - progress / 100)}
+          className="tw:transition-[stroke-dashoffset] tw:duration-150 tw:ease-out tw:motion-reduce:transition-none"
+        />
+      </svg>
 
-          <span className="tw:text-gold-700/50 tw:upto-640:hidden" aria-hidden>
-            ·
-          </span>
-
-          <span
-            className="tw:text-[0.88rem] tw:font-medium tw:text-brown-900 tw:truncate tw:max-w-[500px] tw:upto-1024:max-w-[340px] tw:upto-640:max-w-[200px]"
-            title={title}
-          >
-            {title}
-          </span>
-        </div>
-
-        {/* % Tiến độ đọc + Nút sao chép / chia sẻ */}
-        <div className="tw:flex tw:items-center tw:gap-3 tw:shrink-0">
-          <span className="tw:text-[0.78rem] tw:font-semibold tw:text-gold-700 tw:tabular-nums tw:bg-[#fff0c2] tw:px-2.5 tw:py-0.5 tw:rounded-full tw:border tw:border-gold-500/40">
+      {/* Mũi tên lên (luôn hiện) + số % đã đọc */}
+      <span
+        aria-hidden
+        className="tw:absolute tw:inset-0 tw:flex tw:flex-col tw:items-center tw:justify-center tw:gap-px"
+      >
+        <IconArrowUp
+          size={done ? 20 : 15}
+          stroke={2.4}
+          className="tw:text-gold-700 tw:transition-transform tw:duration-200 tw:group-hover:-translate-y-0.5 tw:motion-reduce:transition-none"
+        />
+        {!done && (
+          <span className="tw:text-[0.66rem] tw:font-semibold tw:leading-none tw:tabular-nums tw:text-brown-900">
             {progress}%
           </span>
-
-          <button
-            type="button"
-            onClick={handleShare}
-            aria-label={copied ? "Đã sao chép liên kết" : "Chia sẻ bài viết"}
-            title={copied ? "Đã sao chép liên kết" : "Sao chép liên kết bài viết"}
-            className={cx(
-              "tw:inline-flex tw:items-center tw:gap-1.5 tw:px-3 tw:py-1 tw:text-[0.8rem] tw:font-medium tw:rounded-lg tw:border tw:transition-colors tw:cursor-pointer",
-              copied
-                ? "tw:bg-emerald-50 tw:border-emerald-500 tw:text-emerald-700"
-                : "tw:bg-[rgba(255,248,230,0.8)] tw:border-[rgba(214,164,64,0.4)] tw:text-brown-800 tw:hover:text-brown-900 tw:hover:bg-[rgba(232,199,122,0.3)]",
-              focusable,
-            )}
-          >
-            {copied ? (
-              <>
-                <IconCheck size={14} stroke={2.2} className="tw:text-emerald-600" aria-hidden />
-                <span className="tw:upto-640:hidden">Đã chép link</span>
-              </>
-            ) : (
-              <>
-                <IconShare size={14} stroke={2} className="tw:text-gold-700" aria-hidden />
-                <span className="tw:upto-640:hidden">Chia sẻ</span>
-              </>
-            )}
-          </button>
-        </div>
-      </div>
-    </div>
+        )}
+      </span>
+    </button>
   );
 }

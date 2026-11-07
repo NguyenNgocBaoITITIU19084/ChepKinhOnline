@@ -64,7 +64,7 @@ export const MOCK_ARTICLES: Article[] = [
     categoryLabel: "Giải nghĩa kinh",
     readTime: "7 phút đọc",
     publishedAt: "Rằm tháng Chạp, 2026",
-    coverImage: "/storage/real/phat_thich_ca_bodh_gaya.jpg",
+    coverImage: "/storage/real/tian_tan_3.jpg",
     viewCount: 1840,
     isFeatured: true,
     relatedSutraSlug: "bat-nha-tam-kinh",

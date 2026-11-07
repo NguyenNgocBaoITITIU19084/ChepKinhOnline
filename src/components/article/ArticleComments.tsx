@@ -13,6 +13,13 @@ import type { ArticleComment } from "@/types/article";
 import { focusable, fontDisplay, paperPanel } from "./styles";
 import { cx } from "./utils";
 
+/** Nút tương tác nhỏ dưới bình luận (bỏ kiểu nút mặc định của trình duyệt). */
+const actionButton = cx(
+  "tw:appearance-none tw:inline-flex tw:items-center tw:gap-1.5 tw:h-8 tw:px-2.5 tw:rounded-full tw:border",
+  "tw:text-[0.8rem] tw:font-medium tw:leading-none tw:cursor-pointer tw:transition-colors tw:motion-reduce:transition-none",
+  focusable,
+);
+
 export interface ArticleCommentsProps {
   articleId: string;
   initialComments?: ArticleComment[];
@@ -56,23 +63,29 @@ export function ArticleComments({
   };
 
   const handleToggleLike = (commentId: string) => {
-    setLikedMap((prev) => {
-      const isCurrentlyLiked = !!prev[commentId];
-      return { ...prev, [commentId]: !isCurrentlyLiked };
-    });
-
+    const wasLiked = !!likedMap[commentId];
+    setLikedMap((prev) => ({ ...prev, [commentId]: !wasLiked }));
     setComments((prev) =>
-      prev.map((c) => {
-        if (c.id === commentId) {
-          const isCurrentlyLiked = !!likedMap[commentId];
-          return {
-            ...c,
-            likesCount: isCurrentlyLiked ? Math.max(0, c.likesCount - 1) : c.likesCount + 1,
-          };
-        }
-        return c;
-      }),
+      prev.map((c) =>
+        c.id === commentId
+          ? { ...c, likesCount: wasLiked ? Math.max(0, c.likesCount - 1) : c.likesCount + 1 }
+          : c,
+      ),
     );
+  };
+
+  const handleReply = (authorName: string) => {
+    const mention = `@${authorName} `;
+    setContent((prev) => (prev.startsWith(mention) ? prev : mention + prev));
+    const textarea = document.getElementById("commenter-content") as HTMLTextAreaElement | null;
+    if (!textarea) return;
+    textarea.scrollIntoView({ behavior: "smooth", block: "center" });
+    // Đợi React cập nhật giá trị rồi đặt con trỏ ở cuối
+    requestAnimationFrame(() => {
+      textarea.focus({ preventScroll: true });
+      const end = textarea.value.length;
+      textarea.setSelectionRange(end, end);
+    });
   };
 
   return (
@@ -123,7 +136,7 @@ export function ArticleComments({
             onChange={(e) => setName(e.target.value)}
             placeholder="Ví dụ: Phật tử Diệu Thiện, Cư sĩ Minh Trí..."
             className={cx(
-              "tw:w-full tw:h-11 tw:px-3.5 tw:text-[0.92rem] tw:text-brown-900 tw:bg-[rgba(255,255,255,0.7)] tw:border tw:border-[rgba(214,164,64,0.45)] tw:rounded-xl tw:placeholder:text-brown-700/60",
+              "tw:w-full tw:h-11 tw:px-3.5 tw:text-[0.92rem] tw:text-brown-900 tw:bg-[rgba(255,255,255,0.7)] tw:border tw:border-[rgba(214,164,64,0.45)] tw:rounded-xl tw:placeholder:text-brown-800/50",
               focusable,
             )}
           />
@@ -141,7 +154,7 @@ export function ArticleComments({
             onChange={(e) => setContent(e.target.value)}
             placeholder="Chia sẻ bài học tâm đắc hoặc cảm nhận của bạn sau khi đọc bài viết..."
             className={cx(
-              "tw:w-full tw:p-3.5 tw:text-[0.92rem] tw:text-brown-900 tw:bg-[rgba(255,255,255,0.7)] tw:border tw:border-[rgba(214,164,64,0.45)] tw:rounded-xl tw:placeholder:text-brown-700/60 tw:resize-y",
+              "tw:w-full tw:p-3.5 tw:text-[0.92rem] tw:text-brown-900 tw:bg-[rgba(255,255,255,0.7)] tw:border tw:border-[rgba(214,164,64,0.45)] tw:rounded-xl tw:placeholder:text-brown-800/50 tw:resize-y",
               focusable,
             )}
           />
@@ -166,7 +179,7 @@ export function ArticleComments({
       {/* Danh sách bình luận */}
       <div className="tw:flex tw:flex-col tw:gap-4 tw:pt-2">
         {comments.length === 0 ? (
-          <div className="tw:text-center tw:py-8 tw:text-brown-700 tw:text-[0.92rem]">
+          <div className="tw:text-center tw:py-8 tw:text-brown-800 tw:text-[0.92rem]">
             Chưa có bình luận nào. Hãy là người đầu tiên chia sẻ cảm ngộ của bạn!
           </div>
         ) : (
@@ -191,7 +204,7 @@ export function ArticleComments({
                     <span className="tw:font-semibold tw:text-[0.94rem] tw:text-brown-900">
                       {comment.authorName}
                     </span>
-                    <time className="tw:text-[0.76rem] tw:text-brown-700/80">
+                    <time className="tw:text-[0.76rem] tw:text-brown-800/80">
                       {comment.publishedAt}
                     </time>
                   </div>
@@ -201,41 +214,39 @@ export function ArticleComments({
                   </p>
 
                   {/* Thanh nút bấm tương tác: Hoan hỷ & Phản hồi */}
-                  <div className="tw:flex tw:items-center tw:gap-4 tw:pt-1">
+                  <div className="tw:flex tw:items-center tw:gap-1 tw:pt-1 tw:-ml-2.5">
                     <button
                       type="button"
                       onClick={() => handleToggleLike(comment.id)}
+                      aria-pressed={isLiked}
                       className={cx(
-                        "tw:inline-flex tw:items-center tw:gap-1.5 tw:text-[0.78rem] tw:font-medium tw:cursor-pointer tw:transition-colors",
+                        actionButton,
                         isLiked
-                          ? "tw:text-rose-700 tw:font-semibold"
-                          : "tw:text-brown-700 tw:hover:text-gold-700",
-                        focusable,
+                          ? "tw:text-rose-700 tw:bg-rose-50 tw:border-rose-200 tw:hover:bg-rose-100"
+                          : "tw:text-brown-800 tw:bg-transparent tw:border-transparent tw:hover:text-gold-700 tw:hover:bg-[rgba(232,199,122,0.22)]",
                       )}
                     >
                       <IconHeart
-                        size={15}
-                        stroke={isLiked ? 2.5 : 1.8}
-                        className={isLiked ? "tw:fill-rose-600 tw:text-rose-600" : ""}
+                        size={16}
+                        stroke={isLiked ? 2.2 : 1.8}
+                        className={isLiked ? "tw:fill-rose-500 tw:text-rose-500" : ""}
                         aria-hidden
                       />
-                      <span>
-                        Hoan hỷ {comment.likesCount > 0 && `(${comment.likesCount})`}
-                      </span>
+                      <span>Hoan hỷ</span>
+                      {comment.likesCount > 0 && (
+                        <span className="tw:tabular-nums tw:opacity-80">{comment.likesCount}</span>
+                      )}
                     </button>
 
                     <button
                       type="button"
-                      onClick={() => {
-                        setContent(`@${comment.authorName}: `);
-                        document.getElementById("commenter-content")?.focus();
-                      }}
+                      onClick={() => handleReply(comment.authorName)}
                       className={cx(
-                        "tw:inline-flex tw:items-center tw:gap-1 tw:text-[0.78rem] tw:font-medium tw:text-brown-700 tw:hover:text-gold-700 tw:cursor-pointer tw:transition-colors",
-                        focusable,
+                        actionButton,
+                        "tw:text-brown-800 tw:bg-transparent tw:border-transparent tw:hover:text-gold-700 tw:hover:bg-[rgba(232,199,122,0.22)]",
                       )}
                     >
-                      <IconMessagePlus size={14} stroke={1.8} aria-hidden />
+                      <IconMessagePlus size={16} stroke={1.8} aria-hidden />
                       <span>Phản hồi</span>
                     </button>
                   </div>
