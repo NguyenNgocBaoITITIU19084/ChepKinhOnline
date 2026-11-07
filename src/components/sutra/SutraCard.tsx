@@ -1,89 +1,104 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { IconBook, IconClock, IconPencil } from "@tabler/icons-react";
 import type { SutraCatalogItem } from "@/types/sutra-catalog";
 
 interface SutraCardProps {
   sutra: SutraCatalogItem;
+  index: number;
 }
 
-export function SutraCard({ sutra }: SutraCardProps) {
+function pad(n: number) {
+  return String(n).padStart(2, "0");
+}
+
+export function SutraCard({ sutra, index }: SutraCardProps) {
   return (
-    <article className="tw:group tw:relative tw:flex tw:flex-col tw:overflow-hidden tw:rounded-2xl tw:border tw:border-amber-900/15 tw:bg-stone-950 tw:shadow-md hover:tw:shadow-xl hover:tw:border-amber-500/40 tw:transition-all tw:duration-500">
-      {/* Khung ảnh tôn tượng tỉ lệ 4:5 */}
-      <div className="tw:relative tw:aspect-[4/5] tw:w-full tw:overflow-hidden tw:bg-stone-900">
-        <Image
-          src={sutra.image}
-          alt={`Tôn tượng hoặc tranh minh họa cho ${sutra.title}`}
-          fill
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          className="tw:object-cover tw:transition-transform tw:duration-700 tw:ease-out group-hover:tw:scale-105"
-          style={{ objectPosition: sutra.objectPosition || "center 25%" }}
-        />
+    <Link
+      href={`/chep-kinh/${sutra.slug}`}
+      aria-label={`${sutra.title}, vào chép kinh`}
+      className="tw:group tw:relative tw:aspect-[3/4.6] sm:tw:aspect-[3/4.4] tw:rounded-[22px] tw:overflow-hidden tw:bg-[#2a1d10] tw:no-underline tw:shadow-[0_1px_2px_rgba(74,50,10,0.10),0_6px_14px_-6px_rgba(74,50,10,0.22),0_18px_32px_-16px_rgba(74,50,10,0.32)] tw:transition-[translate,box-shadow] tw:duration-500 tw:ease-out hover:tw:-translate-y-1.5 hover:tw:shadow-[0_2px_4px_rgba(74,50,10,0.10),0_14px_24px_-10px_rgba(74,50,10,0.28),0_30px_48px_-20px_rgba(74,50,10,0.42)] focus-visible:tw:outline-2 focus-visible:tw:outline-offset-4 focus-visible:tw:outline-[#d6a440]"
+    >
+      {/* Ảnh tôn tượng nền */}
+      <Image
+        src={sutra.image}
+        alt={`Tôn tượng hoặc tranh minh họa ${sutra.title}`}
+        fill
+        className="tw:object-cover tw:transition-transform tw:duration-[1200ms] tw:ease-out group-hover:tw:scale-[1.06]"
+        style={{ objectPosition: sutra.objectPosition ?? "center 22%" }}
+        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
+        priority={index < 3}
+      />
 
-        {/* Lớp gradient trầm ấm để chữ luôn sắc nét */}
-        <div className="tw:absolute tw:inset-0 tw:bg-gradient-to-t tw:from-stone-950 tw:via-stone-950/60 tw:to-transparent tw:pointer-events-none" />
+      {/* Lớp phủ chuyển màu nâu trầm ấm để văn tự sáng rõ */}
+      <div className="tw:absolute tw:inset-0 tw:bg-gradient-to-t tw:from-[#160e06] tw:via-[#160e06]/60 tw:via-45% tw:to-transparent tw:to-75%" />
+      <div className="tw:absolute tw:inset-x-0 tw:top-0 tw:h-28 tw:bg-gradient-to-b tw:from-[#160e06]/50 tw:to-transparent" />
 
-        {/* Huy hiệu tâm nguyện & công đức ở góc trên */}
-        <div className="tw:absolute tw:top-3.5 tw:left-3.5 tw:right-3.5 tw:flex tw:items-start tw:justify-between tw:gap-2 tw:z-10 tw:pointer-events-none">
-          <span className="tw:inline-flex tw:items-center tw:px-2.5 tw:py-1 tw:rounded-full tw:text-xs tw:font-medium tw:text-amber-200 tw:bg-black/50 tw:backdrop-blur-md tw:border tw:border-amber-400/30 tw:shadow-sm font-zen-body">
+      {/* Khung chỉ vàng tinh tế viền trong như tranh treo thiền môn */}
+      <div className="tw:absolute tw:inset-2.5 tw:rounded-[16px] tw:border tw:border-[#ecc976]/25 tw:pointer-events-none tw:transition-colors tw:duration-500 group-hover:tw:border-[#ecc976]/55" />
+
+      {/* Số thứ tự bộ kinh */}
+      <span className="font-zen-title tw:absolute tw:top-6 tw:left-6 tw:text-[#fff8e6]/85 tw:text-sm tw:tracking-[0.2em] tw:tabular-nums">
+        {pad(index + 1)}
+      </span>
+
+      {/* Dải triện đỏ chữ Hán viết dọc góc trên phải */}
+      {sutra.originalTitle && (
+        <span
+          className="font-zen-han tw:absolute tw:top-5 tw:right-5 tw:max-h-[42%] tw:overflow-hidden tw:px-1.5 tw:py-2.5 tw:rounded-[4px] tw:bg-[#8a2a17]/90 tw:text-[#fff3dc] tw:text-[12px] tw:tracking-[0.14em] tw:leading-none tw:shadow-[0_4px_12px_rgba(0,0,0,0.3)] tw:ring-1 tw:ring-[#ecc976]/40"
+          style={{ writingMode: "vertical-rl" }}
+          lang="zh-Hant"
+        >
+          {sutra.originalTitle}
+        </span>
+      )}
+
+      {/* Khối thông tin chi tiết ở chân thẻ */}
+      <div className="tw:absolute tw:inset-x-0 tw:bottom-0 tw:p-6 sm:tw:p-7 tw:z-10">
+        {/* Nhãn tâm nguyện & pháp môn */}
+        <span className="font-zen-body tw:inline-flex tw:items-center tw:gap-2 tw:text-[11px] tw:font-semibold tw:uppercase tw:tracking-[0.16em] tw:text-[#ecc976]">
+          <span className="tw:w-5 tw:h-px tw:bg-[#ecc976]/70" aria-hidden="true" />
+          {sutra.aspirationLabel}
+        </span>
+
+        {/* Tiêu đề bộ kinh */}
+        <h3 className="font-zen-title tw:mt-2 tw:text-xl sm:tw:text-2xl tw:font-semibold tw:leading-snug tw:text-[#fff8e6] tw:text-balance group-hover:tw:text-[#ffe9b8] tw:transition-colors">
+          {sutra.title}
+        </h3>
+
+        {/* Lời tựa kệ hoặc tóm tắt ý nghĩa */}
+        {sutra.verseExcerpt && sutra.verseExcerpt.length > 0 ? (
+          <div className="font-zen-title tw:mt-2.5 tw:border-l tw:border-[#ecc976]/45 tw:pl-2.5 tw:text-xs sm:tw:text-[13px] tw:italic tw:leading-relaxed tw:text-[#f3e6cc]/85">
+            {sutra.verseExcerpt.map((line, idx) => (
+              <p key={idx} className="tw:m-0">{line}</p>
+            ))}
+          </div>
+        ) : sutra.description ? (
+          <p className="font-zen-body tw:mt-2.5 tw:text-xs sm:tw:text-[13px] tw:leading-relaxed tw:text-[#f3e6cc]/80 tw:line-clamp-2">
+            {sutra.description}
+          </p>
+        ) : null}
+
+        {/* Thanh chân thẻ: Huy hiệu công đức & Nút Chép Kinh vàng rực rỡ */}
+        <div className="tw:mt-5 tw:pt-4 tw:border-t tw:border-[#ecc976]/20 tw:flex tw:items-center tw:justify-between tw:gap-3">
+          <span className="font-zen-body tw:min-w-0 tw:truncate tw:text-xs tw:italic tw:text-[#f3e6cc]/65">
             {sutra.meritBadge}
           </span>
-          <span className="tw:inline-flex tw:items-center tw:px-2 tw:py-0.5 tw:rounded-md tw:text-[11px] tw:text-amber-100/90 tw:bg-amber-950/70 tw:backdrop-blur-sm tw:border tw:border-amber-600/30 font-zen-body">
-            {sutra.aspirationLabel}
+          <span className="font-zen-body tw:shrink-0 tw:whitespace-nowrap tw:inline-flex tw:items-center tw:gap-2 tw:rounded-full tw:border tw:border-[#fff8e6]/60 tw:bg-[#fff8e6] tw:pl-4 tw:pr-3.5 tw:py-2.5 tw:text-[13px] tw:font-semibold tw:leading-none tw:text-[#3d2906] tw:shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_6px_16px_-6px_rgba(0,0,0,0.45)] tw:transition-all tw:duration-300 group-hover:tw:border-[#8a5c14]/60 group-hover:tw:bg-[linear-gradient(180deg,#f3d48a_0%,#e0b252_55%,#c99232_100%)] group-hover:tw:shadow-[inset_0_1px_0_rgba(255,250,232,0.9),0_8px_20px_-6px_rgba(201,146,50,0.6)]">
+            Vào chép kinh
+            <svg
+              className="tw:w-3.5 tw:h-3.5 tw:transition-transform tw:duration-300 group-hover:tw:translate-x-0.5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              strokeWidth={2}
+              aria-hidden="true"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-6-6 6 6-6 6" />
+            </svg>
           </span>
         </div>
-
-        {/* Nội dung đọng lại ở phần dưới thẻ */}
-        <div className="tw:absolute tw:bottom-0 tw:left-0 tw:right-0 tw:p-5 tw:z-10 tw:flex tw:flex-col tw:justify-end">
-          {/* Tên chữ Hán (nếu có) */}
-          {sutra.originalTitle && (
-            <p className="tw:text-xs tw:tracking-widest tw:text-amber-200/60 tw:mb-1 tw:font-serif">
-              {sutra.originalTitle}
-            </p>
-          )}
-
-          {/* Tên bộ kinh */}
-          <h2 className="tw:text-xl sm:tw:text-2xl tw:font-serif tw:font-medium tw:text-[#faf5ea] tw:leading-snug tw:mb-3 font-zen-book group-hover:tw:text-amber-300 tw:transition-colors">
-            <Link href={`/chep-kinh/${sutra.slug}`} className="focus:tw:outline-none">
-              <span className="tw:absolute tw:inset-0" aria-hidden="true" />
-              {sutra.title}
-            </Link>
-          </h2>
-
-          {/* Đoạn kệ khai kinh rút gọn */}
-          {sutra.verseExcerpt && sutra.verseExcerpt.length > 0 && (
-            <div className="tw:mb-4 tw:pl-2.5 tw:border-l tw:border-amber-500/40 tw:text-xs sm:tw:text-[13px] tw:text-stone-300/90 tw:italic tw:leading-relaxed tw:font-serif font-zen-book">
-              {sutra.verseExcerpt.map((line, idx) => (
-                <p key={idx}>{line}</p>
-              ))}
-            </div>
-          )}
-
-          {/* Thông số phụ & Nút Chép Kinh */}
-          <div className="tw:pt-3 tw:border-t tw:border-stone-800/80 tw:flex tw:items-center tw:justify-between tw:gap-3">
-            <div className="tw:flex tw:items-center tw:gap-3 tw:text-xs tw:text-stone-400 font-zen-body">
-              <span className="tw:inline-flex tw:items-center tw:gap-1">
-                <IconBook size={14} className="tw:text-amber-400/70" aria-hidden />
-                <span>{sutra.chapterCount} chương</span>
-              </span>
-              {sutra.estimatedMinutes && (
-                <span className="tw:inline-flex tw:items-center tw:gap-1">
-                  <IconClock size={14} className="tw:text-amber-400/70" aria-hidden />
-                  <span>~{sutra.estimatedMinutes}p</span>
-                </span>
-              )}
-            </div>
-
-            {/* Nút hành động nổi */}
-            <span className="tw:relative tw:z-20 tw:inline-flex tw:items-center tw:gap-1.5 tw:px-3.5 tw:py-1.5 tw:rounded-full tw:text-xs tw:font-medium tw:text-amber-200 tw:bg-amber-950/80 group-hover:tw:bg-amber-500 group-hover:tw:text-stone-950 tw:border tw:border-amber-400/40 group-hover:tw:border-amber-400 tw:transition-all tw:duration-300 font-zen-body">
-              <IconPencil size={13} stroke={2} aria-hidden />
-              <span>Chép kinh</span>
-            </span>
-          </div>
-        </div>
       </div>
-    </article>
+    </Link>
   );
 }

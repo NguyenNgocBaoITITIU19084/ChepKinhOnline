@@ -25,16 +25,16 @@ const GUIDANCE_STEPS = [
 
 export function SutraGuidanceFooter() {
   return (
-    <section className="tw:mt-16 tw:mb-8 tw:p-6 sm:tw:p-10 tw:rounded-3xl tw:border tw:border-amber-900/15 tw:bg-[#fbf8f2]/90 tw:shadow-sm">
+    <section className="tw:mt-16 tw:mb-6 tw:p-6 sm:tw:p-10 tw:rounded-3xl tw:border tw:border-[rgba(214,164,64,0.4)] tw:bg-[radial-gradient(ellipse_at_50%_0%,#fffdf6,var(--paper)_70%)] tw:[box-shadow:0_14px_40px_rgba(120,85,20,0.12)]">
       <div className="tw:text-center tw:max-w-xl tw:mx-auto tw:mb-8">
-        <p className="tw:text-xs tw:tracking-widest tw:uppercase tw:font-semibold tw:text-amber-800/80 tw:mb-2 font-zen-body">
+        <span className="tw:text-xs tw:tracking-widest tw:uppercase tw:font-semibold tw:text-gold-700 tw:mb-1.5 font-zen-body">
           Pháp Môn Chép Kinh
-        </p>
-        <h2 className="tw:text-2xl sm:tw:text-3xl tw:font-serif tw:font-medium tw:text-stone-900 font-zen-book">
+        </span>
+        <h2 className="font-zen-title tw:text-2xl sm:tw:text-3xl tw:font-semibold tw:text-brown-900 tw:mt-1.5">
           Ba Bước Tịnh Tâm Trước Khi Chép
         </h2>
-        <div className="tw:mt-2">
-          <ZenDivider symbol="lotus" className="!tw:my-6" />
+        <div className="tw:mt-1">
+          <ZenDivider symbol="lotus" className="!tw:my-4" />
         </div>
       </div>
 
@@ -44,20 +44,20 @@ export function SutraGuidanceFooter() {
           return (
             <div
               key={item.step}
-              className="tw:relative tw:p-6 tw:rounded-2xl tw:border tw:border-amber-900/10 tw:bg-[#faf7f0] tw:flex tw:flex-col tw:items-start"
+              className="tw:relative tw:p-6 tw:rounded-2xl tw:border tw:border-[rgba(214,164,64,0.3)] tw:bg-[rgba(255,253,246,0.7)] tw:backdrop-blur-sm tw:flex tw:flex-col tw:items-start tw:shadow-sm"
             >
               <div className="tw:flex tw:items-center tw:justify-between tw:w-full tw:mb-4">
-                <div className="tw:w-10 tw:h-10 tw:rounded-xl tw:bg-amber-100/70 tw:text-amber-800 tw:flex tw:items-center tw:justify-center tw:border tw:border-amber-400/30">
-                  <Icon size={20} stroke={1.6} aria-hidden />
+                <div className="tw:w-10 tw:h-10 tw:rounded-xl tw:bg-[#fff0c2] tw:text-[#7a4e0a] tw:flex tw:items-center tw:justify-center tw:border tw:border-gold-500/50">
+                  <Icon size={20} stroke={1.8} aria-hidden />
                 </div>
-                <span className="tw:text-xs tw:font-serif tw:font-semibold tw:text-amber-800/40">
+                <span className="font-zen-title tw:text-sm tw:font-bold tw:text-gold-700/60">
                   {item.step}
                 </span>
               </div>
-              <h3 className="tw:text-base sm:tw:text-lg tw:font-serif tw:font-semibold tw:text-stone-900 tw:mb-2 font-zen-book">
+              <h3 className="font-zen-title tw:text-lg tw:font-semibold tw:text-brown-900 tw:mb-2">
                 {item.title}
               </h3>
-              <p className="tw:text-xs sm:tw:text-sm tw:text-stone-600 tw:leading-relaxed font-zen-body">
+              <p className="font-zen-body tw:text-xs sm:tw:text-[13.5px] tw:text-brown-800 tw:leading-relaxed">
                 {item.desc}
               </p>
             </div>

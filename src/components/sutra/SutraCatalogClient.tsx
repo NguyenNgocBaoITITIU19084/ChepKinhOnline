@@ -72,8 +72,8 @@ export function SutraCatalogClient({ sutras }: SutraCatalogClientProps) {
         <SutraEmptyState onReset={handleReset} />
       ) : (
         <div className="tw:grid tw:grid-cols-1 sm:tw:grid-cols-2 lg:tw:grid-cols-3 tw:gap-6 lg:tw:gap-8">
-          {filteredSutras.map((sutra) => (
-            <SutraCard key={sutra.id} sutra={sutra} />
+          {filteredSutras.map((sutra, idx) => (
+            <SutraCard key={sutra.id} sutra={sutra} index={idx} />
           ))}
         </div>
       )}
