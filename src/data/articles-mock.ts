@@ -69,6 +69,71 @@ export const MOCK_ARTICLES: Article[] = [
     isFeatured: true,
     relatedSutraSlug: "bat-nha-tam-kinh",
     relatedSutraTitle: "Bát Nhã Ba La Mật Đa Tâm Kinh",
+    sections: [
+      {
+        id: "tinh-yeu-bat-nha",
+        title: "1. Nguồn gốc và tinh yếu của Bát Nhã Tâm Kinh",
+        content: [
+          "Bát Nhã Ba La Mật Đa Tâm Kinh (tiếng Phạn: Prajñāpāramitā Hṛdaya Sūtra) tuy chỉ vỏn vẹn 260 chữ Hán trong bản dịch kinh điển của ngài Huyền Trang, nhưng được ví như “trái tim” của toàn bộ kho tàng 600 quyển Đại Bát Nhã. Từng câu từng chữ đều cô đọng những minh triết thâm sâu nhất về vũ trụ và kiếp nhân sinh.",
+          "Trong khung cảnh thanh tịnh của núi Linh Thứu, Đức Bồ Tát Quán Tự Tại khi đi sâu vào trạng thái thiền định quán chiếu Bát Nhã Ba La Mật Đa, đã soi tỏ năm uẩn đều là Không. Sự thấu thị này chính là cánh cửa tối thượng giúp vượt thoát mọi ưu phiền, sợ hãi và khổ ách chốn trần gian.",
+        ],
+        quote: {
+          text: "Quán Tự Tại Bồ Tát hành thâm Bát Nhã Ba La Mật Đa thời, chiếu kiến ngũ uẩn giai không, độ nhất thiết khổ ách.",
+          source: "Bát Nhã Ba La Mật Đa Tâm Kinh",
+        },
+      },
+      {
+        id: "sac-bat-di-khong",
+        title: "2. Cốt tủy “Sắc bất dị Không, Không bất dị Sắc”",
+        content: [
+          "Đây là câu kinh quen thuộc nhất nhưng cũng thường bị hiểu lầm nhiều nhất. Chữ “Không” (Śūnyatā) trong đạo Phật tuyệt đối không phải là sự trống rỗng, tiêu điều hay hư vô chủ nghĩa. Tánh Không chỉ ra rằng vạn vật không có một tự tính độc lập, bất biến mà luôn do duyên sinh tương hợp mà thành.",
+          "“Sắc” tượng trưng cho hình tướng, thể xác và tất cả hiện tượng vật lý ta cảm nhận được. Sắc chẳng rời Tánh Không mà hiển lộ; và chính trong Tánh Không lại hàm chứa tiềm năng vô tận để hình thành nên Sắc. Như sóng và nước: sóng có lúc nhấp nhô sinh diệt, nhưng bản thể của sóng muôn đời vẫn là nước.",
+        ],
+        callout: {
+          title: "Chiêm nghiệm thiền định:",
+          text: "Khi nhận ra tính chất duyên khởi vô ngã của mọi hoàn cảnh, ta không còn quá bi lụy trước những mất mát, cũng chẳng kiêu căng trước những thành công tạm thời. Tâm hồn tự tại bước đi giữa dòng đời biến chuyển.",
+        },
+      },
+      {
+        id: "quan-chieu-ngu-uan",
+        title: "3. Ứng dụng quán chiếu Ngũ Uẩn trong đời sống",
+        content: [
+          "Nỗi khổ của con người phần lớn khởi sinh từ việc đồng hóa tự thân với những trạng thái tạm thời. Khi có một cơn giận hay nỗi buồn, ta liền nói “Tôi đang đau khổ”, biến cảm xúc nhất thời thành một khối bản ngã nặng nề đeo bám.",
+          "Bát Nhã Tâm Kinh hướng dẫn chúng ta nhìn nhận rõ năm thành tố (Ngũ Uẩn): Sắc (thân thể), Thọ (cảm giác), Tưởng (tri giác), Hành (ý niệm) và Thức (nhận thức). Cả năm uẩn này như những dòng nước chảy xiết không ngừng. Khi ta an trú trong chánh niệm, chỉ đơn thuần quan sát mà không vướng mắc, mọi đau buồn sẽ tự nhiên lắng dịu.",
+        ],
+      },
+      {
+        id: "than-chu-yet-de",
+        title: "4. Thần chú Yết-đế — Lời chúc phúc vượt qua bờ giác",
+        content: [
+          "Khép lại bản kinh là bài chân ngôn đại trí tuệ: “Yết-đế, yết-đế, ba-la yết-đế, ba-la-tăng yết-đế, bồ-đề tát-bà-ha” (Gate gate pāragate pārasaṃgate bodhi svāhā). Đây là lời hiệu triệu từ bi khuyên nhủ muôn loài hãy dũng cảm bước qua bờ bên kia — bờ của sự an lạc, giải thoát và trí tuệ vô biên.",
+          "Việc đọc tụng và đặc biệt là chép từng chữ kinh Bát Nhã bằng cả thân tâm thanh tịnh sẽ giúp tâm trí bạn được tắm mát trong dòng suối an bình, gột rửa bớt những bụi bặm ồn ã của đời sống thường nhật.",
+        ],
+      },
+    ],
+    comments: [
+      {
+        id: "cmt-1",
+        authorName: "Phật tử Diệu Thiện",
+        publishedAt: "2 giờ trước",
+        content: "Mỗi lần đọc lại bài giảng về Bát Nhã Tâm Kinh, lòng con lại thấy nhẹ nhõm lạ kỳ. Nguyện cho tất cả chúng sinh đều sớm khai mở trí tuệ sáng tỏ.",
+        likesCount: 14,
+      },
+      {
+        id: "cmt-2",
+        authorName: "Phật tử Tuệ Minh",
+        publishedAt: "5 giờ trước",
+        content: "Cốt tủy 'Sắc tức thị Không' được ban biên tập phân tích rất mạch lạc, dung dị và dễ thấm nhuần. Con vừa chép xong một biến kinh trên trang, tâm an tịnh vô cùng.",
+        likesCount: 9,
+      },
+      {
+        id: "cmt-3",
+        authorName: "Cư sĩ Tâm An",
+        publishedAt: "1 ngày trước",
+        content: "Tri ân ban biên tập đã mang đến một bài viết trang nhã và sâu sắc. Giao diện trang rất thanh tịnh, tạo nhiều cảm hứng tu học mỗi ngày.",
+        likesCount: 18,
+      },
+    ],
   },
   {
     id: "art-2",

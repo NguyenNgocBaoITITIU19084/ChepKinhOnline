@@ -20,4 +20,7 @@ export { ArticleTeaserCard, ArticleTeaserGrid, type ArticleTeaserCardProps, type
 export { ArticleFeatureBlock, type ArticleFeatureBlockProps } from "./ArticleFeatureBlock";
 export { CategoryList, type CategoryListProps } from "./CategoryList";
 export { KeywordList, type KeywordListProps } from "./KeywordList";
+export { ArticleBreadcrumb, type ArticleBreadcrumbProps, type BreadcrumbItem } from "./ArticleBreadcrumb";
+export { ArticleReadingBar, type ArticleReadingBarProps } from "./ArticleReadingBar";
+export { ArticleComments, type ArticleCommentsProps } from "./ArticleComments";
 export { defaultArticleHref, type ArticleHrefBuilder } from "./utils";

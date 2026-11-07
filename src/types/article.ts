@@ -14,6 +14,29 @@ export interface ArticleCategory {
   articleCount?: number;
 }
 
+export interface ArticleSection {
+  id: string;
+  title: string;
+  content: string[];
+  quote?: {
+    text: string;
+    source?: string;
+  };
+  callout?: {
+    title: string;
+    text: string;
+  };
+}
+
+export interface ArticleComment {
+  id: string;
+  authorName: string;
+  authorAvatar?: string;
+  publishedAt: string;
+  content: string;
+  likesCount: number;
+}
+
 export interface Article {
   id: string;
   slug: string;
@@ -30,6 +53,8 @@ export interface Article {
   isEditorPick?: boolean;
   relatedSutraSlug?: string;
   relatedSutraTitle?: string;
+  sections?: ArticleSection[];
+  comments?: ArticleComment[];
 }
 
 export interface DailyQuote {
