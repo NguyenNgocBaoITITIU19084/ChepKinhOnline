@@ -17,25 +17,25 @@ export function SutraCard({ sutra, index }: SutraCardProps) {
     <Link
       href={`/chep-kinh/${sutra.slug}`}
       aria-label={`${sutra.title}, vào chép kinh`}
-      className="tw:group tw:relative tw:aspect-[3/4.6] sm:tw:aspect-[3/4.4] tw:rounded-[22px] tw:overflow-hidden tw:bg-[#2a1d10] tw:no-underline tw:shadow-[0_1px_2px_rgba(74,50,10,0.10),0_6px_14px_-6px_rgba(74,50,10,0.22),0_18px_32px_-16px_rgba(74,50,10,0.32)] tw:transition-[translate,box-shadow] tw:duration-500 tw:ease-out hover:tw:-translate-y-1.5 hover:tw:shadow-[0_2px_4px_rgba(74,50,10,0.10),0_14px_24px_-10px_rgba(74,50,10,0.28),0_30px_48px_-20px_rgba(74,50,10,0.42)] focus-visible:tw:outline-2 focus-visible:tw:outline-offset-4 focus-visible:tw:outline-[#d6a440]"
+      className="tw:group tw:relative tw:aspect-[3/4.6] tw:sm:aspect-[3/4.4] tw:rounded-[22px] tw:overflow-hidden tw:bg-[#2a1d10] tw:no-underline tw:shadow-[0_1px_2px_rgba(74,50,10,0.10),0_6px_14px_-6px_rgba(74,50,10,0.22),0_18px_32px_-16px_rgba(74,50,10,0.32)] tw:transition-[translate,box-shadow] tw:duration-500 tw:ease-out tw:hover:-translate-y-1.5 tw:hover:shadow-[0_2px_4px_rgba(74,50,10,0.10),0_14px_24px_-10px_rgba(74,50,10,0.28),0_30px_48px_-20px_rgba(74,50,10,0.42)] tw:focus-visible:outline-2 tw:focus-visible:outline-offset-4 tw:focus-visible:outline-[#d6a440]"
     >
       {/* Ảnh tôn tượng nền */}
       <Image
         src={sutra.image}
         alt={`Tôn tượng hoặc tranh minh họa ${sutra.title}`}
         fill
-        className="tw:object-cover tw:transition-transform tw:duration-[1200ms] tw:ease-out group-hover:tw:scale-[1.06]"
+        className="tw:object-cover tw:transition-transform tw:duration-[1200ms] tw:ease-out tw:group-hover:scale-[1.06]"
         style={{ objectPosition: sutra.objectPosition ?? "center 22%" }}
         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
         priority={index < 3}
       />
 
-      {/* Lớp phủ chuyển màu nâu trầm ấm để văn tự sáng rõ */}
+      {/* Lớp phủ chuyển màu nâu trà ấm áp để văn tự luôn sáng rõ */}
       <div className="tw:absolute tw:inset-0 tw:bg-gradient-to-t tw:from-[#160e06] tw:via-[#160e06]/60 tw:via-45% tw:to-transparent tw:to-75%" />
       <div className="tw:absolute tw:inset-x-0 tw:top-0 tw:h-28 tw:bg-gradient-to-b tw:from-[#160e06]/50 tw:to-transparent" />
 
       {/* Khung chỉ vàng tinh tế viền trong như tranh treo thiền môn */}
-      <div className="tw:absolute tw:inset-2.5 tw:rounded-[16px] tw:border tw:border-[#ecc976]/25 tw:pointer-events-none tw:transition-colors tw:duration-500 group-hover:tw:border-[#ecc976]/55" />
+      <div className="tw:absolute tw:inset-2.5 tw:rounded-[16px] tw:border tw:border-[#ecc976]/25 tw:pointer-events-none tw:transition-colors tw:duration-500 tw:group-hover:border-[#ecc976]/55" />
 
       {/* Số thứ tự bộ kinh */}
       <span className="font-zen-title tw:absolute tw:top-6 tw:left-6 tw:text-[#fff8e6]/85 tw:text-sm tw:tracking-[0.2em] tw:tabular-nums">
@@ -54,7 +54,7 @@ export function SutraCard({ sutra, index }: SutraCardProps) {
       )}
 
       {/* Khối thông tin chi tiết ở chân thẻ */}
-      <div className="tw:absolute tw:inset-x-0 tw:bottom-0 tw:p-6 sm:tw:p-7 tw:z-10">
+      <div className="tw:absolute tw:inset-x-0 tw:bottom-0 tw:p-6 tw:sm:p-7 tw:z-10">
         {/* Nhãn tâm nguyện & pháp môn */}
         <span className="font-zen-body tw:inline-flex tw:items-center tw:gap-2 tw:text-[11px] tw:font-semibold tw:uppercase tw:tracking-[0.16em] tw:text-[#ecc976]">
           <span className="tw:w-5 tw:h-px tw:bg-[#ecc976]/70" aria-hidden="true" />
@@ -62,19 +62,19 @@ export function SutraCard({ sutra, index }: SutraCardProps) {
         </span>
 
         {/* Tiêu đề bộ kinh */}
-        <h3 className="font-zen-title tw:mt-2 tw:text-xl sm:tw:text-2xl tw:font-semibold tw:leading-snug tw:text-[#fff8e6] tw:text-balance group-hover:tw:text-[#ffe9b8] tw:transition-colors">
+        <h3 className="font-zen-title tw:mt-2 tw:text-xl tw:sm:text-2xl tw:font-semibold tw:leading-snug tw:text-[#fff8e6] tw:text-balance tw:group-hover:text-[#ffe9b8] tw:transition-colors">
           {sutra.title}
         </h3>
 
         {/* Lời tựa kệ hoặc tóm tắt ý nghĩa */}
         {sutra.verseExcerpt && sutra.verseExcerpt.length > 0 ? (
-          <div className="font-zen-title tw:mt-2.5 tw:border-l tw:border-[#ecc976]/45 tw:pl-2.5 tw:text-xs sm:tw:text-[13px] tw:italic tw:leading-relaxed tw:text-[#f3e6cc]/85">
+          <div className="font-zen-title tw:mt-2.5 tw:border-l tw:border-[#ecc976]/45 tw:pl-2.5 tw:text-xs tw:sm:text-[13px] tw:italic tw:leading-relaxed tw:text-[#f3e6cc]/85">
             {sutra.verseExcerpt.map((line, idx) => (
               <p key={idx} className="tw:m-0">{line}</p>
             ))}
           </div>
         ) : sutra.description ? (
-          <p className="font-zen-body tw:mt-2.5 tw:text-xs sm:tw:text-[13px] tw:leading-relaxed tw:text-[#f3e6cc]/80 tw:line-clamp-2">
+          <p className="font-zen-body tw:mt-2.5 tw:text-xs tw:sm:text-[13px] tw:leading-relaxed tw:text-[#f3e6cc]/80 tw:line-clamp-2">
             {sutra.description}
           </p>
         ) : null}
@@ -84,10 +84,10 @@ export function SutraCard({ sutra, index }: SutraCardProps) {
           <span className="font-zen-body tw:min-w-0 tw:truncate tw:text-xs tw:italic tw:text-[#f3e6cc]/65">
             {sutra.meritBadge}
           </span>
-          <span className="font-zen-body tw:shrink-0 tw:whitespace-nowrap tw:inline-flex tw:items-center tw:gap-2 tw:rounded-full tw:border tw:border-[#fff8e6]/60 tw:bg-[#fff8e6] tw:pl-4 tw:pr-3.5 tw:py-2.5 tw:text-[13px] tw:font-semibold tw:leading-none tw:text-[#3d2906] tw:shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_6px_16px_-6px_rgba(0,0,0,0.45)] tw:transition-all tw:duration-300 group-hover:tw:border-[#8a5c14]/60 group-hover:tw:bg-[linear-gradient(180deg,#f3d48a_0%,#e0b252_55%,#c99232_100%)] group-hover:tw:shadow-[inset_0_1px_0_rgba(255,250,232,0.9),0_8px_20px_-6px_rgba(201,146,50,0.6)]">
+          <span className="font-zen-body tw:shrink-0 tw:whitespace-nowrap tw:inline-flex tw:items-center tw:gap-2 tw:rounded-full tw:border tw:border-[#fff8e6]/60 tw:bg-[#fff8e6] tw:pl-4 tw:pr-3.5 tw:py-2.5 tw:text-[13px] tw:font-semibold tw:leading-none tw:text-[#3d2906] tw:shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_6px_16px_-6px_rgba(0,0,0,0.45)] tw:transition-all tw:duration-300 tw:group-hover:border-[#8a5c14]/60 tw:group-hover:bg-[linear-gradient(180deg,#f3d48a_0%,#e0b252_55%,#c99232_100%)] tw:group-hover:shadow-[inset_0_1px_0_rgba(255,250,232,0.9),0_8px_20px_-6px_rgba(201,146,50,0.6)]">
             Vào chép kinh
             <svg
-              className="tw:w-3.5 tw:h-3.5 tw:transition-transform tw:duration-300 group-hover:tw:translate-x-0.5"
+              className="tw:w-3.5 tw:h-3.5 tw:transition-transform tw:duration-300 tw:group-hover:translate-x-0.5"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"

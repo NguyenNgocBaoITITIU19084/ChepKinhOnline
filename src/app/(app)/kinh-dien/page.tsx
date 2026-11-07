@@ -21,17 +21,12 @@ async function SutraCatalogLoader() {
 
 export default function SutraLibraryPage() {
   return (
-    <main className="tw:min-h-screen tw:pb-20 font-zen-body">
-      {/* Banner ảnh tràn viền phía trên */}
+    <div className="tw:w-full tw:max-w-[1240px] tw:mx-auto tw:px-4 tw:sm:px-6 tw:lg:px-8 tw:pb-20 font-zen-body">
       <SutraLibraryHero />
-
-      {/* Nội dung danh mục kinh điển */}
-      <div className="tw:max-w-[1240px] tw:mx-auto tw:px-4 sm:tw:px-6 lg:tw:px-8 tw:mt-8">
-        <Suspense fallback={<SutraCatalogSkeleton />}>
-          <SutraCatalogLoader />
-        </Suspense>
-        <SutraGuidanceFooter />
-      </div>
-    </main>
+      <Suspense fallback={<SutraCatalogSkeleton />}>
+        <SutraCatalogLoader />
+      </Suspense>
+      <SutraGuidanceFooter />
+    </div>
   );
 }

@@ -57,7 +57,7 @@ export function SutraCatalogClient({ sutras }: SutraCatalogClientProps) {
   };
 
   return (
-    <section aria-label="Danh mục các bộ kinh">
+    <section aria-label="Danh mục các bộ kinh" className="tw:w-full">
       {/* Thanh tìm kiếm & lọc */}
       <SutraFilterBar
         searchQuery={searchQuery}
@@ -67,11 +67,11 @@ export function SutraCatalogClient({ sutras }: SutraCatalogClientProps) {
         totalMatches={filteredSutras.length}
       />
 
-      {/* Lưới các thẻ kinh hoặc Trạng thái trống */}
+      {/* Lưới các thẻ kinh: 1 cột điện thoại, 2 cột máy tính bảng, 3 cột máy tính */}
       {filteredSutras.length === 0 ? (
         <SutraEmptyState onReset={handleReset} />
       ) : (
-        <div className="tw:grid tw:grid-cols-1 sm:tw:grid-cols-2 lg:tw:grid-cols-3 tw:gap-6 lg:tw:gap-8">
+        <div className="tw:grid tw:grid-cols-1 tw:sm:grid-cols-2 tw:lg:grid-cols-3 tw:gap-6 tw:lg:gap-7">
           {filteredSutras.map((sutra, idx) => (
             <SutraCard key={sutra.id} sutra={sutra} index={idx} />
           ))}
@@ -83,20 +83,21 @@ export function SutraCatalogClient({ sutras }: SutraCatalogClientProps) {
 
 export function SutraCatalogSkeleton() {
   return (
-    <div className="tw:animate-pulse">
-      {/* Search & tab placeholder */}
-      <div className="tw:h-12 tw:bg-amber-900/5 tw:rounded-full tw:mb-6 tw:max-w-md" />
-      <div className="tw:flex tw:gap-2 tw:mb-8">
+    <div className="tw:animate-pulse tw:w-full">
+      {/* Search placeholder */}
+      <div className="tw:h-12 tw:bg-amber-900/10 tw:rounded-full tw:mb-6 tw:max-w-[620px] tw:mx-auto" />
+      {/* Tabs placeholder */}
+      <div className="tw:flex tw:justify-center tw:gap-2 tw:mb-10">
         {[1, 2, 3, 4, 5].map((i) => (
-          <div key={i} className="tw:h-9 tw:w-28 tw:bg-amber-900/5 tw:rounded-full" />
+          <div key={i} className="tw:h-10 tw:w-28 tw:bg-amber-900/10 tw:rounded-full" />
         ))}
       </div>
       {/* Cards placeholder */}
-      <div className="tw:grid tw:grid-cols-1 sm:tw:grid-cols-2 lg:tw:grid-cols-3 tw:gap-6 lg:tw:gap-8">
+      <div className="tw:grid tw:grid-cols-1 tw:sm:grid-cols-2 tw:lg:grid-cols-3 tw:gap-6 tw:lg:gap-7">
         {[1, 2, 3, 4, 5, 6].map((i) => (
           <div
             key={i}
-            className="tw:aspect-[4/5] tw:rounded-2xl tw:bg-amber-900/5 tw:border tw:border-amber-900/10"
+            className="tw:aspect-[3/4.4] tw:rounded-[22px] tw:bg-amber-900/10 tw:border tw:border-amber-900/15"
           />
         ))}
       </div>

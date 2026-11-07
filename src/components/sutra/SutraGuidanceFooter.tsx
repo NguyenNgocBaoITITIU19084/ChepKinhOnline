@@ -25,12 +25,12 @@ const GUIDANCE_STEPS = [
 
 export function SutraGuidanceFooter() {
   return (
-    <section className="tw:mt-16 tw:mb-6 tw:p-6 sm:tw:p-10 tw:rounded-3xl tw:border tw:border-[rgba(214,164,64,0.4)] tw:bg-[radial-gradient(ellipse_at_50%_0%,#fffdf6,var(--paper)_70%)] tw:[box-shadow:0_14px_40px_rgba(120,85,20,0.12)]">
+    <section className="tw:mt-16 tw:mb-6 tw:p-6 tw:sm:p-10 tw:rounded-3xl tw:border tw:border-[rgba(214,164,64,0.4)] tw:bg-[radial-gradient(ellipse_at_50%_0%,#fffdf6,var(--paper)_70%)] tw:[box-shadow:0_14px_40px_rgba(120,85,20,0.12)]">
       <div className="tw:text-center tw:max-w-xl tw:mx-auto tw:mb-8">
         <span className="tw:text-xs tw:tracking-widest tw:uppercase tw:font-semibold tw:text-gold-700 tw:mb-1.5 font-zen-body">
           Pháp Môn Chép Kinh
         </span>
-        <h2 className="font-zen-title tw:text-2xl sm:tw:text-3xl tw:font-semibold tw:text-brown-900 tw:mt-1.5">
+        <h2 className="font-zen-title tw:text-2xl tw:sm:text-3xl tw:font-semibold tw:text-brown-900 tw:mt-1.5">
           Ba Bước Tịnh Tâm Trước Khi Chép
         </h2>
         <div className="tw:mt-1">
@@ -38,7 +38,7 @@ export function SutraGuidanceFooter() {
         </div>
       </div>
 
-      <div className="tw:grid tw:grid-cols-1 md:tw:grid-cols-3 tw:gap-6">
+      <div className="tw:grid tw:grid-cols-1 tw:md:grid-cols-3 tw:gap-6">
         {GUIDANCE_STEPS.map((item) => {
           const Icon = item.icon;
           return (
@@ -57,7 +57,7 @@ export function SutraGuidanceFooter() {
               <h3 className="font-zen-title tw:text-lg tw:font-semibold tw:text-brown-900 tw:mb-2">
                 {item.title}
               </h3>
-              <p className="font-zen-body tw:text-xs sm:tw:text-[13.5px] tw:text-brown-800 tw:leading-relaxed">
+              <p className="font-zen-body tw:text-xs tw:sm:text-[13.5px] tw:text-brown-800 tw:leading-relaxed">
                 {item.desc}
               </p>
             </div>

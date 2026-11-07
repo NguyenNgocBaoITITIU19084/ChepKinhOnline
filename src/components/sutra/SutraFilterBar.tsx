@@ -24,10 +24,10 @@ export function SutraFilterBar({
   const inputId = useId();
 
   return (
-    <div className="tw:mb-12 tw:flex tw:flex-col tw:items-center tw:gap-6 tw:w-full">
-      {/* Ô tìm kiếm kính mờ viền vàng (Zen Glassmorphic Search Bar) */}
+    <div className="tw:mb-10 tw:flex tw:flex-col tw:items-center tw:gap-6 tw:w-full">
+      {/* Ô tìm kiếm kính mờ viền vàng */}
       <div
-        className="tw:flex tw:items-center tw:gap-3 tw:w-full tw:max-w-[620px] tw:min-h-12 tw:px-4 tw:bg-[rgba(255,255,255,0.75)] tw:border tw:border-[rgba(214,164,64,0.45)] tw:rounded-[999px] tw:[box-shadow:0_8px_24px_rgba(150,105,25,0.1),inset_0_1px_0_rgba(255,255,255,0.9)] tw:transition-all tw:duration-200 tw:has-[input:focus-visible]:border-gold-500 tw:has-[input:focus-visible]:ring-2 tw:has-[input:focus-visible]:ring-gold-500/30"
+        className="tw:flex tw:items-center tw:gap-3 tw:w-full tw:max-w-[620px] tw:min-h-12 tw:px-4 tw:bg-[rgba(255,255,255,0.85)] tw:border tw:border-[rgba(214,164,64,0.45)] tw:rounded-[999px] tw:[box-shadow:0_8px_24px_rgba(150,105,25,0.1),inset_0_1px_0_rgba(255,255,255,0.9)] tw:transition-all tw:duration-200"
       >
         <IconSearch size={18} stroke={2} className="tw:shrink-0 tw:text-gold-700" aria-hidden />
         <label htmlFor={inputId} className="tw:sr-only">
@@ -39,26 +39,26 @@ export function SutraFilterBar({
           value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}
           placeholder="Tìm theo tên kinh, chữ Hán, tâm nguyện..."
-          className="tw:flex-1 tw:min-w-0 tw:border-none tw:bg-transparent tw:p-0 tw:font-ui tw:text-sm sm:tw:text-[15px] tw:text-brown-900 placeholder:tw:text-stone-400 focus:tw:outline-none"
+          className="tw:flex-1 tw:min-w-0 tw:border-none tw:bg-transparent tw:p-0 tw:font-ui tw:text-sm tw:sm:text-[15px] tw:text-brown-900 placeholder:tw:text-stone-400 focus:tw:outline-none"
         />
         {searchQuery && (
           <button
             type="button"
             onClick={() => onSearchChange("")}
             aria-label="Xóa từ khóa tìm kiếm"
-            className="tw:p-1 tw:rounded-full tw:text-stone-400 hover:tw:text-brown-900 tw:transition-colors focus-visible:tw:outline-none"
+            className="tw:p-1 tw:rounded-full tw:text-stone-400 tw:hover:text-brown-900 tw:transition-colors focus-visible:tw:outline-none"
           >
             <IconX size={16} aria-hidden />
           </button>
         )}
       </div>
 
-      {/* Dải nút chọn tâm nguyện tu tập theo đúng chuẩn design system */}
+      {/* Dải nút chọn tâm nguyện tu tập */}
       <div className="tw:flex tw:flex-col tw:items-center tw:gap-3 tw:w-full">
         <ul
           role="tablist"
           aria-label="Lọc theo tâm nguyện tu tập"
-          className="tw:flex tw:flex-wrap tw:items-center tw:justify-center tw:gap-2 tw:m-0 tw:p-0.5 tw:list-none tw:upto-768:flex-nowrap tw:upto-768:overflow-x-auto tw:upto-768:[scrollbar-width:none] tw:upto-768:[&::-webkit-scrollbar]:hidden tw:upto-768:[&>li]:shrink-0 tw:w-full tw:justify-center-safe"
+          className="tw:flex tw:flex-wrap tw:items-center tw:justify-center tw:gap-2.5 tw:m-0 tw:p-0.5 tw:list-none tw:w-full"
         >
           {ASPIRATION_TABS.map((tab) => {
             const isActive = activeAspiration === tab.id;
@@ -79,7 +79,7 @@ export function SutraFilterBar({
         </ul>
 
         {/* Đếm số bộ kinh hiển thị */}
-        <div className="tw:text-xs sm:tw:text-[13px] tw:text-brown-800/80 tw:tracking-wide font-zen-body">
+        <div className="tw:text-xs tw:sm:text-[13px] tw:text-brown-800/80 tw:tracking-wide font-zen-body">
           Hiển thị{" "}
           <span className="tw:font-semibold tw:text-brown-900">{totalMatches}</span>{" "}
           bộ kinh trong án thư
