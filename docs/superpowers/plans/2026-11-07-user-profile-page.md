@@ -25,9 +25,9 @@ Xây dựng giao diện trang Hồ sơ người dùng tại `/tai-khoan` theo m�
 - `UserProfileData`: chứa `id`, `name`, `dharmaName`, `email`, `joinedDate`, `avatarUrl`, `intention`, `metrics`, `inProgressSutras`, `completedSutras`, `savedArticles`.
 - Mock data phong phú, có đủ dữ liệu cho một Phật tử tích cực (ví dụ: Phật tử Tuệ Quang / Nguyễn Văn An, Bát Nhã Tâm Kinh tiến độ 68%, Chú Đại Bi tiến độ 35%, Kinh Phổ Môn đã hoàn thành, 3 bài viết tự học đã lưu).
 
-- [ ] **Bước 1.1:** Tạo file `src/types/profile.ts` chứa đầy đủ các interface.
-- [ ] **Bước 1.2:** Tạo file `src/data/mock-profile.ts` chứa dữ liệu mẫu chuẩn xác và hàm trợ giúp `getMockUserProfile()`.
-- [ ] **Bước 1.3:** Kiểm tra TypeScript build bằng `npm run build` hoặc `npx tsc --noEmit` để đảm bảo không có lỗi type.
+- [x] **Bước 1.1:** Tạo file `src/types/profile.ts` chứa đầy đủ các interface.
+- [x] **Bước 1.2:** Tạo file `src/data/mock-profile.ts` chứa dữ liệu mẫu chuẩn xác và hàm trợ giúp `getMockUserProfile()`.
+- [x] **Bước 1.3:** Kiểm tra TypeScript build bằng `npm run build` hoặc `npx tsc --noEmit` để đảm bảo không có lỗi type.
 
 ---
 
@@ -44,11 +44,11 @@ Xây dựng giao diện trang Hồ sơ người dùng tại `/tai-khoan` theo m�
 - `ZenIntentionCard`: Khối hiển thị lời nguyện tu học hoặc câu khế kinh truyền cảm hứng với icon hoa sen và định dạng trích dẫn thư pháp.
 - `QuickSettingsCard`: Client component (`"use client"`), gồm 3 switch gạt: "Chuông chánh niệm khi hoàn thành đoạn", "Tiếng lật trang giấy xuyến chỉ", và nút chọn cỡ chữ mặc định (Vừa / Lớn).
 
-- [ ] **Bước 2.1:** Viết component `ProfileIdentityCard.tsx`.
-- [ ] **Bước 2.2:** Viết component `ProfileEditModal.tsx` với đầy đủ accessibility (`role="dialog"`, xử lý phím Esc, backdrop click).
-- [ ] **Bước 2.3:** Viết component `ZenIntentionCard.tsx`.
-- [ ] **Bước 2.4:** Viết component `QuickSettingsCard.tsx` với state cục bộ bật/tắt trực quan.
-- [ ] **Bước 2.5:** Kiểm tra type và cấu trúc giao diện các thẻ cột trái.
+- [x] **Bước 2.1:** Viết component `ProfileIdentityCard.tsx`.
+- [x] **Bước 2.2:** Viết component `ProfileEditModal.tsx` với đầy đủ accessibility (`role="dialog"`, xử lý phím Esc, backdrop click).
+- [x] **Bước 2.3:** Viết component `ZenIntentionCard.tsx`.
+- [x] **Bước 2.4:** Viết component `QuickSettingsCard.tsx` với state cục bộ bật/tắt trực quan.
+- [x] **Bước 2.5:** Kiểm tra type và cấu trúc giao diện các thẻ cột trái.
 
 ---
 
@@ -77,11 +77,11 @@ Xây dựng giao diện trang Hồ sơ người dùng tại `/tai-khoan` theo m�
   - Tiêu đề bài viết, chuyên mục, thời gian đọc, link sang `/tu-hoc/[slug]`.
 - `EmptyState`: Component hiển thị khi danh sách trống với icon dịu mắt và câu khuyến tấn nhẹ nhàng.
 
-- [ ] **Bước 3.1:** Viết component `EmptyState.tsx`.
-- [ ] **Bước 3.2:** Viết component `MeritMetricsGrid.tsx`.
-- [ ] **Bước 3.3:** Viết component `InProgressSutrasCard.tsx`.
-- [ ] **Bước 3.4:** Viết component `CompletedSutrasCard.tsx`.
-- [ ] **Bước 3.5:** Viết component `SavedArticlesCard.tsx`.
+- [x] **Bước 3.1:** Viết component `EmptyState.tsx`.
+- [x] **Bước 3.2:** Viết component `MeritMetricsGrid.tsx`.
+- [x] **Bước 3.3:** Viết component `InProgressSutrasCard.tsx`.
+- [x] **Bước 3.4:** Viết component `CompletedSutrasCard.tsx`.
+- [x] **Bước 3.5:** Viết component `SavedArticlesCard.tsx`.
 
 ---
 
@@ -99,15 +99,15 @@ Xây dựng giao diện trang Hồ sơ người dùng tại `/tai-khoan` theo m�
   - Lưới 12 cột Bento Grid: `tw:grid tw:grid-cols-1 tw:lg:grid-cols-12 tw:gap-6`.
   - Quản lý state người dùng giả lập (để khi sửa thông tin trong `ProfileEditModal`, dữ liệu cập nhật tức thời trên trang).
 
-- [ ] **Bước 4.1:** Tạo `src/components/profile/ProfileHeader.tsx`.
-- [ ] **Bước 4.2:** Tạo `src/components/profile/index.ts` tập trung hóa exports.
-- [ ] **Bước 4.3:** Xây dựng trang `src/app/(app)/tai-khoan/page.tsx` tích hợp toàn bộ các component Bento.
-- [ ] **Bước 4.4:** Kiểm tra tích hợp với `UserMenu` khi người dùng bấm vào "Hồ sơ của tôi".
+- [x] **Bước 4.1:** Tạo `src/components/profile/ProfileHeader.tsx`.
+- [x] **Bước 4.2:** Tạo `src/components/profile/index.ts` tập trung hóa exports.
+- [x] **Bước 4.3:** Xây dựng trang `src/app/(app)/tai-khoan/page.tsx` tích hợp toàn bộ các component Bento.
+- [x] **Bước 4.4:** Kiểm tra tích hợp với `UserMenu` khi người dùng bấm vào "Hồ sơ của tôi".
 
 ---
 
 ### Nhiệm vụ 5: Kiểm Thử, Kiểm Tra Lỗi & Hoàn Thiện (Verification & Polish)
-- [ ] **Bước 5.1:** Chạy `npm run build` để kiểm tra toàn bộ TypeScript và cấu trúc routing Next.js không có lỗi cảnh báo/biên dịch.
-- [ ] **Bước 5.2:** Kiểm tra tính đáp ứng hiển thị (Responsive) trên cả màn hình Desktop lớn, màn hình Laptop và Mobile.
-- [ ] **Bước 5.3:** Kiểm tra tương tác Modal, đóng/mở mượt mà, đổi tên/pháp danh phản ánh ngay lập tức trên UI.
-- [ ] **Bước 5.4:** Commit mã nguồn hoàn thiện vào Git repository.
+- [x] **Bước 5.1:** Chạy `npm run build` để kiểm tra toàn bộ TypeScript và cấu trúc routing Next.js không có lỗi cảnh báo/biên dịch.
+- [x] **Bước 5.2:** Kiểm tra tính đáp ứng hiển thị (Responsive) trên cả màn hình Desktop lớn, màn hình Laptop và Mobile.
+- [x] **Bước 5.3:** Kiểm tra tương tác Modal, đóng/mở mượt mà, đổi tên/pháp danh phản ánh ngay lập tức trên UI.
+- [x] **Bước 5.4:** Commit mã nguồn hoàn thiện vào Git repository.
