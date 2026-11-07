@@ -1,0 +1,110 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Thẻ chuyên mục: dựa trên shared.paperCard, thêm bố cục nút */
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.card:hover .iconBox {
+  background: rgba(232, 199, 122, 0.3); /* hover-tint */
+  color: var(--brown-900);
+}
+
+/* Đang chọn: nền vàng đậm hơn, chữ đậm 600 (README, mục Trạng thái) */
+.card.active,
+.card.active:hover {
+  background: #fff0c2; /* gold-button-top */
+  border-color: var(--gold-500);
+}
+
+.active .iconBox {
+  background: var(--gold-100);
+  color: var(--brown-900);
+}
+
+.active .name {
+  font-weight: 700;
+}
+
+.iconBox {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 4px;
+  color: var(--gold-700);
+  background: var(--gold-100);
+  border: 1px solid rgba(214, 164, 64, 0.35); /* glass-border */
+  border-radius: 10px; /* radius-control */
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.name {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--brown-900);
+}
+
+.desc {
+  flex: 1;
+  font-size: 0.84rem;
+  line-height: 1.55;
+  color: var(--brown-800);
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(214, 164, 64, 0.25);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--brown-800);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .card {
+    padding: 14px;
+  }
+
+  .desc {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .iconBox {
+    transition: none;
+  }
+}

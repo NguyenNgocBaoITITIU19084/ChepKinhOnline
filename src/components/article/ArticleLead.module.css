@@ -1,0 +1,105 @@
+/* Bài dẫn đầu: ảnh lớn bên trái, chữ bên phải. Dựa trên shared.paperCard */
+.lead {
+  container-type: inline-size;
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  overflow: hidden;
+}
+
+/* Ảnh tối thiểu 4:3 theo bề rộng cột ảnh (1.3 / 2.3 bề rộng thẻ × 0.75), để bài dẫn
+ * luôn cao hơn hàng thẻ phụ; phần chữ dài hơn thì ảnh giãn theo, không để khoảng trống.
+ * Không dùng aspect-ratio: kèm chiều cao co giãn nó sẽ kéo ảnh lấn sang cột chữ. */
+.cover {
+  min-width: 0;
+  min-height: calc(100cqi * 0.424);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  padding: 28px;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(1.3rem, 2vw, 1.6rem);
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--brown-900);
+  text-wrap: balance;
+}
+
+.excerpt {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.65;
+  color: var(--brown-800);
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 8px;
+}
+
+.readMore {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--brown-900);
+}
+
+/* Kiểu xếp dọc: ảnh 16:9 tràn bề rộng, tiêu đề lớn hơn */
+.stacked {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+/* Ảnh dải ngang 21:9 để bài dẫn nổi bật mà không chiếm quá nhiều chiều cao */
+.stacked .cover {
+  min-height: 0;
+  aspect-ratio: 21 / 9;
+}
+
+.stacked .body {
+  gap: 8px;
+  padding: 20px 24px 22px;
+}
+
+.stacked .title {
+  font-size: clamp(1.25rem, 2vw, 1.5rem);
+}
+
+.stacked .excerpt {
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
+.stacked .footer {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 4px;
+}
+
+@media (max-width: 640px) {
+  .lead {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .cover {
+    min-height: 0;
+    aspect-ratio: 16 / 10;
+  }
+
+  .body {
+    padding: 18px 20px 20px;
+  }
+}

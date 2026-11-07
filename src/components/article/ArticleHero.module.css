@@ -1,0 +1,122 @@
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: 24px;
+  align-items: stretch;
+}
+
+/* Bài chính: dựa trên shared.paperCard */
+.featured {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.featuredCover {
+  aspect-ratio: 16 / 9;
+}
+
+.featuredBody {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 12px;
+  padding: 24px 28px 28px;
+}
+
+.featuredTitle {
+  margin: 0;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(1.35rem, 2.2vw, 1.7rem);
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--brown-900);
+  text-wrap: balance;
+}
+
+.featuredExcerpt {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--brown-800);
+}
+
+.featuredFooter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 8px;
+}
+
+.readMore {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--brown-900);
+}
+
+/* Cột bài gợi ý */
+.picks {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pick {
+  display: flex;
+  gap: 16px;
+  height: 100%;
+  padding: 14px;
+}
+
+.pickCover {
+  flex-shrink: 0;
+  width: 112px;
+  aspect-ratio: 4 / 3;
+  align-self: flex-start;
+  border-radius: 10px; /* radius-control */
+}
+
+.pickBody {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.pickTitle {
+  margin: 0;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--brown-900);
+}
+
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .featuredBody {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 400px) {
+  .pickCover {
+    width: 88px;
+  }
+}

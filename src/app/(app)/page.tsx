@@ -3,6 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { IconArrowRight, IconBooks } from "@tabler/icons-react";
 import { SutraList } from "@/components/sutra/SutraList";
+import { ArticleTeaserCard } from "@/components/article";
+import { PhotoBanner } from "@/components/layout/PhotoBanner";
 import { LotusIcon, ZenDivider } from "@/components/icons/BuddhistIcons";
 import copy from "@/components/copy/copy.module.css";
 import site from "@/components/layout/site.module.css";
@@ -198,41 +200,35 @@ export default function Home() {
       {/* ====================================================================
           2. GIỚI THIỆU: ảnh tràn viền, bên dưới là tờ giấy nổi lên mép ảnh chứa tiêu đề và bốn công đức
           ==================================================================== */}
-      <section id="gioi-thieu" className={site.intro}>
-        <div className={site.introPhoto}>
-          <Image
-            src="/storage/real/quan_am_linh_ung.jpg"
-            alt="Tượng Phật Thích Ca trắng trên đồi, chùa Linh Ứng Bà Nà, Đà Nẵng"
-            fill
-            sizes="100vw"
-            className={site.introImage}
-          />
-          {/* Không đặt chữ lên ảnh để khỏi che tượng Phật; chỉ phủ nhạt mép dưới cho liền với tờ giấy */}
-          <div className={site.introOverlay} />
-          <span className={site.introCaption}>Tượng Phật Thích Ca · Chùa Linh Ứng, Bà Nà</span>
-        </div>
-
-        <div className={site.introSheet}>
-          <span className={site.introEyebrow}>Về Chép Kinh Online</span>
-          <h2 className={site.introTitle}>
+      <PhotoBanner
+        id="gioi-thieu"
+        image="/storage/real/quan_am_linh_ung.jpg"
+        alt="Tượng Phật Thích Ca trắng trên đồi, chùa Linh Ứng Bà Nà, Đà Nẵng"
+        caption="Tượng Phật Thích Ca · Chùa Linh Ứng, Bà Nà"
+        eyebrow="Về Chép Kinh Online"
+        title={
+          <>
             Biên chép lời Phật, <em>huân tu chánh niệm giữa đời thường</em>
-          </h2>
-          <p className={site.introLead}>
+          </>
+        }
+        lead={
+          <>
             Từ ngàn xưa, biên chép kinh văn được xem là một trong mười pháp tu thù thắng của Phật giáo Đại
             Thừa. Giữa nhịp sống hối hả, <strong>Chép Kinh Online</strong> là một tịnh thất trên không gian số,
             để quý Phật tử dành ra những phút lắng đọng thọ trì kinh điển.
-          </p>
-          <ul className={site.merits}>
-            {MERITS.map((merit, i) => (
-              <li key={merit.title}>
-                <span className={site.meritNo}>{String(i + 1).padStart(2, "0")}</span>
-                <h3>{merit.title}</h3>
-                <p>{merit.text}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
+          </>
+        }
+      >
+        <ul className={site.merits}>
+          {MERITS.map((merit, i) => (
+            <li key={merit.title}>
+              <span className={site.meritNo}>{String(i + 1).padStart(2, "0")}</span>
+              <h3>{merit.title}</h3>
+              <p>{merit.text}</p>
+            </li>
+          ))}
+        </ul>
+      </PhotoBanner>
 
       <div className="tw:max-w-6xl tw:mx-auto tw:px-4 tw:sm:px-6 tw:lg:px-8 tw:relative tw:z-10">
 
@@ -377,47 +373,14 @@ export default function Home() {
 
           <div className="tw:grid tw:grid-cols-1 tw:md:grid-cols-3 tw:gap-8">
             {ARTICLES.map((article) => (
-              <article
+              <ArticleTeaserCard
                 key={article.id}
-                className="tw:group tw:flex tw:flex-col tw:bg-[#faf7f0] tw:rounded-2xl tw:overflow-hidden tw:border tw:border-amber-900/15 tw:hover:border-amber-700/40 tw:shadow-[0_4px_20px_rgba(44,36,28,0.04)] tw:hover:shadow-[0_12px_32px_rgba(44,36,28,0.1)] tw:transition-all tw:duration-500"
-              >
-                {/* Ảnh bài viết thật */}
-                <div className="tw:relative tw:w-full tw:aspect-[16/10] tw:overflow-hidden tw:bg-stone-200">
-                  <Image
-                    src={article.image}
-                    alt={article.title}
-                    fill
-                    className="tw:object-cover tw:object-center tw:group-hover:scale-105 tw:transition-transform tw:duration-700"
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                  />
-                  <div className="tw:absolute tw:inset-0 tw:bg-linear-to-t tw:from-[#faf7f0] tw:via-transparent tw:to-transparent" />
-                  <div className="tw:absolute tw:top-3.5 tw:left-3.5 tw:px-3 tw:py-1 tw:rounded-md tw:bg-[#1f1a14]/75 tw:backdrop-blur-md tw:text-[11px] tw:font-semibold tw:tracking-wider tw:uppercase tw:text-amber-100 font-zen-body">
-                    {article.category}
-                  </div>
-                </div>
-
-                {/* Nội dung bài viết */}
-                <div className="tw:p-6 tw:pt-3 tw:flex tw:flex-col tw:flex-1 tw:justify-between">
-                  <div>
-                    <div className="tw:text-xs tw:text-stone-500 tw:mb-2 font-zen-body">
-                      {article.date} · {article.readTime}
-                    </div>
-                    <h3 className="font-zen-title tw:text-lg tw:sm:text-xl tw:font-semibold tw:text-[#2c2218] tw:group-hover:text-amber-900 tw:transition-colors tw:leading-snug tw:mb-3">
-                      {article.title}
-                    </h3>
-                    <p className="font-zen-body tw:text-sm tw:text-stone-600 tw:line-clamp-3 tw:leading-relaxed tw:mb-6">
-                      {article.excerpt}
-                    </p>
-                  </div>
-
-                  <div className="tw:pt-4 tw:border-t tw:border-amber-900/10 tw:flex tw:items-center tw:justify-between tw:text-xs">
-                    <span className="font-zen-title tw:text-amber-900 tw:font-semibold tw:flex tw:items-center tw:gap-1 tw:group-hover:translate-x-1 tw:transition-transform">
-                      Đọc chi tiết
-                      <span aria-hidden="true">&rarr;</span>
-                    </span>
-                  </div>
-                </div>
-              </article>
+                title={article.title}
+                image={article.image}
+                category={article.category}
+                meta={`${article.date} · ${article.readTime}`}
+                excerpt={article.excerpt}
+              />
             ))}
           </div>
           <SeeMore href="/bai-viet" label="Xem thêm bài viết" />

@@ -1,0 +1,30 @@
+.bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 2px;
+  list-style: none;
+}
+
+/* "safe center": hàng tràn thì vẫn cuộn được từ nút đầu tiên */
+.center {
+  justify-content: safe center;
+}
+
+/* Màn hẹp: một hàng cuộn ngang */
+@media (max-width: 768px) {
+  .bar {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .bar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .bar > li {
+    flex-shrink: 0;
+  }
+}

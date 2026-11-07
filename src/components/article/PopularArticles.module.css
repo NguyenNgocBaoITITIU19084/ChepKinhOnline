@@ -1,0 +1,130 @@
+/* Khung giấy lấy từ shared.paperPanel */
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px 16px 16px;
+}
+
+.heading {
+  margin: 0;
+  padding: 0 4px 12px;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--brown-900);
+  border-bottom: 1px solid rgba(214, 164, 64, 0.35); /* glass-border */
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Các bài ngăn bằng đường kẻ đứt mảnh màu vàng */
+.list > li + li {
+  border-top: 1px dashed rgba(214, 164, 64, 0.4);
+}
+
+/* Một bài: ảnh nhỏ bên trái, tiêu đề và dòng meta bên phải. Rê chuột: nền hover-tint */
+.item {
+  display: grid;
+  grid-template-columns: 84px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  margin: 6px 0;
+  padding: 6px;
+  color: inherit;
+  text-decoration: none;
+  border-radius: 10px; /* radius-control */
+  transition: background-color 0.2s ease;
+}
+
+.item:hover {
+  color: inherit;
+  text-decoration: none;
+  background: rgba(232, 199, 122, 0.3); /* hover-tint */
+}
+
+.thumb {
+  display: block;
+  aspect-ratio: 4 / 3;
+  border-radius: 8px;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.title {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 0.92rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--brown-900);
+  transition: color 0.2s ease;
+}
+
+.item:hover .title {
+  color: var(--gold-700);
+}
+
+/* Ngày đăng và chuyên mục cùng dòng; cột phụ hẹp thì chuyên mục xuống dòng dưới ngày */
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 12px;
+  min-width: 0;
+  font-size: 0.74rem;
+  line-height: 1.4;
+  color: var(--brown-800);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.metaCategory {
+  color: var(--gold-700);
+}
+
+/* Cột phụ xuống dưới, rộng hết màn: ảnh lớn hơn chút */
+@media (max-width: 1024px) {
+  .item {
+    grid-template-columns: 120px minmax(0, 1fr);
+    gap: 14px;
+  }
+
+  .title {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .item {
+    grid-template-columns: 96px minmax(0, 1fr);
+    gap: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .item,
+  .title {
+    transition: none;
+  }
+}
+
+/* Dùng chung cho KeywordList: các nút viên thuốc xếp dòng */
+.keywords {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0 4px;
+  list-style: none;
+}

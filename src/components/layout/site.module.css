@@ -344,28 +344,38 @@
     0 8px 18px -8px rgba(122, 80, 14, 0.35);
 }
 
+/*
+ * Nhãn "Hồi hướng · 迴向": lưới 3 cột 1fr | chấm | 1fr để dấu chấm nằm đúng trục giữa,
+ * thẳng với huy hiệu và câu kệ (chữ Việt rộng hơn chữ Hán nên căn cả cụm sẽ lệch).
+ * Đường kẻ hai bên giãn lấp phần còn lại nên hai mép ngoài cũng đối xứng.
+ */
 .dedicationEyebrow {
-  display: inline-flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
-  gap: 12px;
+  column-gap: 12px;
+  width: min(100%, 360px);
   margin: 22px 0 0;
   line-height: 1;
 }
 
-/* Hai vạch ngắn hai bên nhãn */
-.dedicationEyebrow::before,
-.dedicationEyebrow::after {
+.dedicationLabel::before,
+.dedicationHan::after {
   content: "";
-  width: 44px;
+  flex: 1;
+  min-width: 20px;
   height: 1px;
   background: linear-gradient(90deg, transparent, rgba(168, 116, 26, 0.7));
 }
 
-.dedicationEyebrow::after {
+.dedicationHan::after {
   transform: scaleX(-1);
 }
 
 .dedicationLabel {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   font-family: var(--font-sans), sans-serif;
   font-size: 0.72rem;
   font-weight: 600;
@@ -384,6 +394,9 @@
 }
 
 .dedicationHan {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   font-family: var(--font-han), serif;
   font-size: 0.82rem;
   letter-spacing: 0.08em;
@@ -724,7 +737,6 @@
   z-index: 1;
   pointer-events: none;
   backdrop-filter: blur(16px) saturate(110%);
-  -webkit-backdrop-filter: blur(16px) saturate(110%);
 }
 
 .introPhoto::before {
@@ -785,7 +797,6 @@
   border: 1px solid rgba(255, 248, 230, 0.2);
   border-radius: 999px;
   backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
 }
 
 /* Tờ giấy kem nổi lên đè mép dưới ảnh */
@@ -911,6 +922,65 @@
   }
 }
 
+/* ==== Banner ảnh cỡ gọn (PhotoBanner size="compact"): đầu chuyên trang ==== */
+/* Ảnh tràn lên tận mép trên, nằm dưới thanh header kính (cao 68px kể cả lề trên 12px,
+ * header dính có z-index 40 nên luôn nổi trên ảnh). Chỉ mờ và nhòe ở mép dưới. */
+.introCompact {
+  margin-top: -68px;
+}
+
+.introCompact .introPhoto::before {
+  display: none;
+}
+
+.introCompact .introPhoto {
+  height: clamp(460px, 70vh, 680px);
+  --fade-top: 0px;
+  --fade-bottom: 200px;
+}
+
+.introCompact .introCaption {
+  top: 96px;
+}
+
+/* Tờ giấy thẳng mép với nội dung bên dưới: cùng lề với shared.page (24 / 20 / 16px, rộng tối đa 1152px) */
+.introCompact .introSheet {
+  max-width: none;
+  margin: -96px max(24px, calc((100% - 1152px) / 2)) 0;
+  padding: 30px 32px 28px;
+}
+
+.introCompact .introLead {
+  margin-bottom: 22px;
+}
+
+@media (max-width: 1024px) {
+  .introCompact .introSheet {
+    margin: -72px 20px 0;
+    padding: 26px 20px 22px;
+  }
+}
+
+@media (max-width: 768px) {
+  .introCompact .introSheet {
+    margin-right: 16px;
+    margin-left: 16px;
+  }
+}
+
+@media (max-width: 560px) {
+  .introCompact .introPhoto {
+    height: 400px;
+    --fade-top: 0px;
+    --fade-bottom: 140px;
+  }
+
+  .introCompact .introCaption {
+    top: auto;
+    bottom: 84px;
+  }
+}
+
 /* ==== Nút "Xem thêm" dưới mỗi block ====
  * Nghỉ: viên thuốc nền giấy ngà, mũi tên chéo trong vòng tròn nâu.
  * Rê chuột: lớp vàng thếp tràn từ trái sang, vòng tròn đổi sang màu ngà và mũi tên xoay về thẳng.
@@ -933,7 +1003,6 @@
   white-space: nowrap;
   background-color: rgba(255, 252, 244, 0.85);
   backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
   border: 1px solid rgba(168, 116, 26, 0.35);
   border-radius: 999px;
   box-shadow:

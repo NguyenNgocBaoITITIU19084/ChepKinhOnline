@@ -1,0 +1,125 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Mỗi hàng ngăn bằng một đường kẻ vàng mảnh */
+.item + .item {
+  border-top: 1px solid rgba(214, 164, 64, 0.25);
+}
+
+.interlude {
+  padding: 20px 0;
+}
+
+/* Hàng bài: ảnh bên trái, chữ bên phải. Rê chuột: nền hover-tint */
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  gap: 20px;
+  align-items: start;
+  margin: 8px -12px;
+  padding: 12px;
+  color: inherit;
+  text-decoration: none;
+  border-radius: 10px; /* radius-control */
+  transition: background-color 0.2s ease;
+}
+
+.row:hover {
+  color: inherit;
+  text-decoration: none;
+  background: rgba(232, 199, 122, 0.3); /* hover-tint */
+}
+
+.cover {
+  aspect-ratio: 16 / 9;
+  border-radius: 10px; /* radius-control */
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--brown-900);
+}
+
+.excerpt {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--brown-800);
+}
+
+.more {
+  align-self: center;
+}
+
+/*
+ * Dòng meta: mỗi mục có lề trái 16px, dấu chấm nằm trong lề đó. Cả hàng kéo lùi 16px
+ * và khung ngoài cắt phần tràn, nên mục ở đầu mỗi dòng không còn dấu chấm treo.
+ */
+.metaClip {
+  display: block;
+  overflow: hidden;
+}
+
+.metaList {
+  gap: 0;
+  margin-left: -16px;
+}
+
+.metaItem {
+  position: relative;
+  margin-left: 16px;
+  white-space: nowrap;
+}
+
+.metaItem::before {
+  content: "·";
+  position: absolute;
+  left: -11px;
+}
+
+@media (max-width: 560px) {
+  .row {
+    grid-template-columns: 112px minmax(0, 1fr);
+    gap: 14px;
+  }
+
+  .cover {
+    aspect-ratio: 4 / 3;
+  }
+
+  .title {
+    font-size: 1rem;
+  }
+
+  .excerpt {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .row {
+    transition: none;
+  }
+}

@@ -1,0 +1,36 @@
+/* Hai cột: nội dung chính và cột phụ 300px. Màn hẹp: cột phụ xuống dưới */
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 40px;
+  align-items: start;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  min-width: 0;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+}
+
+/* Chỉ dính khi màn đủ cao để thấy trọn cột phụ, tránh phần dưới bị khuất */
+@media (min-width: 1025px) and (min-height: 900px) {
+  .sticky {
+    position: sticky;
+    top: 92px; /* dưới thanh header nổi */
+  }
+}
+
+@media (max-width: 1024px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 40px;
+  }
+}

@@ -1,0 +1,33 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.summary {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--brown-800);
+  font-variant-numeric: tabular-nums;
+}
+
+.actions {
+  min-width: 0;
+  max-width: 100%;
+}
+
+@media (max-width: 768px) {
+  .head {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
