@@ -3,7 +3,9 @@
 - **Ngày lập**: 2026-11-06
 - **Trạng thái**: Đã phê duyệt (Approved)
 - **Dự án**: Chép Kinh Online (`chep-kinh-online`)
-- **Đường dẫn trang**: `/dang-nhap` (`src/app/(app)/dang-nhap/page.tsx`)
+- **Đường dẫn trang**: `/dang-nhap` (`src/app/(auth)/dang-nhap/page.tsx`)
+
+> **Cập nhật 2026-11-07**: trang đã chuyển sang nhóm `(auth)` và viết 100% Tailwind (tiền tố `tw:`), không còn `login.module.css`. Khung thẻ, nút submit, ô mật khẩu và thông báo dùng chung với trang đăng ký (xem mục 2). Trang đăng nhập chỉ kiểm tra mật khẩu không để trống; độ dài tối thiểu là quy tắc của trang đăng ký. "Ghi nhớ đăng nhập" mặc định không tick.
 
 ---
 
@@ -13,7 +15,7 @@ Xây dựng trang giao diện đăng nhập cho Chép Kinh Online tại đườn
 Giao diện phải tuyệt đối tuân thủ Bộ quy chuẩn giao diện (Design System) của dự án:
 - Phong cách án thư thanh tịnh, tôn nghiêm, tông màu chủ đạo: giấy ngà (`--paper`), mực nâu (`--brown-800`, `--brown-900`), viền chỉ vàng kim (`--gold-500`, `--gold-700`).
 - Nền trang kế thừa bố cục `.scene` với hoa văn chữ Vạn liên hoàn (`sayagata-pattern.svg`) và quầng sáng vàng dịu ở hai góc.
-- Nằm trong layout `(app)`, hiển thị đầy đủ `AppHeader` (kèm logo hoa sen, danh mục kinh) và `SiteFooter` trang nghiêm.
+- Nằm trong layout `(auth)`, hiển thị đầy đủ `AppHeader` (kèm logo hoa sen, danh mục kinh) và `SiteFooter` (`showDedication={false}`).
 - Phạm vi: Tập trung hoàn thiện toàn diện giao diện (UI/UX), tương tác nhập liệu client-side, nút bấm mạng xã hội, validation cơ bản; sẵn sàng kết nối thư viện Auth ở các giai đoạn sau.
 
 ---
@@ -23,15 +25,20 @@ Giao diện phải tuyệt đối tuân thủ Bộ quy chuẩn giao diện (Desi
 ```
 src/
 ├── app/
-│   └── (app)/
+│   └── (auth)/
+│       ├── layout.tsx                 # AppHeader + SiteFooter, <main> flex-col để thẻ căn giữa
 │       └── dang-nhap/
-│           ├── page.tsx               # Trang Server Component / Client Component đăng nhập
-│           └── login.module.css       # CSS module riêng cho form đăng nhập, kế thừa tokens
+│           └── page.tsx               # Server Component, bọc LoginForm trong AuthCard
 └── components/
     └── auth/
-        ├── LoginForm.tsx              # Component form đăng nhập chính (Client component)
-        ├── SocialLoginGroup.tsx       # Cụm 3 nút đăng nhập Google, Apple, Facebook
-        └── AuthInput.tsx              # Ô input chuẩn hóa (hỗ trợ icon trước/sau, hiển thị lỗi)
+        ├── AuthCard.tsx               # Khung thẻ kính + huy hiệu sen + tiêu đề (dùng chung)
+        ├── LoginForm.tsx              # Form đăng nhập (Client Component)
+        ├── AuthInput.tsx              # Ô input chuẩn hóa (icon trước/sau, báo lỗi)
+        ├── PasswordInput.tsx          # AuthInput + nút ẩn/hiện mật khẩu
+        ├── AuthSubmitButton.tsx       # Nút chính vàng thếp, có trạng thái loading
+        ├── AuthNotice.tsx             # Vùng thông báo (role="status", luôn có trong DOM)
+        ├── SocialLoginGroup.tsx       # 3 nút Google, Apple, Facebook (prop mode: login | register)
+        └── validation.ts              # Quy tắc kiểm tra email / mật khẩu dùng chung
 ```
 
 ---

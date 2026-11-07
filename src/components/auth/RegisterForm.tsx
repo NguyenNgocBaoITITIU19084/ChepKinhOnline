@@ -1,51 +1,62 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Link from "next/link";
-import { IconEye, IconEyeOff, IconLock, IconLockCheck, IconMail, IconSparkles } from "@tabler/icons-react";
+import { IconLock, IconLockCheck, IconMail } from "@tabler/icons-react";
 import { AuthInput } from "./AuthInput";
-import { SocialLoginGroup } from "./SocialLoginGroup";
+import { AuthNotice } from "./AuthNotice";
+import { AuthSubmitButton } from "./AuthSubmitButton";
+import { PasswordInput } from "./PasswordInput";
+import { SocialLoginGroup, type SocialProvider } from "./SocialLoginGroup";
+import {
+  PASSWORD_MIN_LENGTH,
+  validateConfirmPassword,
+  validateEmail,
+  validateNewPassword,
+} from "./validation";
+
+type Errors = { email?: string; password?: string; confirmPassword?: string };
+
+const PROVIDER_NAMES: Record<SocialProvider, string> = { google: "Google", apple: "Apple", facebook: "Facebook" };
 
 export function RegisterForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  // Ô xác nhận chỉ được kiểm tra trực tiếp sau khi người dùng rời ô (hoặc bấm gửi),
+  // để không báo lỗi "không khớp" ngay từ ký tự đầu tiên.
+  const [confirmTouched, setConfirmTouched] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [errors, setErrors] = useState<{ email?: string; password?: string; confirmPassword?: string }>({});
+  const [errors, setErrors] = useState<Errors>({});
   const [notice, setNotice] = useState<string | null>(null);
 
-  const validate = () => {
-    const nextErrors: { email?: string; password?: string; confirmPassword?: string } = {};
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+  const confirmRef = useRef<HTMLInputElement>(null);
 
-    if (!email.trim()) {
-      nextErrors.email = "Vui lòng nhập địa chỉ thư điện tử.";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
-      nextErrors.email = "Địa chỉ thư điện tử không hợp lệ.";
-    }
-
-    if (!password) {
-      nextErrors.password = "Vui lòng nhập mật khẩu.";
-    } else if (password.length < 6) {
-      nextErrors.password = "Mật khẩu cần tối thiểu 6 ký tự.";
-    }
-
-    if (!confirmPassword) {
-      nextErrors.confirmPassword = "Vui lòng xác nhận lại mật khẩu.";
-    } else if (confirmPassword !== password) {
-      nextErrors.confirmPassword = "Mật khẩu xác nhận không trùng khớp.";
-    }
-
-    setErrors(nextErrors);
-    return Object.keys(nextErrors).length === 0;
+  // Cùng một quy tắc cho cả hai ô mật khẩu: khi ô xác nhận đã được chạm và có nội dung,
+  // lỗi không khớp luôn được tính lại theo giá trị mới nhất.
+  const syncConfirmError = (nextPassword: string, nextConfirm: string) => {
+    if (!confirmTouched || !nextConfirm) return;
+    setErrors((prev) => ({ ...prev, confirmPassword: validateConfirmPassword(nextPassword, nextConfirm) }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setNotice(null);
+    setConfirmTouched(true);
 
-    if (!validate()) return;
+    const nextErrors: Errors = {
+      email: validateEmail(email),
+      password: validateNewPassword(password),
+      confirmPassword: validateConfirmPassword(password, confirmPassword),
+    };
+    setErrors(nextErrors);
+
+    // Đưa con trỏ tới ô sai đầu tiên
+    if (nextErrors.email) return emailRef.current?.focus();
+    if (nextErrors.password) return passwordRef.current?.focus();
+    if (nextErrors.confirmPassword) return confirmRef.current?.focus();
 
     setIsLoading(true);
     // Giả lập tương tác đăng ký tài khoản
@@ -55,29 +66,13 @@ export function RegisterForm() {
     }, 900);
   };
 
-  const handleSocialSelect = (provider: "google" | "apple" | "facebook") => {
-    const providerNames = {
-      google: "Google",
-      apple: "Apple",
-      facebook: "Facebook",
-    };
-    setNotice(`Cổng đăng ký qua ${providerNames[provider]} đang được kết nối.`);
-  };
-
   return (
     <div className="tw:flex tw:flex-col tw:w-full">
-      {notice && (
-        <div
-          className="tw:flex tw:items-center tw:gap-2 tw:p-3 tw:mb-4 tw:rounded-[10px] tw:bg-[#e8c77a]/25 tw:border tw:border-[rgba(214,164,64,0.4)] tw:text-[0.85rem] tw:text-[var(--brown-900,#4a320a)] font-zen-body"
-          role="status"
-        >
-          <IconSparkles size={16} stroke={1.8} className="tw:shrink-0 tw:text-[#a8741a]" />
-          <span>{notice}</span>
-        </div>
-      )}
+      <AuthNotice message={notice} />
 
       <form className="tw:flex tw:flex-col tw:gap-4 tw:w-full" onSubmit={handleSubmit} noValidate>
         <AuthInput
+          ref={emailRef}
           label="Thư điện tử"
           type="email"
           autoComplete="email"
@@ -92,83 +87,59 @@ export function RegisterForm() {
           disabled={isLoading}
         />
 
-        <AuthInput
+        <PasswordInput
+          ref={passwordRef}
           label="Mật khẩu"
-          type={showPassword ? "text" : "password"}
           autoComplete="new-password"
-          placeholder="Nhập mật khẩu (tối thiểu 6 ký tự)..."
+          placeholder={`Tối thiểu ${PASSWORD_MIN_LENGTH} ký tự`}
           value={password}
           onChange={(e) => {
-            setPassword(e.target.value);
+            const value = e.target.value;
+            setPassword(value);
             if (errors.password) setErrors((prev) => ({ ...prev, password: undefined }));
-            if (confirmPassword && e.target.value !== confirmPassword) {
-              setErrors((prev) => ({ ...prev, confirmPassword: "Mật khẩu xác nhận không trùng khớp." }));
-            } else if (confirmPassword && e.target.value === confirmPassword) {
-              setErrors((prev) => ({ ...prev, confirmPassword: undefined }));
-            }
+            syncConfirmError(value, confirmPassword);
           }}
           icon={<IconLock size={18} stroke={1.8} />}
           error={errors.password}
           disabled={isLoading}
-          endSlot={
-            <button
-              type="button"
-              className="tw:flex tw:items-center tw:justify-center tw:w-[34px] tw:h-[34px] tw:p-0 tw:text-[var(--brown-800,#6b4a12)] tw:bg-transparent tw:border-0 tw:rounded-lg tw:cursor-pointer tw:transition-colors tw:hover:text-[var(--brown-900,#4a320a)] tw:hover:bg-[#e8c77a]/25 tw:focus-visible:outline-2 tw:focus-visible:outline-[#d6a440] tw:focus-visible:outline-offset-1"
-              onClick={() => setShowPassword((prev) => !prev)}
-              aria-label={showPassword ? "Ẩn mật khẩu" : "Hiện mật khẩu"}
-              aria-pressed={showPassword}
-            >
-              {showPassword ? <IconEyeOff size={18} stroke={1.8} /> : <IconEye size={18} stroke={1.8} />}
-            </button>
-          }
         />
 
-        <AuthInput
+        <PasswordInput
+          ref={confirmRef}
           label="Xác nhận mật khẩu"
-          type={showConfirmPassword ? "text" : "password"}
+          toggleName="xác nhận mật khẩu"
           autoComplete="new-password"
-          placeholder="Nhập lại mật khẩu để xác nhận..."
+          placeholder="Nhập lại mật khẩu"
           value={confirmPassword}
           onChange={(e) => {
-            setConfirmPassword(e.target.value);
-            if (errors.confirmPassword) setErrors((prev) => ({ ...prev, confirmPassword: undefined }));
+            const value = e.target.value;
+            setConfirmPassword(value);
+            if (!value) setErrors((prev) => ({ ...prev, confirmPassword: undefined }));
+            syncConfirmError(password, value);
+          }}
+          onBlur={() => {
+            if (!confirmPassword) return;
+            setConfirmTouched(true);
+            setErrors((prev) => ({ ...prev, confirmPassword: validateConfirmPassword(password, confirmPassword) }));
           }}
           icon={<IconLockCheck size={18} stroke={1.8} />}
           error={errors.confirmPassword}
           disabled={isLoading}
-          endSlot={
-            <button
-              type="button"
-              className="tw:flex tw:items-center tw:justify-center tw:w-[34px] tw:h-[34px] tw:p-0 tw:text-[var(--brown-800,#6b4a12)] tw:bg-transparent tw:border-0 tw:rounded-lg tw:cursor-pointer tw:transition-colors tw:hover:text-[var(--brown-900,#4a320a)] tw:hover:bg-[#e8c77a]/25 tw:focus-visible:outline-2 tw:focus-visible:outline-[#d6a440] tw:focus-visible:outline-offset-1"
-              onClick={() => setShowConfirmPassword((prev) => !prev)}
-              aria-label={showConfirmPassword ? "Ẩn xác nhận mật khẩu" : "Hiện xác nhận mật khẩu"}
-              aria-pressed={showConfirmPassword}
-            >
-              {showConfirmPassword ? <IconEyeOff size={18} stroke={1.8} /> : <IconEye size={18} stroke={1.8} />}
-            </button>
-          }
         />
 
-        <button
-          type="submit"
-          className="tw:relative tw:overflow-hidden tw:inline-flex tw:items-center tw:justify-center tw:gap-2 tw:w-full tw:min-h-[46px] tw:mt-2 tw:px-5 tw:font-semibold tw:text-[0.94rem] tw:text-[var(--brown-900,#4a320a)] tw:bg-gradient-to-b tw:from-[#ffe699] tw:via-[#f5d77f] tw:to-[#d6a440] tw:border tw:border-[#edd17b] tw:rounded-full tw:cursor-pointer tw:select-none tw:shadow-[0_4px_14px_rgba(214,164,64,0.35)] tw:transition-all tw:hover:shadow-[0_6px_20px_rgba(214,164,64,0.5)] tw:hover:-translate-y-0.5 tw:active:translate-y-0 tw:disabled:opacity-60 tw:disabled:pointer-events-none font-zen-body"
-          disabled={isLoading}
-        >
-          {isLoading ? (
-            <span className="tw:inline-block tw:w-4 tw:h-4 tw:border-2 tw:border-[rgba(74,50,10,0.3)] tw:border-t-[var(--brown-900,#4a320a)] tw:rounded-full tw:animate-spin" />
-          ) : (
-            <span>Tạo tài khoản</span>
-          )}
-        </button>
+        <AuthSubmitButton isLoading={isLoading}>Tạo tài khoản</AuthSubmitButton>
       </form>
 
-      <SocialLoginGroup onSelectProvider={handleSocialSelect} />
+      <SocialLoginGroup
+        mode="register"
+        onSelectProvider={(provider) => setNotice(`Cổng đăng ký qua ${PROVIDER_NAMES[provider]} đang được kết nối.`)}
+      />
 
-      <div className="tw:flex tw:items-center tw:justify-center tw:gap-1.5 tw:mt-5 tw:text-[0.88rem] tw:text-[var(--brown-800,#6b4a12)] font-zen-body">
+      <div className="tw:flex tw:items-center tw:justify-center tw:gap-1.5 tw:mt-5 tw:text-[0.88rem] tw:text-[var(--brown-800)] font-zen-body">
         <span>Đã có tài khoản?</span>
         <Link
           href="/dang-nhap"
-          className="tw:text-[#a8741a] tw:font-semibold tw:hover:text-[var(--brown-900,#4a320a)] tw:hover:underline"
+          className="tw:text-[var(--gold-700)] tw:font-semibold tw:hover:text-[var(--brown-900)] tw:hover:underline"
         >
           Đăng nhập
         </Link>

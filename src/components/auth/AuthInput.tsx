@@ -17,17 +17,17 @@ export const AuthInput = forwardRef<HTMLInputElement, AuthInputProps>(function A
 
   return (
     <div className="tw:flex tw:flex-col tw:gap-1.5 tw:w-full">
-      <label htmlFor={inputId} className="tw:text-[0.86rem] tw:font-medium tw:text-[var(--brown-800,#6b4a12)] tw:select-none font-zen-body">
+      <label htmlFor={inputId} className="tw:text-[0.86rem] tw:font-medium tw:text-[var(--brown-800)] tw:select-none font-zen-body">
         {label}
       </label>
 
       <div
-        className={`tw:relative tw:flex tw:items-center tw:w-full tw:rounded-[10px] tw:bg-[#fbf7ec]/85 tw:border tw:border-[rgba(214,164,64,0.35)] tw:transition-all tw:hover:border-[rgba(214,164,64,0.6)] tw:hover:bg-[#fbf7ec]/95 tw:focus-within:border-[#d6a440] tw:focus-within:bg-white tw:focus-within:shadow-[0_0_0_3px_rgba(214,164,64,0.18)] ${
-          error ? "tw:!border-[#b45309] tw:!bg-[#fff8f6] tw:!shadow-[0_0_0_3px_rgba(180,83,9,0.15)]" : ""
+        className={`tw:relative tw:flex tw:items-center tw:w-full tw:rounded-[10px] tw:bg-[var(--paper)]/85 tw:border tw:border-[var(--gold-500)]/35 tw:transition-all tw:hover:border-[var(--gold-500)]/60 tw:hover:bg-[var(--paper)]/95 tw:focus-within:border-[var(--gold-500)] tw:focus-within:bg-white tw:focus-within:shadow-[0_0_0_3px_rgba(214,164,64,0.18)] ${
+          error ? "tw:!border-[var(--ink-wrong)] tw:!bg-[#fff8f6] tw:!shadow-[0_0_0_3px_rgba(180,83,9,0.15)]" : ""
         }`}
       >
         {icon && (
-          <span className="tw:flex tw:items-center tw:justify-center tw:pl-3 tw:text-[#a8741a] tw:pointer-events-none tw:shrink-0" aria-hidden="true">
+          <span className="tw:flex tw:items-center tw:justify-center tw:pl-3 tw:text-[var(--gold-700)] tw:pointer-events-none tw:shrink-0" aria-hidden="true">
             {icon}
           </span>
         )}
@@ -35,7 +35,7 @@ export const AuthInput = forwardRef<HTMLInputElement, AuthInputProps>(function A
         <input
           ref={ref}
           id={inputId}
-          className={`tw:flex-1 tw:w-full tw:min-h-[44px] tw:px-3 tw:font-sans tw:text-[0.94rem] tw:text-[var(--ink,#2b2116)] tw:bg-transparent tw:border-0 tw:outline-none tw:placeholder:text-[rgba(120,95,55,0.45)] ${className || ""}`}
+          className={`tw:flex-1 tw:w-full tw:min-h-[44px] tw:px-3 font-zen-body tw:text-[0.94rem] tw:text-[var(--ink)] tw:bg-transparent tw:border-0 tw:outline-none tw:placeholder:text-[var(--ink-ghost)] ${className || ""}`}
           aria-invalid={Boolean(error)}
           aria-describedby={error ? errorId : undefined}
           {...rest}
@@ -49,7 +49,7 @@ export const AuthInput = forwardRef<HTMLInputElement, AuthInputProps>(function A
       </div>
 
       {error && (
-        <span id={errorId} className="tw:text-[0.8rem] tw:text-[#b45309] tw:mt-0.5 font-zen-body" role="alert">
+        <span id={errorId} className="tw:text-[0.8rem] tw:text-[var(--ink-wrong)] tw:mt-0.5 font-zen-body" role="alert">
           {error}
         </span>
       )}

@@ -1,44 +1,45 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Link from "next/link";
-import { IconEye, IconEyeOff, IconLock, IconMail, IconSparkles } from "@tabler/icons-react";
+import { IconLock, IconMail } from "@tabler/icons-react";
 import { AuthInput } from "./AuthInput";
-import { SocialLoginGroup } from "./SocialLoginGroup";
+import { AuthNotice } from "./AuthNotice";
+import { AuthSubmitButton } from "./AuthSubmitButton";
+import { PasswordInput } from "./PasswordInput";
+import { SocialLoginGroup, type SocialProvider } from "./SocialLoginGroup";
+import { validateEmail } from "./validation";
+
+type Errors = { email?: string; password?: string };
+
+const PROVIDER_NAMES: Record<SocialProvider, string> = { google: "Google", apple: "Apple", facebook: "Facebook" };
 
 export function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(true);
-  const [showPassword, setShowPassword] = useState(false);
+  // Không tick sẵn: người dùng có thể đang ở máy dùng chung.
+  const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+  const [errors, setErrors] = useState<Errors>({});
   const [notice, setNotice] = useState<string | null>(null);
 
-  const validate = () => {
-    const nextErrors: { email?: string; password?: string } = {};
-
-    if (!email.trim()) {
-      nextErrors.email = "Vui lòng nhập địa chỉ thư điện tử.";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
-      nextErrors.email = "Địa chỉ thư điện tử không hợp lệ.";
-    }
-
-    if (!password) {
-      nextErrors.password = "Vui lòng nhập mật khẩu.";
-    } else if (password.length < 6) {
-      nextErrors.password = "Mật khẩu cần tối thiểu 6 ký tự.";
-    }
-
-    setErrors(nextErrors);
-    return Object.keys(nextErrors).length === 0;
-  };
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setNotice(null);
 
-    if (!validate()) return;
+    // Đăng nhập chỉ cần không để trống; độ dài tối thiểu là quy tắc của trang đăng ký.
+    const nextErrors: Errors = {
+      email: validateEmail(email),
+      password: password ? undefined : "Vui lòng nhập mật khẩu.",
+    };
+    setErrors(nextErrors);
+
+    // Đưa con trỏ tới ô sai đầu tiên
+    if (nextErrors.email) return emailRef.current?.focus();
+    if (nextErrors.password) return passwordRef.current?.focus();
 
     setIsLoading(true);
     // Giả lập tương tác gửi yêu cầu đăng nhập
@@ -48,33 +49,13 @@ export function LoginForm() {
     }, 900);
   };
 
-  const handleSocialSelect = (provider: "google" | "apple" | "facebook") => {
-    const providerNames = {
-      google: "Google",
-      apple: "Apple",
-      facebook: "Facebook",
-    };
-    setNotice(`Cổng đăng nhập qua ${providerNames[provider]} đang được kết nối.`);
-  };
-
-  const handleInfoAction = (actionName: string) => {
-    setNotice(`Tính năng ${actionName} đang được hoàn thiện.`);
-  };
-
   return (
     <div className="tw:flex tw:flex-col tw:w-full">
-      {notice && (
-        <div
-          className="tw:flex tw:items-center tw:gap-2 tw:p-3 tw:mb-4 tw:rounded-[10px] tw:bg-[#e8c77a]/25 tw:border tw:border-[rgba(214,164,64,0.4)] tw:text-[0.85rem] tw:text-[var(--brown-900,#4a320a)] font-zen-body"
-          role="status"
-        >
-          <IconSparkles size={16} stroke={1.8} className="tw:shrink-0 tw:text-[#a8741a]" />
-          <span>{notice}</span>
-        </div>
-      )}
+      <AuthNotice message={notice} />
 
       <form className="tw:flex tw:flex-col tw:gap-4 tw:w-full" onSubmit={handleSubmit} noValidate>
         <AuthInput
+          ref={emailRef}
           label="Thư điện tử"
           type="email"
           autoComplete="email"
@@ -89,9 +70,9 @@ export function LoginForm() {
           disabled={isLoading}
         />
 
-        <AuthInput
+        <PasswordInput
+          ref={passwordRef}
           label="Mật khẩu"
-          type={showPassword ? "text" : "password"}
           autoComplete="current-password"
           placeholder="Nhập mật khẩu..."
           value={password}
@@ -102,24 +83,13 @@ export function LoginForm() {
           icon={<IconLock size={18} stroke={1.8} />}
           error={errors.password}
           disabled={isLoading}
-          endSlot={
-            <button
-              type="button"
-              className="tw:flex tw:items-center tw:justify-center tw:w-[34px] tw:h-[34px] tw:p-0 tw:text-[var(--brown-800,#6b4a12)] tw:bg-transparent tw:border-0 tw:rounded-lg tw:cursor-pointer tw:transition-colors tw:hover:text-[var(--brown-900,#4a320a)] tw:hover:bg-[#e8c77a]/25 tw:focus-visible:outline-2 tw:focus-visible:outline-[#d6a440] tw:focus-visible:outline-offset-1"
-              onClick={() => setShowPassword((prev) => !prev)}
-              aria-label={showPassword ? "Ẩn mật khẩu" : "Hiện mật khẩu"}
-              aria-pressed={showPassword}
-            >
-              {showPassword ? <IconEyeOff size={18} stroke={1.8} /> : <IconEye size={18} stroke={1.8} />}
-            </button>
-          }
         />
 
-        <div className="tw:flex tw:items-center tw:justify-between tw:-mt-0.5 tw:text-[0.85rem] font-zen-body">
-          <label className="tw:inline-flex tw:items-center tw:gap-2 tw:text-[var(--brown-800,#6b4a12)] tw:cursor-pointer tw:select-none">
+        <div className="tw:flex tw:items-center tw:justify-between tw:gap-3 tw:-mt-0.5 tw:text-[0.85rem] font-zen-body">
+          <label className="tw:inline-flex tw:items-center tw:gap-2 tw:text-[var(--brown-800)] tw:cursor-pointer tw:select-none">
             <input
               type="checkbox"
-              className="tw:w-4 tw:h-4 tw:rounded tw:border tw:border-[rgba(214,164,64,0.5)] tw:bg-[#fbf7ec] tw:accent-[#d6a440] tw:cursor-pointer tw:focus-visible:outline-2 tw:focus-visible:outline-[#d6a440] tw:focus-visible:outline-offset-2"
+              className="tw:w-4 tw:h-4 tw:rounded tw:border tw:border-[var(--gold-500)]/50 tw:bg-[var(--paper)] tw:accent-[var(--gold-500)] tw:cursor-pointer tw:focus-visible:outline-2 tw:focus-visible:outline-[var(--gold-500)] tw:focus-visible:outline-offset-2"
               checked={rememberMe}
               onChange={(e) => setRememberMe(e.target.checked)}
               disabled={isLoading}
@@ -129,33 +99,26 @@ export function LoginForm() {
 
           <button
             type="button"
-            className="tw:text-[#a8741a] tw:font-medium tw:transition-colors tw:hover:text-[var(--brown-900,#4a320a)] tw:hover:underline tw:focus-visible:outline-2 tw:focus-visible:outline-[#d6a440] tw:focus-visible:outline-offset-2 tw:bg-transparent tw:border-0 tw:p-0 tw:cursor-pointer"
-            onClick={() => handleInfoAction("Quên mật khẩu")}
+            className="tw:text-[var(--gold-700)] tw:font-medium tw:transition-colors tw:hover:text-[var(--brown-900)] tw:hover:underline tw:focus-visible:outline-2 tw:focus-visible:outline-[var(--gold-500)] tw:focus-visible:outline-offset-2 tw:bg-transparent tw:border-0 tw:p-0 tw:cursor-pointer"
+            onClick={() => setNotice("Tính năng Quên mật khẩu đang được hoàn thiện.")}
           >
             Quên mật khẩu?
           </button>
         </div>
 
-        <button
-          type="submit"
-          className="tw:relative tw:overflow-hidden tw:inline-flex tw:items-center tw:justify-center tw:gap-2 tw:w-full tw:min-h-[46px] tw:mt-1.5 tw:px-5 tw:font-semibold tw:text-[0.94rem] tw:text-[var(--brown-900,#4a320a)] tw:bg-gradient-to-b tw:from-[#ffe699] tw:via-[#f5d77f] tw:to-[#d6a440] tw:border tw:border-[#edd17b] tw:rounded-full tw:cursor-pointer tw:select-none tw:shadow-[0_4px_14px_rgba(214,164,64,0.35)] tw:transition-all tw:hover:shadow-[0_6px_20px_rgba(214,164,64,0.5)] tw:hover:-translate-y-0.5 tw:active:translate-y-0 tw:disabled:opacity-60 tw:disabled:pointer-events-none font-zen-body"
-          disabled={isLoading}
-        >
-          {isLoading ? (
-            <span className="tw:inline-block tw:w-4 tw:h-4 tw:border-2 tw:border-[rgba(74,50,10,0.3)] tw:border-t-[var(--brown-900,#4a320a)] tw:rounded-full tw:animate-spin" />
-          ) : (
-            <span>Đăng nhập</span>
-          )}
-        </button>
+        <AuthSubmitButton isLoading={isLoading}>Đăng nhập</AuthSubmitButton>
       </form>
 
-      <SocialLoginGroup onSelectProvider={handleSocialSelect} />
+      <SocialLoginGroup
+        mode="login"
+        onSelectProvider={(provider) => setNotice(`Cổng đăng nhập qua ${PROVIDER_NAMES[provider]} đang được kết nối.`)}
+      />
 
-      <div className="tw:flex tw:items-center tw:justify-center tw:gap-1.5 tw:mt-5 tw:text-[0.88rem] tw:text-[var(--brown-800,#6b4a12)] font-zen-body">
+      <div className="tw:flex tw:items-center tw:justify-center tw:gap-1.5 tw:mt-5 tw:text-[0.88rem] tw:text-[var(--brown-800)] font-zen-body">
         <span>Chưa có tài khoản?</span>
         <Link
           href="/dang-ky"
-          className="tw:text-[#a8741a] tw:font-semibold tw:hover:text-[var(--brown-900,#4a320a)] tw:hover:underline"
+          className="tw:text-[var(--gold-700)] tw:font-semibold tw:hover:text-[var(--brown-900)] tw:hover:underline"
         >
           Đăng ký ngay
         </Link>

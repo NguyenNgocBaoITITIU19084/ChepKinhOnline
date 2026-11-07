@@ -8,7 +8,8 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
   return (
     <div className={styles.scene}>
       <AppHeader />
-      <main className="tw:flex-1">{children}</main>
+      {/* flex-col để thẻ xác thực (AuthCard, flex-1) chiếm phần cao còn lại và căn giữa theo chiều dọc */}
+      <main className="tw:flex-1 tw:flex tw:flex-col">{children}</main>
       <SiteFooter showDedication={false} />
     </div>
   );

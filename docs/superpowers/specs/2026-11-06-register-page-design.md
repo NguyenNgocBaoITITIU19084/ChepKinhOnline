@@ -54,12 +54,13 @@ src/
 ### 3.3. Các trường nhập liệu (Form Fields)
 - Tối giản 3 trường:
   1. **Thư điện tử**: `AuthInput` type `email`, icon `IconMail`, label `"Thư điện tử"`, placeholder `"ban@vidu.vn"`.
-  2. **Mật khẩu**: `AuthInput` type `password`/`text`, icon `IconLock`, label `"Mật khẩu"`, nút bật/tắt hiển thị mật khẩu (`IconEye`/`IconEyeOff`), placeholder `"Nhập mật khẩu (tối thiểu 6 ký tự)..."`.
-  3. **Xác nhận mật khẩu**: `AuthInput` type `password`/`text`, icon `IconLockCheck`, label `"Xác nhận mật khẩu"`, nút bật/tắt hiển thị mật khẩu riêng, placeholder `"Nhập lại mật khẩu để xác nhận..."`.
+  2. **Mật khẩu**: `AuthInput` type `password`/`text`, icon `IconLock`, label `"Mật khẩu"`, nút bật/tắt hiển thị mật khẩu (`IconEye`/`IconEyeOff`), placeholder `"Tối thiểu 6 ký tự"`.
+  3. **Xác nhận mật khẩu**: `AuthInput` type `password`/`text`, icon `IconLockCheck`, label `"Xác nhận mật khẩu"`, nút bật/tắt hiển thị mật khẩu riêng, placeholder `"Nhập lại mật khẩu"`.
 - **Validation**:
-  - Email rỗng hoặc sai định dạng: `"Địa chỉ thư điện tử không hợp lệ."`
+  - Email rỗng: `"Vui lòng nhập địa chỉ thư điện tử."`; sai định dạng: `"Địa chỉ thư điện tử không hợp lệ."`
   - Mật khẩu < 6 ký tự: `"Mật khẩu cần tối thiểu 6 ký tự."`
-  - Xác nhận mật khẩu không khớp: `"Mật khẩu xác nhận không trùng khớp."`
+  - Xác nhận mật khẩu không khớp: `"Mật khẩu xác nhận không trùng khớp."`. Ô xác nhận được kiểm tra trực tiếp sau khi người dùng rời ô hoặc bấm gửi; từ đó lỗi được tính lại mỗi khi sửa một trong hai ô mật khẩu.
+  - Khi gửi mà có lỗi, con trỏ được đưa tới ô sai đầu tiên.
   - Viền đỏ mực `tw:!border-[#b45309]` và thông báo lỗi hiển thị ngay dưới ô tương ứng.
 
 ### 3.4. Nút Hành động & Mạng xã hội
