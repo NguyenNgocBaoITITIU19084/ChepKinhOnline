@@ -15,7 +15,6 @@ import {
   ArticleGrid,
   ArticleHeader,
   ArticleLayout,
-  ArticleReadingBar,
   CategoryList,
   PopularArticles,
   SutraCtaCard,
@@ -55,16 +54,11 @@ export default async function ArticlePage({ params }: Props) {
   if (!article) notFound();
 
   return (
-    <>
-      {/* Vòng tròn tiến độ đọc ở góc dưới phải, bấm để lên đầu trang */}
-      <ArticleReadingBar title={article.title} />
-
-      <div className={page}>
-        <Suspense fallback={null}>
-          <ArticleContent article={article} />
-        </Suspense>
-      </div>
-    </>
+    <div className={page}>
+      <Suspense fallback={null}>
+        <ArticleContent article={article} />
+      </Suspense>
+    </div>
   );
 }
 
