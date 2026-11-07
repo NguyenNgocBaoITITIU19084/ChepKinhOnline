@@ -6,13 +6,17 @@ import type { SutraCatalogItem } from "@/types/sutra-catalog";
 interface SutraCardProps {
   sutra: SutraCatalogItem;
   index: number;
+  categoryHan?: string;
+  categoryLabel?: string;
 }
+
+const nf = new Intl.NumberFormat("vi-VN");
 
 function pad(n: number) {
   return String(n).padStart(2, "0");
 }
 
-export function SutraCard({ sutra, index }: SutraCardProps) {
+export function SutraCard({ sutra, index, categoryHan, categoryLabel }: SutraCardProps) {
   return (
     <Link
       href={`/chep-kinh/${sutra.slug}`}
@@ -27,7 +31,7 @@ export function SutraCard({ sutra, index }: SutraCardProps) {
         className="tw:object-cover tw:transition-transform tw:duration-[1200ms] tw:ease-out tw:group-hover:scale-[1.06]"
         style={{ objectPosition: sutra.objectPosition ?? "center 22%" }}
         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
-        priority={index < 3}
+        loading={index < 3 ? "eager" : "lazy"}
       />
 
       {/* Lớp phủ chuyển màu nâu trà ấm áp để văn tự luôn sáng rõ */}
@@ -38,8 +42,20 @@ export function SutraCard({ sutra, index }: SutraCardProps) {
       <div className="tw:absolute tw:inset-2.5 tw:rounded-[16px] tw:border tw:border-[#ecc976]/25 tw:pointer-events-none tw:transition-colors tw:duration-500 tw:group-hover:border-[#ecc976]/55" />
 
       {/* Số thứ tự bộ kinh */}
-      <span className="font-zen-title tw:absolute tw:top-6 tw:left-6 tw:text-[#fff8e6]/85 tw:text-sm tw:tracking-[0.2em] tw:tabular-nums">
-        {pad(index + 1)}
+      <span className="tw:absolute tw:top-5 tw:left-5 tw:flex tw:items-center tw:gap-2.5">
+        {categoryHan && (
+          <span
+            lang="zh-Hant"
+            aria-hidden="true"
+            className="font-zen-han tw:inline-flex tw:items-center tw:justify-center tw:w-8 tw:h-8 tw:rounded-[5px] tw:bg-[#120b05]/55 tw:backdrop-blur-sm tw:text-[16px] tw:text-[#f7dc9a] tw:ring-1 tw:ring-[#ecc976]/45"
+          >
+            {categoryHan}
+          </span>
+        )}
+        <span className="font-zen-title tw:text-[#fff8e6]/85 tw:text-sm tw:tracking-[0.2em] tw:tabular-nums">
+          {pad(index + 1)}
+        </span>
+        {categoryLabel && <span className="tw:sr-only">{categoryLabel}</span>}
       </span>
 
       {/* Dải triện đỏ chữ Hán viết dọc góc trên phải */}
@@ -78,6 +94,13 @@ export function SutraCard({ sutra, index }: SutraCardProps) {
             {sutra.description}
           </p>
         ) : null}
+
+        {/* Số liệu bộ kinh: số phẩm, số chữ, thời gian chép */}
+        <ul className="font-zen-body tw:m-0 tw:mt-4 tw:p-0 tw:list-none tw:flex tw:flex-wrap tw:gap-x-4 tw:gap-y-1 tw:text-[11.5px] tw:text-[#f3e6cc]/75 tw:tabular-nums">
+          <li><span className="tw:text-[#ecc976]">{sutra.chapterCount}</span> phẩm</li>
+          {sutra.wordCount > 0 && <li><span className="tw:text-[#ecc976]">{nf.format(sutra.wordCount)}</span> chữ</li>}
+          {sutra.estimatedMinutes ? <li>~<span className="tw:text-[#ecc976]">{sutra.estimatedMinutes}</span> phút chép</li> : null}
+        </ul>
 
         {/* Thanh chân thẻ: Huy hiệu công đức & Nút Chép Kinh vàng rực rỡ */}
         <div className="tw:mt-5 tw:pt-4 tw:border-t tw:border-[#ecc976]/20 tw:flex tw:items-center tw:justify-between tw:gap-3">

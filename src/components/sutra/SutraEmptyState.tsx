@@ -13,19 +13,19 @@ export function SutraEmptyState({ onReset }: SutraEmptyStateProps) {
         <LotusIcon size={34} strokeWidth={1.3} />
       </div>
 
-      <h3 className="tw:text-lg sm:tw:text-xl tw:font-serif tw:font-medium tw:text-stone-800 tw:mb-2 font-zen-book">
+      <h3 className="tw:text-lg tw:sm:text-xl tw:font-serif tw:font-medium tw:text-stone-800 tw:mb-2 font-zen-book">
         Chưa tìm thấy bộ kinh phù hợp
       </h3>
 
       <p className="tw:text-sm tw:text-stone-600 tw:max-w-md tw:mx-auto tw:mb-6 tw:leading-relaxed font-zen-body">
-        Quý đạo hữu có thể thử tìm kiếm với từ khóa khác hoặc chuyển sang danh mục
-        &ldquo;Tất cả kinh điển&rdquo; để xem trọn vẹn tàng kinh các.
+        Quý đạo hữu có thể thử tìm kiếm với từ khóa khác hoặc bỏ bớt bộ lọc
+        để xem trọn vẹn tàng kinh các.
       </p>
 
       <button
         type="button"
         onClick={onReset}
-        className="tw:inline-flex tw:items-center tw:gap-2 tw:px-5 tw:py-2.5 tw:rounded-full tw:text-sm tw:font-medium tw:text-amber-900 tw:bg-amber-100 hover:tw:bg-amber-200 tw:border tw:border-amber-400/40 tw:shadow-sm tw:transition-colors font-zen-body"
+        className="tw:inline-flex tw:items-center tw:gap-2 tw:px-5 tw:py-2.5 tw:rounded-full tw:text-sm tw:font-medium tw:text-amber-900 tw:bg-amber-100 tw:hover:bg-amber-200 tw:cursor-pointer tw:border tw:border-amber-400/40 tw:shadow-sm tw:transition-colors font-zen-body"
       >
         <IconRotate size={16} aria-hidden />
         <span>Xem tất cả kinh điển</span>

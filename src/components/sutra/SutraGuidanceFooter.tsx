@@ -1,68 +1,97 @@
 import React from "react";
-import { IconFlame, IconHeartHandshake, IconSparkles } from "@tabler/icons-react";
-import { ZenDivider } from "@/components/icons/BuddhistIcons";
 
+// Mỗi bước mang một chữ Hán làm dấu ấn thay cho icon: 淨 tịnh, 定 định, 迴 hồi hướng
 const GUIDANCE_STEPS = [
   {
-    step: "01",
-    title: "Tịnh Thủ Đoan Trang",
-    icon: IconSparkles,
+    han: "淨",
+    reading: "Tịnh",
+    title: "Tịnh thủ đoan trang",
     desc: "Rửa sạch bàn tay, ngồi ngay ngắn, chuẩn bị một không gian yên tĩnh và thanh khiết trước khi khởi tâm chép kinh.",
   },
   {
-    step: "02",
-    title: "Nhiếp Tâm An Trụ",
-    icon: IconFlame,
-    desc: "Thở sâu ba hơi, buông xả hết mọi phiền muộn trần thế. Gõ từng chữ bằng tất cả sự cung kính và chánh niệm trong từng khoảnh khắc.",
+    han: "定",
+    reading: "Định",
+    title: "Nhiếp tâm an trụ",
+    desc: "Thở sâu ba hơi, buông xả mọi phiền muộn. Gõ từng chữ bằng tất cả sự cung kính và chánh niệm.",
   },
   {
-    step: "03",
-    title: "Hồi Hướng Công Đức",
-    icon: IconHeartHandshake,
-    desc: "Khi hoàn thành một trang kinh, phát nguyện hồi hướng phước đức này đến cửu huyền thất tổ, cha mẹ hiện tiền và muôn loài chúng sinh.",
+    han: "迴",
+    reading: "Hồi",
+    title: "Hồi hướng công đức",
+    desc: "Chép xong một trang kinh, phát nguyện hồi hướng phước đức đến cửu huyền thất tổ, cha mẹ hiện tiền và muôn loài chúng sinh.",
   },
 ];
 
 export function SutraGuidanceFooter() {
   return (
-    <section className="tw:mt-16 tw:mb-6 tw:p-6 tw:sm:p-10 tw:rounded-3xl tw:border tw:border-[rgba(214,164,64,0.4)] tw:bg-[radial-gradient(ellipse_at_50%_0%,#fffdf6,var(--paper)_70%)] tw:[box-shadow:0_14px_40px_rgba(120,85,20,0.12)]">
-      <div className="tw:text-center tw:max-w-xl tw:mx-auto tw:mb-8">
-        <span className="tw:text-xs tw:tracking-widest tw:uppercase tw:font-semibold tw:text-gold-700 tw:mb-1.5 font-zen-body">
-          Pháp Môn Chép Kinh
-        </span>
-        <h2 className="font-zen-title tw:text-2xl tw:sm:text-3xl tw:font-semibold tw:text-brown-900 tw:mt-1.5">
-          Ba Bước Tịnh Tâm Trước Khi Chép
-        </h2>
-        <div className="tw:mt-1">
-          <ZenDivider symbol="lotus" className="!tw:my-4" />
-        </div>
-      </div>
+    <section
+      aria-labelledby="nghi-thuc-title"
+      className="tw:mt-28 tw:mb-4 tw:border-y-[3px] tw:border-x-0 tw:border-double tw:border-[#a8741a]/45 tw:bg-[linear-gradient(90deg,transparent,rgba(255,253,247,0.75)_15%,rgba(255,253,247,0.75)_85%,transparent)] tw:py-12 tw:sm:py-16"
+    >
+      <div className="tw:grid tw:grid-cols-1 tw:lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] tw:gap-12 tw:lg:gap-16 tw:px-1 tw:sm:px-4 tw:lg:px-8">
+        {/* Cột trái: tiêu đề và kệ hồi hướng */}
+        <div className="tw:flex tw:flex-col">
+          <p className="font-zen-body tw:m-0 tw:text-[11px] tw:font-semibold tw:uppercase tw:tracking-[0.28em] tw:text-gold-700">
+            Nghi thức trước khi chép
+          </p>
+          <h2
+            id="nghi-thuc-title"
+            className="font-zen-title tw:mt-4 tw:mb-0 tw:text-[34px] tw:sm:text-[44px] tw:font-semibold tw:leading-[1.1] tw:text-brown-900 tw:text-balance"
+          >
+            Ba bước tịnh tâm
+          </h2>
+          <p className="font-zen-body tw:mt-5 tw:mb-0 tw:max-w-[420px] tw:text-[15px] tw:leading-relaxed tw:text-brown-800">
+            Chép kinh không cốt ở số chữ, mà ở tâm khi đặt từng chữ xuống. Dành ít phút cho ba điều này
+            trước khi mở trang kinh.
+          </p>
 
-      <div className="tw:grid tw:grid-cols-1 tw:md:grid-cols-3 tw:gap-6">
-        {GUIDANCE_STEPS.map((item) => {
-          const Icon = item.icon;
-          return (
-            <div
-              key={item.step}
-              className="tw:relative tw:p-6 tw:rounded-2xl tw:border tw:border-[rgba(214,164,64,0.3)] tw:bg-[rgba(255,253,246,0.7)] tw:backdrop-blur-sm tw:flex tw:flex-col tw:items-start tw:shadow-sm"
+          <figure className="tw:mt-8 tw:lg:mt-auto tw:mx-0 tw:mb-0 tw:lg:pt-8">
+            <blockquote className="font-zen-title tw:m-0 tw:border-l-2 tw:border-[#8a2a17]/70 tw:pl-5 tw:text-[17px] tw:italic tw:leading-[1.75] tw:text-brown-900">
+              Án tu rị tu rị, ma ha tu rị,
+              <br />
+              tu tu rị, ta bà ha.
+            </blockquote>
+            <figcaption className="font-zen-body tw:mt-3 tw:pl-5 tw:text-xs tw:tracking-[0.12em] tw:uppercase tw:text-brown-800/70">
+              Tịnh khẩu nghiệp chân ngôn · tụng ba lần trước khi chép
+            </figcaption>
+          </figure>
+        </div>
+
+        {/* Cột phải: ba bước */}
+        <ol className="tw:m-0 tw:p-0 tw:list-none">
+          {GUIDANCE_STEPS.map((item, i) => (
+            <li
+              key={item.han}
+              className={`tw:grid tw:grid-cols-[64px_minmax(0,1fr)] tw:sm:grid-cols-[96px_minmax(0,1fr)] tw:gap-5 tw:sm:gap-8 tw:py-7 tw:sm:py-8 ${
+                i > 0 ? "tw:border-t tw:border-[#a8741a]/25" : "tw:pt-0"
+              }`}
             >
-              <div className="tw:flex tw:items-center tw:justify-between tw:w-full tw:mb-4">
-                <div className="tw:w-10 tw:h-10 tw:rounded-xl tw:bg-[#fff0c2] tw:text-[#7a4e0a] tw:flex tw:items-center tw:justify-center tw:border tw:border-gold-500/50">
-                  <Icon size={20} stroke={1.8} aria-hidden />
-                </div>
-                <span className="font-zen-title tw:text-sm tw:font-bold tw:text-gold-700/60">
-                  {item.step}
+              <div className="tw:flex tw:flex-col tw:items-center">
+                <span
+                  lang="zh-Hant"
+                  aria-hidden="true"
+                  className="font-zen-han tw:text-[52px] tw:sm:text-[72px] tw:leading-none tw:text-[#8a2a17]"
+                >
+                  {item.han}
+                </span>
+                <span className="font-zen-body tw:mt-2 tw:text-[11px] tw:uppercase tw:tracking-[0.2em] tw:text-brown-800/70">
+                  {item.reading}
                 </span>
               </div>
-              <h3 className="font-zen-title tw:text-lg tw:font-semibold tw:text-brown-900 tw:mb-2">
-                {item.title}
-              </h3>
-              <p className="font-zen-body tw:text-xs tw:sm:text-[13.5px] tw:text-brown-800 tw:leading-relaxed">
-                {item.desc}
-              </p>
-            </div>
-          );
-        })}
+              <div className="tw:pt-1 tw:sm:pt-2">
+                <h3 className="font-zen-title tw:m-0 tw:flex tw:items-baseline tw:gap-3 tw:text-xl tw:sm:text-2xl tw:font-semibold tw:text-brown-900">
+                  <span className="font-zen-body tw:text-xs tw:font-semibold tw:tabular-nums tw:text-gold-700">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  {item.title}
+                </h3>
+                <p className="font-zen-body tw:mt-2.5 tw:mb-0 tw:max-w-[520px] tw:text-[15px] tw:leading-relaxed tw:text-brown-800">
+                  {item.desc}
+                </p>
+              </div>
+            </li>
+          ))}
+        </ol>
       </div>
     </section>
   );

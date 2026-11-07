@@ -1,4 +1,5 @@
-import type { SutraCatalogItem } from "@/types/sutra-catalog";
+import { cache } from "react";
+import type { SutraCatalogItem, SutraCategory } from "@/types/sutra-catalog";
 import { listSutras } from "@/lib/sutra-repo";
 import { splitSutraChapters } from "@/lib/sutra";
 import { SUTRAS, ADDITIONAL_SUTRAS } from "@/data/sutras";
@@ -8,6 +9,7 @@ export { normalizeSearchString, searchNormalized } from "@/lib/search-utils";
 export const SUTRA_CATALOG_METADATA: Record<
   string,
   {
+    category: SutraCategory;
     aspiration: "tri-tue" | "cau-an" | "cau-sieu" | "sam-hoi";
     aspirationLabel: string;
     meritBadge: string;
@@ -18,6 +20,7 @@ export const SUTRA_CATALOG_METADATA: Record<
   }
 > = {
   "bat-nha-tam-kinh": {
+    category: "kinh",
     aspiration: "tri-tue",
     aspirationLabel: "Khai Mở Trí Tuệ",
     meritBadge: "Soi chiếu ngũ uẩn giai không",
@@ -30,6 +33,7 @@ export const SUTRA_CATALOG_METADATA: Record<
     estimatedMinutes: 15,
   },
   "chu-dai-bi": {
+    category: "chu",
     aspiration: "cau-an",
     aspirationLabel: "Cầu An & Trị Bệnh",
     meritBadge: "Đại bi tâm đà la ni",
@@ -42,6 +46,7 @@ export const SUTRA_CATALOG_METADATA: Record<
     estimatedMinutes: 20,
   },
   "kinh-duoc-su": {
+    category: "kinh",
     aspiration: "cau-an",
     aspirationLabel: "Cầu An & Trị Bệnh",
     meritBadge: "Tiêu tai diên thọ bình an",
@@ -54,6 +59,7 @@ export const SUTRA_CATALOG_METADATA: Record<
     estimatedMinutes: 30,
   },
   "kinh-dia-tang": {
+    category: "kinh",
     aspiration: "cau-sieu",
     aspirationLabel: "Cầu Siêu & Báo Hiếu",
     meritBadge: "Đại nguyện độ tận chúng sinh",
@@ -66,6 +72,7 @@ export const SUTRA_CATALOG_METADATA: Record<
     estimatedMinutes: 45,
   },
   "kinh-vu-lan-bao-hieu": {
+    category: "kinh",
     aspiration: "cau-sieu",
     aspirationLabel: "Cầu Siêu & Báo Hiếu",
     meritBadge: "Hiếu hạnh vi tiên",
@@ -78,6 +85,7 @@ export const SUTRA_CATALOG_METADATA: Record<
     estimatedMinutes: 25,
   },
   "kinh-sam-hoi": {
+    category: "sam",
     aspiration: "sam-hoi",
     aspirationLabel: "Sám Hối Nghiệp Chướng",
     meritBadge: "Tịnh nghiệp tiêu oan khiên",
@@ -90,6 +98,7 @@ export const SUTRA_CATALOG_METADATA: Record<
     estimatedMinutes: 35,
   },
   "kinh-sam-hoi-hong-danh": {
+    category: "sam",
     aspiration: "sam-hoi",
     aspirationLabel: "Sám Hối Nghiệp Chướng",
     meritBadge: "Đảnh lễ 88 Đức Phật Thế Tôn",
@@ -102,6 +111,7 @@ export const SUTRA_CATALOG_METADATA: Record<
     estimatedMinutes: 30,
   },
   "chu-lang-nghiem": {
+    category: "chu",
     aspiration: "tri-tue",
     aspirationLabel: "Khai Mở Trí Tuệ",
     meritBadge: "Phá trừ vọng tưởng ma chướng",
@@ -114,11 +124,12 @@ export const SUTRA_CATALOG_METADATA: Record<
     estimatedMinutes: 40,
   },
   "kinh-phap-cu": {
+    category: "ke",
     aspiration: "tri-tue",
     aspirationLabel: "Khai Mở Trí Tuệ",
     meritBadge: "Lời vàng giải thoát tỉnh thức",
-    image: "/storage/real/buddha_thich_ca.jpg",
-    objectPosition: "center 30%",
+    image: "/storage/real/phat_thich_ca_bodh_gaya.jpg",
+    objectPosition: "center 20%",
     verseExcerpt: [
       "Giữ tâm ý trong sạch,",
       "Là lời chư Phật dạy.",
@@ -128,6 +139,7 @@ export const SUTRA_CATALOG_METADATA: Record<
 };
 
 const DEFAULT_METADATA = {
+  category: "kinh" as const,
   aspiration: "tri-tue" as const,
   aspirationLabel: "Khai Mở Trí Tuệ",
   meritBadge: "Công đức thọ trì",
@@ -140,10 +152,20 @@ const DEFAULT_METADATA = {
   estimatedMinutes: 20,
 };
 
+// Đếm số chữ (âm tiết tiếng Việt) của bản kinh, bỏ qua dòng tiêu đề chương "# ..."
+function countWords(content: string) {
+  return content
+    .split("\n")
+    .filter((line) => !/^#\s/.test(line))
+    .join(" ")
+    .split(/\s+/)
+    .filter((w) => /[\p{L}\p{N}]/u.test(w)).length;
+}
+
 /**
  * Tải danh mục kinh điển đầy đủ cho trang Thư Viện Kinh
  */
-export async function getSutraCatalog(): Promise<SutraCatalogItem[]> {
+export const getSutraCatalog = cache(async function getSutraCatalog(): Promise<SutraCatalogItem[]> {
   const baseSutras = await listSutras();
   const allSeeds = [...SUTRAS, ...(ADDITIONAL_SUTRAS || [])];
 
@@ -179,12 +201,14 @@ export async function getSutraCatalog(): Promise<SutraCatalogItem[]> {
     const meta = SUTRA_CATALOG_METADATA[slug] || DEFAULT_METADATA;
     const chapters = sutra.content ? splitSutraChapters(sutra.content) : [];
     const chapterCount = chapters.length > 0 ? chapters.length : 1;
+    const wordCount = sutra.content ? countWords(sutra.content) : 0;
 
     items.push({
       id: slug,
       slug,
       title: sutra.title,
       originalTitle: sutra.originalTitle,
+      category: meta.category,
       aspiration: meta.aspiration,
       aspirationLabel: meta.aspirationLabel,
       meritBadge: meta.meritBadge,
@@ -193,9 +217,10 @@ export async function getSutraCatalog(): Promise<SutraCatalogItem[]> {
       verseExcerpt: meta.verseExcerpt,
       estimatedMinutes: meta.estimatedMinutes,
       chapterCount,
+      wordCount,
       description: sutra.description,
     });
   }
 
   return items;
-}
+});
