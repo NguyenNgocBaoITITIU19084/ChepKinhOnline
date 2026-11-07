@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import { IconEye, IconEyeOff, IconLock, IconMail, IconSparkles } from "@tabler/icons-react";
 import { AuthInput } from "./AuthInput";
 import { SocialLoginGroup } from "./SocialLoginGroup";
@@ -152,13 +153,12 @@ export function LoginForm() {
 
       <div className="tw:flex tw:items-center tw:justify-center tw:gap-1.5 tw:mt-5 tw:text-[0.88rem] tw:text-[var(--brown-800,#6b4a12)] font-zen-body">
         <span>Chưa có tài khoản?</span>
-        <button
-          type="button"
-          className="tw:text-[#a8741a] tw:font-semibold tw:hover:text-[var(--brown-900,#4a320a)] tw:hover:underline tw:cursor-pointer tw:bg-transparent tw:border-0 tw:p-0"
-          onClick={() => handleInfoAction("Đăng ký tài khoản")}
+        <Link
+          href="/dang-ky"
+          className="tw:text-[#a8741a] tw:font-semibold tw:hover:text-[var(--brown-900,#4a320a)] tw:hover:underline"
         >
           Đăng ký ngay
-        </button>
+        </Link>
       </div>
     </div>
   );
