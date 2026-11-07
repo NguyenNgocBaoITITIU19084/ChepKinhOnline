@@ -14,7 +14,7 @@ export default function CopySutraPage({ params }: PageProps<"/chep-kinh/[slug]">
     <main className="ck-scene ck-scene-bg">
       <SiteHeader
         actions={
-          <Link href="/" className={`ck-btn-ghost ${headerButton}`}>
+          <Link href="/kinh-dien" className={`ck-btn-ghost ${headerButton}`}>
             <IconBooks size={18} stroke={1.7} aria-hidden />
             <span className={hideSm}>Danh sách kinh</span>
           </Link>

@@ -1,15 +1,9 @@
-import type { SutraCatalogItem, AspirationTab } from "@/types/sutra-catalog";
+import type { SutraCatalogItem } from "@/types/sutra-catalog";
 import { listSutras } from "@/lib/sutra-repo";
 import { splitSutraChapters } from "@/lib/sutra";
 import { SUTRAS, ADDITIONAL_SUTRAS } from "@/data/sutras";
-
-export const ASPIRATION_TABS: AspirationTab[] = [
-  { id: "all", label: "Tất cả kinh điển" },
-  { id: "tri-tue", label: "Khai Mở Trí Tuệ", description: "Bát Nhã, Pháp Cú, Thủ Lăng Nghiêm" },
-  { id: "cau-an", label: "Cầu An & Trị Bệnh", description: "Chú Đại Bi, Kinh Dược Sư" },
-  { id: "cau-sieu", label: "Cầu Siêu & Báo Hiếu", description: "Kinh Địa Tạng, Kinh Vu Lan" },
-  { id: "sam-hoi", label: "Sám Hối Nghiệp Chướng", description: "Từ Bi Thủy Sám, 88 Vị Phật" },
-];
+export { ASPIRATION_TABS } from "@/lib/sutra-catalog-constants";
+export { normalizeSearchString, searchNormalized } from "@/lib/search-utils";
 
 export const SUTRA_CATALOG_METADATA: Record<
   string,
@@ -145,29 +139,6 @@ const DEFAULT_METADATA = {
   ],
   estimatedMinutes: 20,
 };
-
-/**
- * Chuẩn hóa chuỗi tiếng Việt để tìm kiếm không dấu
- */
-export function normalizeSearchString(str: string): string {
-  return str
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/đ/g, "d")
-    .replace(/Đ/g, "d")
-    .trim();
-}
-
-/**
- * Kiểm tra xem text có chứa query hay không (không phân biệt dấu và hoa thường)
- */
-export function searchNormalized(text: string, query: string): boolean {
-  if (!query.trim()) return true;
-  const normText = normalizeSearchString(text);
-  const normQuery = normalizeSearchString(query);
-  return normText.includes(normQuery);
-}
 
 /**
  * Tải danh mục kinh điển đầy đủ cho trang Thư Viện Kinh

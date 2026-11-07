@@ -373,7 +373,7 @@ export default function Home() {
           >
             <SutraList />
           </Suspense>
-          <SeeMore href="/kinh" label="Xem tất cả bộ kinh" />
+          <SeeMore href="/kinh-dien" label="Xem toàn bộ tàng kinh các" />
         </section>
 
         <ZenDivider symbol="lotus" />

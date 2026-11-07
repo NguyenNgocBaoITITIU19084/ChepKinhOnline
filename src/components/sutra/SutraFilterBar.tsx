@@ -2,7 +2,7 @@
 
 import React from "react";
 import { IconSearch, IconX } from "@tabler/icons-react";
-import { ASPIRATION_TABS } from "@/data/sutra-catalog";
+import { ASPIRATION_TABS } from "@/lib/sutra-catalog-constants";
 import type { SutraAspiration } from "@/types/sutra-catalog";
 
 interface SutraFilterBarProps {
