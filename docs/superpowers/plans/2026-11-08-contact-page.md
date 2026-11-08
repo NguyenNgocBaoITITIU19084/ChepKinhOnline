@@ -39,7 +39,7 @@ src/
 
 ## Chi Tiết Các Tác Vụ Triển Khai
 
-### Nhiệm Vụ 1: Định Nghĩa Types & Dữ Liệu Tĩnh FAQ
+### Task 1: Định Nghĩa Types & Dữ Liệu Tĩnh FAQ
 **Files:**
 - Tạo mới: `src/types/contact.ts`
 - Tạo mới: `src/data/contact-faq.ts`
@@ -54,11 +54,11 @@ src/
 - [ ] **Bước 1.1: Tạo file `src/types/contact.ts` định nghĩa toàn bộ types**
 - [ ] **Bước 1.2: Tạo file `src/data/contact-faq.ts` chứa dữ liệu tĩnh câu hỏi thường gặp**
 - [ ] **Bước 1.3: Chạy kiểm tra typecheck (`npx tsc --noEmit`)**
-- [ ] **Bước 1.4: Commit Nhiệm vụ 1**
+- [ ] **Bước 1.4: Commit Task 1**
 
 ---
 
-### Nhiệm Vụ 2: Xây Dựng Các Component Giao Diện (Header, FAQ Accordion, Success Alert)
+### Task 2: Xây Dựng Các Component Giao Diện (Header, FAQ Accordion, Success Alert)
 **Files:**
 - Tạo mới: `src/components/contact/ContactHeader.tsx`
 - Tạo mới: `src/components/contact/ContactFaq.tsx`
@@ -73,11 +73,11 @@ src/
 - [ ] **Bước 2.2: Xây dựng `ContactFaq.tsx` có tương tác Accordion toggle mượt mà**
 - [ ] **Bước 2.3: Xây dựng `ContactSuccessAlert.tsx`**
 - [ ] **Bước 2.4: Kiểm tra typecheck (`npx tsc --noEmit`)**
-- [ ] **Bước 2.5: Commit Nhiệm vụ 2**
+- [ ] **Bước 2.5: Commit Task 2**
 
 ---
 
-### Nhiệm Vụ 3: Xây Dựng Biểu Mẫu Liên Hệ (ContactForm)
+### Task 3: Xây Dựng Biểu Mẫu Liên Hệ (ContactForm)
 **Files:**
 - Tạo mới: `src/components/contact/ContactForm.tsx`
 
@@ -91,11 +91,11 @@ src/
 
 - [ ] **Bước 3.1: Xây dựng `ContactForm.tsx` đầy đủ state, validation và mock submission**
 - [ ] **Bước 3.2: Kiểm tra typecheck (`npx tsc --noEmit`)**
-- [ ] **Bước 3.3: Commit Nhiệm vụ 3**
+- [ ] **Bước 3.3: Commit Task 3**
 
 ---
 
-### Nhiệm Vụ 4: Tích Hợp Trang `/lien-he` & Kiểm Thử Toàn Diện
+### Task 4: Tích Hợp Trang `/lien-he` & Kiểm Thử Toàn Diện
 **Files:**
 - Tạo mới: `src/app/(app)/lien-he/page.tsx`
 
@@ -108,4 +108,4 @@ src/
 - [ ] **Bước 4.1: Tạo trang `src/app/(app)/lien-he/page.tsx` kết nối các components**
 - [ ] **Bước 4.2: Chạy kiểm tra TypeScript (`npx tsc --noEmit`)**
 - [ ] **Bước 4.3: Chạy build Next.js (`npm run build`) xác nhận không phát sinh lỗi**
-- [ ] **Bước 4.4: Commit Nhiệm vụ 4 và hoàn tất**
+- [ ] **Bước 4.4: Commit Task 4 và hoàn tất**
