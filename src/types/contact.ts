@@ -54,3 +54,7 @@ export interface FaqItem {
  * Trạng thái gửi phản hồi của biểu mẫu
  */
 export type ContactSubmitStatus = "idle" | "submitting" | "success" | "error";
+
+// Xuất lại danh mục chủ đề để có thể import từ @/types/contact
+export { CONTACT_CATEGORIES } from "@/data/contact-faq";
+
