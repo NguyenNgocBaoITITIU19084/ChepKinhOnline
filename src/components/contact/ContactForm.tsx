@@ -273,6 +273,8 @@ export function ContactForm({ className = "", onSuccess }: ContactFormProps) {
                 id="contact-sutra-reference"
                 name="sutraReference"
                 type="text"
+                tabIndex={isSutraRelated ? undefined : -1}
+                aria-hidden={!isSutraRelated}
                 value={formData.sutraReference || ""}
                 onChange={(e) => updateField("sutraReference", e.target.value)}
                 placeholder={
