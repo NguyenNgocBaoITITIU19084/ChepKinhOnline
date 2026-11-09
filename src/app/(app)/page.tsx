@@ -6,6 +6,8 @@ import { SutraList } from "@/components/sutra/SutraList";
 import { ArticleTeaserCard } from "@/components/article";
 import { PhotoBanner } from "@/components/layout/PhotoBanner";
 import { LotusIcon, ZenDivider } from "@/components/icons/BuddhistIcons";
+import { HolyFiguresBlock } from "@/components/home/HolyFiguresBlock";
+import { BuddhistCalendarBlock } from "@/components/home/BuddhistCalendarBlock";
 
 // 3 Cảnh Sắc Chùa & Thiền Môn (Ảnh chụp thật 100%, bản quyền Creative Commons / Public Domain)
 const TEMPLE_SCENES = [
@@ -344,6 +346,49 @@ export default function Home() {
             })}
           </div>
           <SeeMore href="/canh-sac" label="Xem thêm cảnh sắc" />
+        </section>
+
+        <ZenDivider symbol="knot" />
+
+        {/* ====================================================================
+            3b. BLOCK CHƯ PHẬT & BỒ TÁT (tranh từng vị, hình tướng, ngày vía, hồng danh, kinh để chép)
+            ==================================================================== */}
+        <section id="chu-phat-bo-tat" aria-labelledby="chu-phat-heading" className="tw:pt-8 tw:pb-16">
+          <div className="tw:text-center tw:max-w-2xl tw:mx-auto tw:mb-10">
+            <span className="tw:text-xs tw:font-semibold tw:tracking-widest tw:uppercase tw:text-amber-900/80 font-zen-body">
+              Chư Phật & Bồ Tát
+            </span>
+            <h2
+              id="chu-phat-heading"
+              className="font-zen-title tw:text-2xl tw:sm:text-3xl tw:font-semibold tw:text-[#231b14] tw:mt-2 tw:mb-3 tw:leading-tight tw:text-balance"
+            >
+              Tôn Dung Chư Phật, Bồ Tát
+            </h2>
+            <p className="font-zen-body tw:text-sm tw:sm:text-base tw:text-stone-600 tw:leading-relaxed">
+              Những vị Phật, Bồ Tát Phật tử Việt Nam thường lễ bái, cùng hình tướng, ngày vía và hạnh nguyện của mỗi vị.
+            </p>
+          </div>
+          <HolyFiguresBlock />
+        </section>
+
+        <ZenDivider symbol="lotus" />
+
+        {/* ====================================================================
+            3c. BLOCK LỊCH PHẬT SỰ (ngày lễ, ngày vía theo âm lịch, ngày dương tự tính)
+            ==================================================================== */}
+        <section id="lich-phat-su" aria-labelledby="lich-phat-su-heading" className="tw:pt-8 tw:pb-16">
+          <div className="tw:text-center tw:max-w-2xl tw:mx-auto tw:mb-6">
+            <span className="tw:text-xs tw:font-semibold tw:tracking-widest tw:uppercase tw:text-amber-900/80 font-zen-body">
+              Lịch Phật Sự
+            </span>
+            <h2
+              id="lich-phat-su-heading"
+              className="font-zen-title tw:text-2xl tw:sm:text-3xl tw:font-semibold tw:text-[#231b14] tw:mt-2 tw:mb-0 tw:leading-tight tw:text-balance"
+            >
+              Ngày Lễ & Ngày Vía Trong Năm
+            </h2>
+          </div>
+          <BuddhistCalendarBlock />
         </section>
 
         <ZenDivider symbol="wheel" />
