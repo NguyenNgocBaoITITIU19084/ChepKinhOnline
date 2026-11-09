@@ -23,6 +23,16 @@ export interface PhotoBannerProps {
   priority?: boolean;
   /** Ảnh trôi chậm hơn trang khi cuộn (CSS scroll timeline, tắt khi giảm chuyển động). */
   parallax?: boolean;
+  /**
+   * Chỉ cho banner "compact"/"tall": hạ ảnh xuống dưới thanh header kính, dải phía trên lấp bằng màu trời `skyColor`,
+   * dùng khi tượng sát mép trên ảnh (đỉnh đầu sẽ bị header che nếu ảnh tràn lên tận mép).
+   */
+  clearHeader?: boolean;
+  /**
+   * Màu trời lấp dải dưới header khi bật `clearHeader`, lấy mẫu ở mép trên ảnh để nối liền.
+   * Không dùng ảnh nhòe vì tượng sát mép trên sẽ nhòe thành vệt tối.
+   */
+  skyColor?: string;
   id?: string;
   className?: string;
 }
@@ -54,12 +64,16 @@ export function PhotoBanner({
   imagePosition,
   priority = false,
   parallax = false,
+  clearHeader = false,
+  skyColor = "#e2e8ec",
   id,
   className,
 }: PhotoBannerProps) {
   // "tall" dùng chung bố cục với "compact", chỉ khác chiều cao khung ảnh
   const compact = size !== "default";
   const tall = size === "tall";
+  // Hạ ảnh dưới header; khoảng trống phía trên lấp bằng màu trời (xem lớp nền bên dưới)
+  const lowered = compact && clearHeader;
   const imageStyle: CSSProperties | undefined = imagePosition ? { objectPosition: imagePosition } : undefined;
 
   return (
@@ -86,7 +100,18 @@ export function PhotoBanner({
         {/* Tượng nằm giữa, hơi cao trong khung: giữ nguyên ảnh, không lật */}
         {/* Parallax: lớp ảnh dài hơn khung 20% ở mép dưới, mép trên khớp khung nên không cắt thêm đầu tượng;
             khi cuộn, ảnh trôi xuống chậm hơn trang (xem .ck-parallax-hero trong site.css) */}
-        <div className={parallax ? "ck-parallax-hero tw:absolute tw:inset-x-0 tw:top-0 tw:-bottom-[20%]" : "tw:absolute tw:inset-0"}>
+        {/* clearHeader: lớp nền màu trời lấp dải dưới header để không lộ nền hoa văn.
+            Ảnh hạ xuống phía trên lớp này và mờ dần ở mép trên vào màu trời. */}
+        {lowered && <div aria-hidden className="tw:absolute tw:inset-0" style={{ backgroundColor: skyColor }} />}
+        <div
+          className={[
+            "tw:absolute tw:inset-x-0",
+            lowered
+              ? "tw:top-[88px] tw:upto-560:top-[72px] tw:[mask-image:linear-gradient(180deg,transparent_0,#000_96px)] tw:upto-560:[mask-image:linear-gradient(180deg,transparent_0,#000_72px)]"
+              : "tw:top-0",
+            parallax ? "ck-parallax-hero tw:-bottom-[20%]" : "tw:bottom-0",
+          ].join(" ")}
+        >
           <Image
             src={image}
             alt={alt}
