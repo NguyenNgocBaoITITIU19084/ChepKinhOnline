@@ -1,9 +1,9 @@
 "use client";
 
-import { useLayoutEffect, useRef, useState, type KeyboardEvent } from "react";
+import { useEffect, useId, useLayoutEffect, useRef, useState, type KeyboardEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { IconArrowRight, IconChevronDown } from "@tabler/icons-react";
+import { IconArrowRight, IconCheck, IconChevronDown } from "@tabler/icons-react";
 import { HOLY_FIGURES } from "@/data/buddhas";
 
 const GROUPS = [
@@ -136,33 +136,9 @@ export function HolyFiguresBlock() {
         ))}
       </div>
 
-      {/* Điện thoại: một ô chọn gọn, chia nhóm Chư Phật / Chư Bồ Tát */}
-      <label className="tw:hidden tw:upto-768:flex tw:flex-col tw:gap-2">
-        <span className="tw:text-[0.68rem] tw:font-semibold tw:tracking-[0.18em] tw:uppercase tw:text-gold-700">Chọn vị</span>
-        <span className="tw:relative">
-          <select
-            value={activeIndex}
-            onChange={(e) => setActiveIndex(Number(e.target.value))}
-            className={`font-zen-title tw:w-full tw:min-h-[46px] tw:pl-4 tw:pr-10 tw:text-[1rem] tw:text-brown-900 tw:bg-[rgba(255,248,230,0.7)] tw:border tw:border-[rgba(214,164,64,0.45)] tw:rounded-[10px] tw:appearance-none tw:cursor-pointer ${FOCUS}`}
-          >
-            {groups.map((group) => (
-              <optgroup key={group.kind} label={group.label}>
-                {group.members.map(({ f, i }) => (
-                  <option key={f.id} value={i}>
-                    {f.name}
-                  </option>
-                ))}
-              </optgroup>
-            ))}
-          </select>
-          <IconChevronDown
-            size={18}
-            stroke={1.8}
-            aria-hidden
-            className="tw:absolute tw:right-3.5 tw:top-1/2 tw:-translate-y-1/2 tw:pointer-events-none tw:text-gold-700"
-          />
-        </span>
-      </label>
+      {/* Điện thoại: một ô chọn gọn, chia nhóm Chư Phật / Chư Bồ Tát.
+          Tự dựng thay cho <select> vì danh sách xổ xuống của <select> do hệ điều hành vẽ, không theo được giao diện. */}
+      <FigurePicker groups={groups} activeIndex={activeIndex} onChange={setActiveIndex} />
 
       {/* Tranh và thông tin của vị đang chọn */}
       <div
@@ -284,6 +260,153 @@ export function HolyFiguresBlock() {
               </div>
             )}
           </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+type FigureGroup = {
+  kind: string;
+  label: string;
+  members: { f: (typeof HOLY_FIGURES)[number]; i: number }[];
+};
+
+/**
+ * Ô chọn vị trên điện thoại (listbox tự dựng): nút mở giống ô nhập, danh sách là tờ giấy ngà như dropdown header.
+ * Bàn phím: mũi tên lên/xuống, Home, End để di chuyển; Enter/Space để chọn; Esc để đóng và quay về nút.
+ */
+function FigurePicker({
+  groups,
+  activeIndex,
+  onChange,
+}: {
+  groups: FigureGroup[];
+  activeIndex: number;
+  onChange: (index: number) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const optionRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const id = useId();
+  const order = groups.flatMap((g) => g.members.map(({ i }) => i));
+  const active = groups.flatMap((g) => g.members).find(({ i }) => i === activeIndex)?.f;
+
+  // Mở ra thì đưa focus vào vị đang chọn; bấm ra ngoài thì đóng
+  useEffect(() => {
+    if (!open) return;
+    optionRefs.current[activeIndex]?.focus({ preventScroll: true });
+    const onPointer = (e: PointerEvent) => {
+      if (!rootRef.current?.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener("pointerdown", onPointer);
+    return () => document.removeEventListener("pointerdown", onPointer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]);
+
+  const close = () => {
+    setOpen(false);
+    buttonRef.current?.focus();
+  };
+
+  const choose = (index: number) => {
+    onChange(index);
+    close();
+  };
+
+  const onListKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    const current = optionRefs.current.indexOf(document.activeElement as HTMLButtonElement);
+    const pos = Math.max(0, order.indexOf(current));
+    const n = order.length;
+    let next: number | undefined;
+    if (e.key === "ArrowDown") next = order[(pos + 1) % n];
+    else if (e.key === "ArrowUp") next = order[(pos - 1 + n) % n];
+    else if (e.key === "Home") next = order[0];
+    else if (e.key === "End") next = order[n - 1];
+    else if (e.key === "Escape") close();
+    else if (e.key === "Tab") setOpen(false);
+    else return;
+    if (e.key !== "Tab") e.preventDefault();
+    if (next !== undefined) optionRefs.current[next]?.focus();
+  };
+
+  return (
+    <div ref={rootRef} className="tw:hidden tw:upto-768:flex tw:flex-col tw:gap-2">
+      <span
+        id={`${id}-label`}
+        className="tw:text-[0.68rem] tw:font-semibold tw:tracking-[0.18em] tw:uppercase tw:text-gold-700"
+      >
+        Chọn vị
+      </span>
+      <div className="tw:relative">
+        <button
+          ref={buttonRef}
+          type="button"
+          aria-haspopup="listbox"
+          aria-expanded={open}
+          aria-controls={`${id}-list`}
+          aria-labelledby={`${id}-label ${id}-value`}
+          onClick={() => setOpen((v) => !v)}
+          onKeyDown={(e) => {
+            if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+              e.preventDefault();
+              setOpen(true);
+            }
+          }}
+          className={`ck-font-inherit tw:flex tw:items-center tw:justify-between tw:gap-3 tw:w-full tw:min-h-[46px] tw:pl-4 tw:pr-3.5 tw:text-left tw:text-brown-900 tw:bg-[rgba(255,248,230,0.7)] tw:border tw:border-solid tw:border-[rgba(214,164,64,0.45)] tw:rounded-[10px] tw:cursor-pointer tw:transition-colors tw:duration-200 tw:aria-expanded:border-gold-500 tw:aria-expanded:bg-[rgba(255,248,230,0.95)] ${FOCUS}`}
+        >
+          <span id={`${id}-value`} className="font-zen-title tw:truncate tw:text-[1rem]">
+            {active?.name}
+          </span>
+          <IconChevronDown
+            size={18}
+            stroke={1.8}
+            aria-hidden
+            className={`tw:shrink-0 tw:text-gold-700 tw:transition-transform tw:duration-200 tw:motion-reduce:transition-none ${open ? "tw:rotate-180" : ""}`}
+          />
+        </button>
+
+        <div
+          id={`${id}-list`}
+          role="listbox"
+          aria-labelledby={`${id}-label`}
+          aria-hidden={!open}
+          onKeyDown={onListKeyDown}
+          className={`ck-menu ck-menu-pop tw:top-[calc(100%+10px)] tw:inset-x-0 ${open ? "ck-menu-open" : ""}`}
+        >
+          {groups.map((group, gi) => (
+            <div key={group.kind} role="group" aria-labelledby={`${id}-g${gi}`}>
+              {gi > 0 && <div className="ck-menu-divider" aria-hidden />}
+              <div id={`${id}-g${gi}`} className="ck-menu-eyebrow">
+                {group.label}
+              </div>
+              {group.members.map(({ f, i }) => {
+                const selected = i === activeIndex;
+                return (
+                  <button
+                    key={f.id}
+                    ref={(el) => {
+                      optionRefs.current[i] = el;
+                    }}
+                    type="button"
+                    role="option"
+                    aria-selected={selected}
+                    tabIndex={open ? (selected ? 0 : -1) : -1}
+                    onClick={() => choose(i)}
+                    className="ck-menu-item ck-menu-item-sm ck-font-inherit tw:min-h-11"
+                  >
+                    <span
+                      className={`ck-menu-text font-zen-title tw:text-[1rem] ${selected ? "tw:font-semibold" : ""}`}
+                    >
+                      {f.name}
+                    </span>
+                    {selected && <IconCheck size={16} stroke={2} aria-hidden className="tw:text-gold-700" />}
+                  </button>
+                );
+              })}
+            </div>
+          ))}
         </div>
       </div>
     </div>

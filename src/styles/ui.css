@@ -410,6 +410,21 @@
     bottom: 9px;
   }
 
+  /* Dòng là <button> (ô chọn tự dựng): bỏ khung mặc định của nút; dòng đang chọn giữ nền vàng nhạt */
+  button.ck-menu-item {
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: 0;
+    cursor: pointer;
+  }
+  .ck-menu-item[aria-selected="true"] {
+    background-color: rgba(232, 199, 122, 0.22);
+  }
+  .ck-menu-item[aria-selected="true"]::before {
+    transform: scaleY(1);
+  }
+
   .ck-menu-divider {
     height: 1px;
     margin: 6px 10px;
