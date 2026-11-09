@@ -252,6 +252,224 @@
     }
   }
 
+  /*
+   * ==== Dropdown của header (danh mục + tài khoản) ====
+   * Tờ giấy ngà có khung chỉ vàng đôi như thư tay, mũi nhọn chỉ lên nút mở;
+   * từng dòng trồi lên lần lượt, rê chuột thì hiện vạch vàng bên trái và mũi tên bên phải.
+   */
+  .ck-menu {
+    --menu-caret-x: 28px;
+    position: absolute;
+    z-index: 30;
+    padding: 6px;
+    color: var(--brown-900);
+    background:
+      radial-gradient(ellipse 90% 60% at 100% 0%, rgba(240, 196, 100, 0.16), transparent 70%),
+      linear-gradient(180deg, #fffdf7 0%, #fdf6e4 100%);
+    border: 1px solid rgba(168, 116, 26, 0.38);
+    border-radius: 16px;
+    box-shadow:
+      inset 0 0 0 4px rgba(255, 253, 247, 0.9),
+      inset 0 0 0 5px rgba(214, 164, 64, 0.22),
+      0 1px 2px rgba(74, 50, 10, 0.06),
+      0 18px 40px -14px rgba(107, 74, 18, 0.32),
+      0 6px 14px -6px rgba(107, 74, 18, 0.12);
+  }
+
+  /* Mũi nhọn hình thoi nối với nút mở */
+  .ck-menu::after {
+    content: "";
+    position: absolute;
+    top: -6px;
+    left: var(--menu-caret-x);
+    width: 10px;
+    height: 10px;
+    background: #fffdf7;
+    border-top: 1px solid rgba(168, 116, 26, 0.38);
+    border-left: 1px solid rgba(168, 116, 26, 0.38);
+    border-top-left-radius: 2px;
+    transform: rotate(45deg);
+  }
+
+  .ck-menu-end {
+    --menu-caret-x: auto;
+  }
+  .ck-menu-end::after {
+    right: 22px;
+  }
+
+  /* Tiêu đề nhóm: chữ hoa giãn cách, vàng đậm, kèm nét chỉ mảnh */
+  .ck-menu-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px 6px;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold-700);
+  }
+  .ck-menu-eyebrow::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(214, 164, 64, 0.5), transparent);
+  }
+
+  .ck-menu-item {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 16px;
+    align-items: center;
+    gap: 12px;
+    padding: 9px 10px 9px 14px;
+    color: var(--brown-900);
+    text-decoration: none;
+    border-radius: 11px;
+    transition: background-color 0.15s ease;
+  }
+
+  /* Vạch vàng bên trái, mọc ra từ giữa khi rê chuột */
+  .ck-menu-item::before {
+    content: "";
+    position: absolute;
+    left: 3px;
+    top: 12px;
+    bottom: 12px;
+    width: 2px;
+    border-radius: 2px;
+    background: linear-gradient(180deg, var(--gold-300), var(--gold-700));
+    transform: scaleY(0);
+    transition: transform 0.25s var(--ease-out-soft);
+  }
+
+  .ck-menu-item:hover,
+  .ck-menu-item:focus-visible {
+    color: var(--brown-900);
+    text-decoration: none;
+    background-color: rgba(232, 199, 122, 0.22);
+    outline: none;
+  }
+  .ck-menu-item:hover::before,
+  .ck-menu-item:focus-visible::before {
+    transform: scaleY(1);
+  }
+  .ck-menu-item:focus-visible {
+    box-shadow: inset 0 0 0 1.5px var(--gold-500);
+  }
+
+  .ck-menu-text {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    min-width: 0;
+    transition: transform 0.25s var(--ease-out-soft);
+  }
+  /* Không có icon: chữ nhích nhẹ sang phải nhường chỗ cho vạch vàng */
+  .ck-menu-item:hover .ck-menu-text,
+  .ck-menu-item:focus-visible .ck-menu-text {
+    transform: translateX(3px);
+  }
+  .ck-menu-title {
+    font-family: var(--font-display), serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--brown-900);
+  }
+  .ck-menu-desc {
+    font-size: 0.76rem;
+    line-height: 1.4;
+    color: rgba(107, 74, 18, 0.7);
+  }
+
+  .ck-menu-arrow {
+    color: var(--gold-700);
+    opacity: 0;
+    transform: translateX(-6px);
+    transition:
+      opacity 0.2s ease,
+      transform 0.25s var(--ease-out-soft);
+  }
+  .ck-menu-item:hover .ck-menu-arrow,
+  .ck-menu-item:focus-visible .ck-menu-arrow {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Dòng gọn (menu tài khoản): một dòng chữ, không có mô tả */
+  .ck-menu-item-sm {
+    grid-template-columns: minmax(0, 1fr) 14px;
+    min-height: 38px;
+    padding: 6px 10px 6px 14px;
+    font-size: 0.9rem;
+  }
+  .ck-menu-item-sm::before {
+    top: 9px;
+    bottom: 9px;
+  }
+
+  .ck-menu-divider {
+    height: 1px;
+    margin: 6px 10px;
+    background: linear-gradient(90deg, transparent, rgba(214, 164, 64, 0.45), transparent);
+  }
+
+  /*
+   * Hiệu ứng mở: cả khung chỉ mờ dần + trượt lên 4px, không phóng to và không cho từng dòng
+   * chuyển động riêng (hai lớp chuyển động chồng nhau làm menu trông giật, scale làm chữ nhoè).
+   * Đóng nhanh hơn mở để rê chuột qua lại giữa các danh mục không bị dính bóng menu cũ.
+   */
+  .ck-menu-pop,
+  .ck-nav-group > .ck-menu {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(4px);
+    will-change: opacity, transform;
+    transition:
+      opacity 0.12s ease-in,
+      transform 0.12s ease-in,
+      visibility 0s linear 0.12s;
+  }
+  .ck-menu-pop.ck-menu-open,
+  .ck-nav-group:hover > .ck-menu,
+  .ck-nav-group:focus-within > .ck-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition:
+      opacity 0.18s ease-out,
+      transform 0.24s var(--ease-out-soft),
+      visibility 0s;
+  }
+
+  /*
+   * Cầu nối vô hình để rê chuột từ danh mục xuống dropdown không bị đóng: phủ hết khoảng hở 12px
+   * cộng 4px khung còn đang trượt, dư thêm để không lọt chuột khi rê nhanh.
+   */
+  .ck-nav-group > .ck-menu::before {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    top: -20px;
+    height: 20px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ck-menu,
+    .ck-menu-item,
+    .ck-menu-item::before,
+    .ck-menu-text,
+    .ck-menu-arrow {
+      transition: none !important;
+    }
+    .ck-nav-group > .ck-menu,
+    .ck-menu-pop {
+      transform: none;
+    }
+  }
+
   /* Người dùng muốn giảm chuyển động: tắt mọi hoạt cảnh trong trang */
   @media (prefers-reduced-motion: reduce) {
     .ck-scene *,

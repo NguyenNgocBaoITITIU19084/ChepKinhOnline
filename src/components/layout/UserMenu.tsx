@@ -2,12 +2,11 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { IconChevronDown, IconLogin2, IconLogout, IconUser } from "@tabler/icons-react";
+import { IconArrowRight, IconChevronDown, IconLogin2 } from "@tabler/icons-react";
 import type { CurrentUser } from "@/lib/auth";
 import { avatar, headerButton, hideSm } from "@/components/ui/classes";
 
-const menuItem =
-  "tw:flex tw:items-center tw:gap-2.5 tw:min-h-[38px] tw:px-2.5 tw:py-0 tw:text-[0.9rem] tw:text-brown-800 tw:no-underline tw:rounded-[10px] tw:hover:text-brown-900 tw:hover:bg-[rgba(232,199,122,0.3)] tw:hover:no-underline tw:focus-visible:outline-2 tw:focus-visible:outline-solid tw:focus-visible:outline-gold-500 tw:focus-visible:outline-offset-2";
+const menuItem = "ck-menu-item ck-menu-item-sm";
 
 function initials(user: CurrentUser) {
   const source = user.name?.trim() || user.email;
@@ -63,23 +62,30 @@ export function UserMenu({ user }: { user: CurrentUser | null }) {
         <IconChevronDown size={16} aria-hidden />
       </button>
 
-      {open && (
-        <div
-          className="ck-glass tw:absolute tw:top-[calc(100%+8px)] tw:right-0 tw:w-60 tw:p-1.5 tw:bg-[rgba(255,253,246,0.96)] tw:animate-[ck-rise_0.2s_ease-out]"
-          role="menu"
-        >
-          <div className="tw:flex tw:flex-col tw:gap-0.5 tw:mb-1.5 tw:pt-2 tw:px-2.5 tw:pb-2.5 tw:[border-bottom:1px_solid_rgba(214,164,64,0.3)]">
-            <strong className="tw:font-semibold tw:text-brown-900">{displayName}</strong>
-            <span className="tw:truncate tw:text-[0.8rem] tw:text-[rgba(107,74,18,0.72)]">{user.email}</span>
-          </div>
-          <Link href="/tai-khoan" className={menuItem} role="menuitem" onClick={() => setOpen(false)}>
-            <IconUser size={18} /> Hồ sơ của tôi
-          </Link>
-          <Link href="/dang-xuat" className={menuItem} role="menuitem" onClick={() => setOpen(false)}>
-            <IconLogout size={18} /> Đăng xuất
-          </Link>
+      <div
+        className={`ck-menu ck-menu-end ck-menu-pop tw:top-[calc(100%+12px)] tw:right-0 tw:w-64 ${open ? "ck-menu-open" : ""}`}
+        role="menu"
+        aria-hidden={!open}
+      >
+        <div className="tw:flex tw:items-center tw:gap-3 tw:pt-2.5 tw:px-3 tw:pb-1">
+          <span className={`${avatar} tw:size-10 tw:text-[0.9rem]`} aria-hidden>
+            {initials(user)}
+          </span>
+          <span className="tw:flex tw:flex-col tw:min-w-0">
+            <strong className="ck-menu-title tw:truncate">{displayName}</strong>
+            <span className="ck-menu-desc tw:truncate">{user.email}</span>
+          </span>
         </div>
-      )}
+        <div className="ck-menu-divider" />
+        <Link href="/tai-khoan" className={menuItem} role="menuitem" tabIndex={open ? 0 : -1} onClick={() => setOpen(false)}>
+          Hồ sơ của tôi
+          <IconArrowRight size={14} className="ck-menu-arrow" aria-hidden />
+        </Link>
+        <Link href="/dang-xuat" className={menuItem} role="menuitem" tabIndex={open ? 0 : -1} onClick={() => setOpen(false)}>
+          Đăng xuất
+          <IconArrowRight size={14} className="ck-menu-arrow" aria-hidden />
+        </Link>
+      </div>
     </div>
   );
 }
