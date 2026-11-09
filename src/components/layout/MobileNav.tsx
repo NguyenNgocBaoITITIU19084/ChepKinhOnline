@@ -3,7 +3,6 @@
 import { useEffect, useId, useRef, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { IconArrowRight, IconChevronDown, IconMenu2, IconPencil, IconX } from "@tabler/icons-react";
 import { BrandMark } from "@/components/brand/LotusLogo";
 import { NAV } from "@/components/layout/SiteNav";
@@ -17,14 +16,12 @@ const noopSubscribe = () => () => {};
  * Danh mục cho màn hình hẹp (≤1100px, nơi SiteNav bị ẩn): nút ba gạch mở ngăn kéo trượt từ
  * mép phải, nền mờ phía sau. Ngăn kéo render qua portal vào <body> vì header có backdrop-filter,
  * phần tử fixed nằm trong header sẽ bị giam trong khung header.
- * Đóng khi bấm link, chạm nền mờ, nhấn Esc hoặc khi đường dẫn đổi.
+ * Đóng khi bấm link, chạm nền mờ, nhấn Esc hoặc khi bấm quay lại/tiến tới (nút back Android).
+ * Không dùng usePathname: với Cache Components, hook đọc URL nằm ngoài <Suspense> chặn prerender.
  */
 export function MobileNav() {
-  const pathname = usePathname();
-  // Ghi lại trang lúc mở menu: sang trang khác thì tự coi như đã đóng, không cần effect
-  const [openedOn, setOpenedOn] = useState<string | null>(null);
-  const open = openedOn === pathname;
-  const close = () => setOpenedOn(null);
+  const [open, setOpen] = useState(false);
+  const close = () => setOpen(false);
   // Portal chỉ dựng ở trình duyệt (server không có document)
   const isClient = useSyncExternalStore(noopSubscribe, () => true, () => false);
 
@@ -35,16 +32,19 @@ export function MobileNav() {
 
   useEffect(() => {
     if (!open) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpenedOn(null);
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    const onPop = () => setOpen(false);
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     window.addEventListener("keydown", onKey);
+    window.addEventListener("popstate", onPop);
     closeRef.current?.focus({ preventScroll: true });
     const panel = panelRef.current;
     const trigger = triggerRef.current;
     return () => {
       document.body.style.overflow = prevOverflow;
       window.removeEventListener("keydown", onKey);
+      window.removeEventListener("popstate", onPop);
       // Trả focus về nút mở nếu người dùng đang ở trong ngăn kéo
       if (panel?.contains(document.activeElement)) trigger?.focus({ preventScroll: true });
     };
@@ -153,7 +153,7 @@ export function MobileNav() {
         aria-controls={panelId}
         aria-haspopup="dialog"
         aria-label="Mở danh mục"
-        onClick={() => setOpenedOn(pathname)}
+        onClick={() => setOpen(true)}
       >
         <IconMenu2 size={20} stroke={1.8} aria-hidden />
       </button>
