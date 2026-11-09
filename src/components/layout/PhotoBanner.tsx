@@ -13,11 +13,16 @@ export interface PhotoBannerProps {
   lead?: ReactNode;
   /** Nội dung thêm trong tờ giấy, bên dưới lời dẫn. */
   children?: ReactNode;
-  /** "compact": ảnh thấp hơn, dùng cho đầu chuyên trang. */
-  size?: "default" | "compact";
+  /**
+   * "compact": ảnh thấp hơn, dùng cho đầu chuyên trang.
+   * "tall": như compact (ảnh tràn dưới header) nhưng cao gần hết màn hình, cho ảnh cần thấy trọn tượng.
+   */
+  size?: "default" | "compact" | "tall";
   /** Vị trí lấy khung ảnh (object-position), mặc định "50% 40%". */
   imagePosition?: string;
   priority?: boolean;
+  /** Ảnh trôi chậm hơn trang khi cuộn (CSS scroll timeline, tắt khi giảm chuyển động). */
+  parallax?: boolean;
   id?: string;
   className?: string;
 }
@@ -48,10 +53,13 @@ export function PhotoBanner({
   size = "default",
   imagePosition,
   priority = false,
+  parallax = false,
   id,
   className,
 }: PhotoBannerProps) {
-  const compact = size === "compact";
+  // "tall" dùng chung bố cục với "compact", chỉ khác chiều cao khung ảnh
+  const compact = size !== "default";
+  const tall = size === "tall";
   const imageStyle: CSSProperties | undefined = imagePosition ? { objectPosition: imagePosition } : undefined;
 
   return (
@@ -66,7 +74,9 @@ export function PhotoBanner({
        */}
       <div
         className={
-          compact
+          tall
+            ? `${PHOTO} tw:h-[clamp(560px,92vh,920px)] tw:[--fade-top:0px] tw:[--fade-bottom:220px] tw:upto-560:h-[540px] tw:upto-560:[--fade-bottom:150px]`
+            : compact
             ? // Ảnh tràn lên tận mép trên, nằm dưới thanh header kính (cao 68px kể cả lề trên 12px,
               // header dính có z-index 40 nên luôn nổi trên ảnh). Chỉ mờ và nhòe ở mép dưới.
               `${PHOTO} tw:h-[clamp(460px,70vh,680px)] tw:[--fade-top:0px] tw:[--fade-bottom:200px] tw:upto-560:h-[400px] tw:upto-560:[--fade-bottom:140px]`
@@ -74,15 +84,19 @@ export function PhotoBanner({
         }
       >
         {/* Tượng nằm giữa, hơi cao trong khung: giữ nguyên ảnh, không lật */}
-        <Image
-          src={image}
-          alt={alt}
-          fill
-          priority={priority}
-          sizes="100vw"
-          className="tw:object-cover tw:object-[50%_40%]"
-          style={imageStyle}
-        />
+        {/* Parallax: lớp ảnh dài hơn khung 20% ở mép dưới, mép trên khớp khung nên không cắt thêm đầu tượng;
+            khi cuộn, ảnh trôi xuống chậm hơn trang (xem .ck-parallax-hero trong site.css) */}
+        <div className={parallax ? "ck-parallax-hero tw:absolute tw:inset-x-0 tw:top-0 tw:-bottom-[20%]" : "tw:absolute tw:inset-0"}>
+          <Image
+            src={image}
+            alt={alt}
+            fill
+            priority={priority}
+            sizes="100vw"
+            className="tw:object-cover tw:object-[50%_40%]"
+            style={imageStyle}
+          />
+        </div>
         {/* Chỉ phủ nhạt mép dưới cho liền với tờ giấy */}
         <div className="tw:content-[''] tw:absolute tw:inset-x-0 tw:bottom-0 tw:z-1 tw:pointer-events-none tw:[backdrop-filter:blur(16px)_saturate(110%)] tw:h-[calc(var(--fade-bottom)_+_60px)] tw:bg-[linear-gradient(0deg,rgba(251,240,214,0.6),rgba(251,240,214,0))] tw:[mask-image:linear-gradient(0deg,#000_30%,transparent_100%)]" />
         {caption && (

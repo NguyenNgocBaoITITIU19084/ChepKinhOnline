@@ -1,5 +1,3 @@
-import type { Icon } from "@tabler/icons-react";
-
 /**
  * Danh mục các chủ đề phản hồi / liên hệ
  */
@@ -15,8 +13,11 @@ export type ContactCategory =
 export interface ContactCategoryOption {
   id: ContactCategory;
   label: string;
-  emoji?: string;
-  description?: string;
+  /**
+   * Chữ Hán đầu của từ Hán Việt gọi tên chủ đề, chỉ để trang trí:
+   * 校 hiệu (校訂 hiệu đính), 經 kinh, 技 kỹ (技術 kỹ thuật), 心 tâm (心情 tâm tình)
+   */
+  han: string;
 }
 
 /**
@@ -41,13 +42,12 @@ export interface FormErrors {
 }
 
 /**
- * Một mục câu hỏi thường gặp (FAQ)
+ * Một mục hỏi đáp
  */
 export interface FaqItem {
   id: string;
   question: string;
   answer: string;
-  icon: Icon | string;
 }
 
 /**
@@ -57,4 +57,3 @@ export type ContactSubmitStatus = "idle" | "submitting" | "success" | "error";
 
 // Xuất lại danh mục chủ đề để có thể import từ @/types/contact
 export { CONTACT_CATEGORIES } from "@/data/contact-faq";
-

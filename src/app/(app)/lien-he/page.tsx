@@ -1,30 +1,44 @@
 import type { Metadata } from "next";
-import { ContactHeader } from "@/components/contact/ContactHeader";
+import { PhotoBanner } from "@/components/layout/PhotoBanner";
 import { ContactFaq } from "@/components/contact/ContactFaq";
 import { ContactForm } from "@/components/contact/ContactForm";
+import { ContactLandscape } from "@/components/contact/ContactLandscape";
 
 export const metadata: Metadata = {
   title: "Liên hệ & Góp ý | Chép Kinh Online",
   description:
-    "Gửi đóng góp ý kiến, phản ánh lỗi bài kinh hoặc đề xuất bản kinh mới để cùng xây dựng không gian chép kinh trang nghiêm, thanh tịnh.",
+    "Viết thư gửi Ban biên tập Chép Kinh Online: báo lỗi bản kinh, đề xuất kinh mới, báo lỗi kỹ thuật hay góp ý chung.",
 };
 
 export default function ContactPage() {
   return (
-    <div className="tw:max-w-[1152px] tw:mx-auto tw:px-4 tw:sm:px-6 tw:py-8 tw:lg:py-12 font-zen-body">
-      <ContactHeader />
+    <div className="font-zen-body">
+      {/* Trọn tượng Đại Phật ngồi giữa núi rừng; banner cao để thấy từ đỉnh đầu đến tay bắt ấn. Ảnh trôi chậm khi cuộn. */}
+      <PhotoBanner
+        size="tall"
+        priority
+        parallax
+        headingLevel="h1"
+        image="/storage/real/tian_tan_1.jpg"
+        alt="Tượng Đại Phật ngồi trên đài sen giữa núi rừng, trời xanh mây trắng"
+        caption="Đại Phật Thiên Đàn · Lantau, Hồng Kông"
+        imagePosition="62% 0%"
+        eyebrow="Liên hệ · Góp ý"
+        title={
+          <>
+            Viết một lá thư <em>gửi Ban biên tập</em>
+          </>
+        }
+        lead="Báo lỗi bản kinh, đề xuất kinh mới, hay gửi đôi lời tâm tình. Mỗi lá thư đều được đọc và hồi âm."
+      />
 
-      <div className="tw:grid tw:grid-cols-1 tw:lg:grid-cols-12 tw:gap-8 tw:lg:gap-10 tw:items-start">
-        {/* Cột trái desktop (5 phần) / Cột dưới mobile: FAQ Giải đáp nhanh */}
-        <div className="tw:order-2 tw:lg:order-1 tw:lg:col-span-5">
-          <ContactFaq />
-        </div>
-
-        {/* Cột phải desktop (7 phần) / Cột trên mobile: Biểu mẫu liên hệ & góp ý */}
-        <div className="tw:order-1 tw:lg:order-2 tw:lg:col-span-7">
-          <ContactForm />
-        </div>
+      {/* Máy tính: lá thư bên trái, Vấn đáp bên phải. Màn hẹp: thư trước, vấn đáp sau. */}
+      <div className="tw:grid tw:grid-cols-[minmax(0,7fr)_minmax(0,4fr)] tw:gap-14 tw:items-start tw:w-full tw:max-w-[1152px] tw:mx-auto tw:pt-10 tw:px-6 tw:pb-16 tw:box-border tw:upto-1024:grid-cols-[minmax(0,1fr)] tw:upto-1024:gap-12 tw:upto-1024:px-5 tw:upto-768:pt-8 tw:upto-768:px-4">
+        <ContactForm />
+        <ContactFaq className="tw:pt-2" />
       </div>
+
+      <ContactLandscape />
     </div>
   );
 }

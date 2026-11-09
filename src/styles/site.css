@@ -32,7 +32,61 @@
   }
 }
 
+/* Ảnh parallax: lớp ảnh trôi chậm hơn trang khi cuộn (xem .ck-parallax bên dưới) */
+@keyframes ck-site-parallax {
+  from {
+    transform: translate3d(0, -8%, 0);
+  }
+  to {
+    transform: translate3d(0, 8%, 0);
+  }
+}
+
+/* Parallax ảnh đầu trang (PhotoBanner): chỉ trôi xuống, xem .ck-parallax-hero */
+@keyframes ck-site-parallax-hero {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 14%, 0);
+  }
+}
+
 @layer components {
+  /*
+   * Parallax ảnh đầu trang: banner luôn nằm trên cùng nên lấy thanh cuộn của trang làm timeline.
+   * Lúc chưa cuộn ảnh đứng đúng chỗ (mép trên khớp khung), cuộn hết một màn hình thì ảnh trôi xuống 14%
+   * chiều cao lớp ảnh, vừa trong phần dư 20% ở mép dưới.
+   */
+  @supports (animation-timeline: scroll()) {
+    .ck-parallax-hero {
+      animation: ck-site-parallax-hero linear both;
+      animation-timeline: scroll(root block);
+      animation-range: 0 100vh;
+      will-change: transform;
+    }
+  }
+
+  /*
+   * Parallax ảnh (PhotoBanner, dải phong cảnh trang Liên hệ): lớp ảnh cao hơn khung 24%
+   * (tràn 12% mỗi mép, đặt bằng class Tailwind), trượt ±8% theo tiến độ khung đi qua màn hình,
+   * nên không bao giờ lộ mép. Khung ảnh gắn `ck-parallax-frame`, lớp ảnh gắn `ck-parallax`. Trình duyệt chưa hỗ trợ scroll timeline thì ảnh đứng yên.
+   */
+  @supports (animation-timeline: view()) {
+    /* Khung ảnh có overflow hidden nên chính nó là scroll container: không dùng view() trên lớp ảnh
+       được, mà lấy timeline đặt tên từ khung (khung đi qua màn hình của trang) */
+    .ck-parallax-frame {
+      view-timeline: --ck-parallax block;
+    }
+
+    .ck-parallax {
+      animation: ck-site-parallax linear both;
+      animation-timeline: --ck-parallax;
+      animation-range: cover 0% cover 100%;
+      will-change: transform;
+    }
+  }
+
   /*
    * Dải phân cách (ZenDivider): nét chỉ vẽ dần ra từ huy hiệu khi cuộn vào màn hình.
    * `animation` phải đứng trước `animation-timeline` trong cùng một rule (shorthand reset timeline),
@@ -145,6 +199,8 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
+    .ck-parallax-hero,
+    .ck-parallax,
     .ck-divider-line,
     .ck-divider-ornament {
       animation: none;

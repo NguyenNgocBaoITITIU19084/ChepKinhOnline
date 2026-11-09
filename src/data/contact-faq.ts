@@ -1,71 +1,67 @@
-import {
-  IconBook2,
-  IconSparkles,
-  IconHeartHandshake,
-  IconKeyboard,
-} from "@tabler/icons-react";
 import type { ContactCategoryOption, FaqItem } from "@/types/contact";
+import type { DailyQuote } from "@/types/article";
 
 /**
- * 4 nhóm danh mục chủ đề để người dùng lựa chọn trong biểu mẫu liên hệ
+ * Bốn việc người viết có thể thưa với Ban biên tập. Chữ Hán chỉ để trang trí.
  */
 export const CONTACT_CATEGORIES: ContactCategoryOption[] = [
   {
     id: "sutra_edit",
     label: "Sửa lỗi bản kinh",
-    emoji: "📿",
-    description: "Phản ánh lỗi chính tả, phiên âm chữ Hán/Việt hoặc lỗi câu chữ trong bài kinh",
+    han: "校",
   },
   {
     id: "sutra_suggest",
     label: "Đề xuất kinh mới",
-    emoji: "📜",
-    description: "Đóng góp nguồn kinh điển, bài kinh hoặc bản dịch mới chưa có trên trang",
+    han: "經",
   },
   {
     id: "tech_issue",
     label: "Báo lỗi kỹ thuật",
-    emoji: "⚙️",
-    description: "Sự cố bộ gõ tiếng Việt, lỗi lưu bài chép, lỗi giao diện hoặc hiển thị",
+    han: "技",
   },
   {
     id: "general",
-    label: "Tâm tình & Khác",
-    emoji: "🌸",
-    description: "Chia sẻ cảm nghĩ tu học, đóng góp ý kiến chung hoặc gửi lời chào hoan hỷ",
+    label: "Tâm tình, góp ý",
+    han: "心",
   },
 ];
 
 /**
- * Dữ liệu 4 câu hỏi thường gặp (FAQ) chuyên sâu về chép kinh và nền tảng
+ * Câu kệ trên dải phong cảnh cuối trang: góp sửa bản kinh cũng là bố thí pháp.
+ */
+export const CONTACT_EPIGRAPH: DailyQuote = {
+  id: "phap-cu-354",
+  verse: "Pháp thí, thắng mọi thí.",
+  source: "Kinh Pháp Cú, kệ 354",
+};
+
+/**
+ * Những câu hỏi hay gặp
  */
 export const CONTACT_FAQS: FaqItem[] = [
   {
     id: "sutra-correction",
-    question: "Làm sao để báo lỗi chính tả hoặc câu chữ trong bài kinh?",
+    question: "Báo lỗi trong bài kinh thế nào cho nhanh được sửa?",
     answer:
-      "Quý đạo hữu vui lòng chọn chủ đề 'Sửa lỗi bản kinh', ghi rõ tên bộ kinh và câu/đoạn phát hiện sai sót (kèm ảnh chụp hoặc câu đúng nếu có). Ban biên tập sẽ đối chiếu cẩn trọng với Tam Tạng kinh điển và hiệu đính trong vòng 24 - 48 giờ.",
-    icon: IconBook2,
+      "Chọn “Sửa lỗi bản kinh”, ghi tên bài kinh và câu bị sai, nếu được thì chép kèm câu đúng và nguồn đối chiếu. Ban biên tập so lại với bản gốc và sửa trong khoảng 24 đến 48 giờ.",
   },
   {
     id: "sutra-suggest",
-    question: "Làm sao để đề xuất một bộ kinh mới chưa có trên trang?",
+    question: "Có thể đề xuất một bài kinh chưa có trên trang không?",
     answer:
-      "Quý đạo hữu hãy chọn chủ đề 'Đề xuất kinh mới' và cung cấp tên bài kinh, bản dịch mong muốn hoặc nguồn xuất bản uy tín (Viện Nghiên cứu Phật học, chư tôn đức dịch giải). Chúng tôi luôn hoan hỷ đón nhận để làm phong phú kho tàng kinh điển.",
-    icon: IconSparkles,
+      "Có. Chọn “Đề xuất kinh mới”, ghi tên kinh, bản dịch hoặc dịch giả bạn mong muốn. Bản kinh nào có nguồn in rõ ràng sẽ được đưa lên trước.",
   },
   {
     id: "non-profit",
-    question: "Trang web có thu phí hay nhận quyên góp tài chính không?",
+    question: "Trang có thu phí hay nhận đóng góp tiền không?",
     answer:
-      "Chép Kinh Online là dự án phi thương mại phụng sự Phật pháp và cộng đồng, hoàn toàn miễn phí và không kêu gọi quyên góp tài chính dưới bất kỳ hình thức nào. Mọi công đức huân tu chép kinh đều xin hồi hướng cho sự an lạc của muôn loài.",
-    icon: IconHeartHandshake,
+      "Không. Chép Kinh Online miễn phí và không nhận tiền dưới bất kỳ hình thức nào. Nếu ai nhân danh trang để xin tiền, xin đừng tin.",
   },
   {
     id: "typing-issue",
-    question: "Gặp sự cố khi đang gõ chép kinh (kẹt phím, lỗi dấu tiếng Việt)?",
+    question: "Đang chép thì kẹt phím hoặc mất dấu tiếng Việt?",
     answer:
-      "Đạo hữu vui lòng kiểm tra bộ gõ tiếng Việt (chọn bảng mã Unicode dựng sẵn và kiểu gõ Telex hoặc VNI). Nếu gặp lỗi hiển thị, hãy thử tải lại trang — hệ thống luôn tự động lưu từng ký tự chép trên trình duyệt nên tiến trình của đạo hữu sẽ không bị mất.",
-    icon: IconKeyboard,
+      "Kiểm tra bộ gõ đang để bảng mã Unicode, kiểu gõ Telex hoặc VNI. Nếu chữ vẫn hiện sai, tải lại trang: bài chép được lưu từng chữ trên trình duyệt nên không mất.",
   },
 ];
