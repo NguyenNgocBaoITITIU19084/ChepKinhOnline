@@ -43,7 +43,8 @@ export function ScrollToTop({ showProgress, threshold = 320, className }: Scroll
       const scrollTop = window.scrollY || doc.scrollTop;
       const scrollable = doc.scrollHeight - doc.clientHeight;
       const value = scrollable > 0 ? Math.min(100, Math.max(0, (scrollTop / scrollable) * 100)) : 0;
-      setProgress(Math.round(value));
+      // Trang không có vòng tiến độ (như trang chủ) thì khỏi cập nhật % mỗi khung hình
+      if (withProgress) setProgress(Math.round(value));
       setVisible(scrollTop > threshold);
     };
 
@@ -61,7 +62,7 @@ export function ScrollToTop({ showProgress, threshold = 320, className }: Scroll
       if (frame) window.cancelAnimationFrame(frame);
     };
     // Đổi trang thì tính lại (chiều cao trang mới khác)
-  }, [threshold, pathname]);
+  }, [threshold, pathname, withProgress]);
 
   const scrollToTop = () => {
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -81,7 +82,7 @@ export function ScrollToTop({ showProgress, threshold = 320, className }: Scroll
       className={[
         "tw:group tw:fixed tw:z-40 tw:right-6 tw:bottom-6 tw:upto-768:right-4 tw:upto-768:bottom-4",
         "tw:appearance-none tw:p-0 tw:rounded-full tw:cursor-pointer",
-        "tw:bg-[rgba(255,251,242,0.94)] tw:backdrop-blur-md tw:shadow-[0_8px_24px_rgba(150,105,25,0.18)]",
+        "tw:bg-[rgba(255,251,242,0.96)] tw:shadow-[0_8px_24px_rgba(150,105,25,0.18)]",
         "tw:hover:shadow-[0_10px_28px_rgba(150,105,25,0.26)] tw:hover:-translate-y-0.5",
         "tw:transition-[opacity,transform,box-shadow] tw:duration-200 tw:ease-out tw:motion-reduce:transition-none",
         // Không có vòng tiến độ thì dùng viền mảnh để nút vẫn rõ khối

@@ -118,7 +118,7 @@ const KINH_CORNERS = [
 function SeeMore({ href, label }: { href: string; label: string }) {
   return (
     <div className="tw:mt-10 tw:flex tw:justify-center">
-      <Link href={href} className="ck-see-more tw:group">
+      <Link href={href} className="ck-see-more tw:group tw:upto-768:[backdrop-filter:none]">
         <span className="tw:[transition:transform_0.45s_var(--ease-out-soft)] tw:group-hover:[transform:translateX(-2px)] tw:motion-reduce:[transition:none]">
           {label}
         </span>
@@ -168,7 +168,7 @@ export default function Home() {
                 Chép Bát Nhã Tâm Kinh
                 <IconArrowRight size={18} stroke={2} className="ck-btn-arrow" aria-hidden />
               </Link>
-              <a href="#gioi-thieu-kinh" className="ck-btn-ghost tw:min-h-[52px] tw:px-[26px] tw:text-[0.97rem] tw:upto-480:min-h-0 tw:upto-480:py-2 tw:upto-480:bg-transparent tw:upto-480:border-transparent tw:upto-480:shadow-none tw:upto-480:text-brown-800 tw:upto-480:underline tw:upto-480:underline-offset-4 tw:upto-480:decoration-[rgba(214,164,64,0.6)]">
+              <a href="#gioi-thieu-kinh" className="ck-btn-ghost tw:upto-768:[backdrop-filter:none] tw:min-h-[52px] tw:px-[26px] tw:text-[0.97rem] tw:upto-480:min-h-0 tw:upto-480:py-2 tw:upto-480:bg-transparent tw:upto-480:border-transparent tw:upto-480:shadow-none tw:upto-480:text-brown-800 tw:upto-480:underline tw:upto-480:underline-offset-4 tw:upto-480:decoration-[rgba(214,164,64,0.6)]">
                 <IconBooks size={18} stroke={1.7} aria-hidden />
                 Xem các bộ kinh
               </a>
@@ -314,7 +314,7 @@ export default function Home() {
                   {/* Viền chỉ vàng bên trong như khung tranh */}
                   <div className="tw:absolute tw:inset-2.5 tw:rounded-[16px] tw:border tw:border-[#ecc976]/0 tw:pointer-events-none tw:transition-colors tw:duration-500 tw:group-hover:border-[#ecc976]/45" />
 
-                  <span className="font-zen-body tw:absolute tw:top-4 tw:left-4 tw:inline-flex tw:items-center tw:gap-1.5 tw:rounded-full tw:bg-[#140c05]/45 tw:backdrop-blur-md tw:px-3 tw:py-1.5 tw:text-[11px] tw:font-semibold tw:uppercase tw:tracking-[0.14em] tw:text-[#fff3dc] tw:ring-1 tw:ring-white/15">
+                  <span className="font-zen-body tw:absolute tw:top-4 tw:left-4 tw:inline-flex tw:items-center tw:gap-1.5 tw:rounded-full tw:bg-[#140c05]/45 tw:backdrop-blur-md tw:upto-768:[backdrop-filter:none] tw:upto-768:bg-[#140c05]/65 tw:px-3 tw:py-1.5 tw:text-[11px] tw:font-semibold tw:uppercase tw:tracking-[0.14em] tw:text-[#fff3dc] tw:ring-1 tw:ring-white/15">
                     <svg className="tw:w-3 tw:h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} aria-hidden="true">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M12 21s-7-6.1-7-11.5a7 7 0 1 1 14 0C19 14.9 12 21 12 21Z" />
                       <circle cx="12" cy="9.5" r="2.5" />

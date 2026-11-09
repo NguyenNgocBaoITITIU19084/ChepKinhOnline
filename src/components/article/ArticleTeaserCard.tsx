@@ -72,7 +72,7 @@ export function ArticleTeaserCard({
         />
         {/* Nhãn chuyên mục nền nâu tối, chữ brand-on-dark */}
         {category && (
-          <span className="tw:absolute tw:top-3.5 tw:left-3.5 tw:py-1 tw:px-3 tw:text-[0.68rem] tw:font-semibold tw:tracking-[0.08em] tw:uppercase tw:text-[#fdf3dc] tw:bg-[rgba(31,26,20,0.75)] tw:rounded-md tw:[backdrop-filter:blur(8px)]">
+          <span className="tw:absolute tw:top-3.5 tw:left-3.5 tw:py-1 tw:px-3 tw:text-[0.68rem] tw:font-semibold tw:tracking-[0.08em] tw:uppercase tw:text-[#fdf3dc] tw:bg-[rgba(31,26,20,0.75)] tw:rounded-md tw:[backdrop-filter:blur(8px)] tw:upto-768:[backdrop-filter:none] tw:upto-768:bg-[rgba(31,26,20,0.82)]">
             {category}
           </span>
         )}

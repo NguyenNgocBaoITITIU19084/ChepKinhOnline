@@ -19,7 +19,7 @@ type Props = {
 export function SiteHeader({ actions, sticky = false }: Props) {
   return (
     <header
-      className={`ck-glass tw:flex tw:items-center tw:justify-between tw:gap-4 tw:mx-5 tw:mt-3 tw:mb-0 tw:py-[7px] tw:pr-2 tw:pl-3.5 tw:max-lg:mx-4 tw:max-lg:mt-2.5 tw:upto-480:pl-2 tw:upto-360:mx-2.5 tw:upto-360:gap-2 ${
+      className={`ck-glass tw:upto-768:[backdrop-filter:none] tw:upto-768:bg-[rgba(255,252,245,0.95)] tw:flex tw:items-center tw:justify-between tw:gap-4 tw:mx-5 tw:mt-3 tw:mb-0 tw:py-[7px] tw:pr-2 tw:pl-3.5 tw:max-lg:mx-4 tw:max-lg:mt-2.5 tw:upto-480:pl-2 tw:upto-360:mx-2.5 tw:upto-360:gap-2 ${
         // Trang chủ: header dính trên cùng khi cuộn; còn lại z-20 để menu tài khoản nổi trên sách
         sticky ? "tw:sticky tw:top-3 tw:z-40" : "tw:relative tw:z-20"
       }`}

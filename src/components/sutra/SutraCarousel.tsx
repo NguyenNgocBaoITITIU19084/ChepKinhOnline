@@ -155,7 +155,7 @@ export function SutraCarousel({ sutras }: { sutras: SutraSummary[] }) {
   }
 
   const arrowClass =
-    "tw:group tw:w-11 tw:h-11 tw:rounded-full tw:flex tw:items-center tw:justify-center tw:border tw:border-[#a8741a]/35 tw:bg-[#fffcf4]/85 tw:backdrop-blur-sm tw:text-[#4a320a] tw:shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_1px_2px_rgba(74,50,10,0.06),0_6px_14px_-8px_rgba(74,50,10,0.2)] tw:transition-all tw:duration-300 tw:hover:-translate-y-px tw:hover:bg-[#fff8e6] tw:hover:border-[#a8741a]/65 tw:hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.95),0_12px_22px_-10px_rgba(168,116,26,0.4)] tw:active:translate-y-0 tw:focus-visible:outline-2 tw:focus-visible:outline-offset-2 tw:focus-visible:outline-[#d6a440] tw:cursor-pointer";
+    "tw:group tw:w-11 tw:h-11 tw:rounded-full tw:flex tw:items-center tw:justify-center tw:border tw:border-[#a8741a]/35 tw:bg-[#fffcf4]/85 tw:backdrop-blur-sm tw:upto-768:[backdrop-filter:none] tw:text-[#4a320a] tw:shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_1px_2px_rgba(74,50,10,0.06),0_6px_14px_-8px_rgba(74,50,10,0.2)] tw:transition-all tw:duration-300 tw:hover:-translate-y-px tw:hover:bg-[#fff8e6] tw:hover:border-[#a8741a]/65 tw:hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.95),0_12px_22px_-10px_rgba(168,116,26,0.4)] tw:active:translate-y-0 tw:focus-visible:outline-2 tw:focus-visible:outline-offset-2 tw:focus-visible:outline-[#d6a440] tw:cursor-pointer";
 
   return (
     <div

@@ -42,7 +42,7 @@ const PHOTO =
   "tw:relative tw:overflow-hidden tw:[mask-image:linear-gradient(180deg,transparent_0,#000_var(--fade-top),#000_calc(100%_-_var(--fade-bottom)),transparent_100%)]";
 // Lớp nhòe mép trên (chỉ banner thường; banner gọn nằm dưới header nên bỏ)
 const PHOTO_TOP_BLUR =
-  "tw:before:content-[''] tw:before:absolute tw:before:inset-x-0 tw:before:top-0 tw:before:z-1 tw:before:pointer-events-none tw:before:[backdrop-filter:blur(16px)_saturate(110%)] tw:before:h-[calc(var(--fade-top)_+_60px)] tw:before:bg-[linear-gradient(180deg,rgba(255,250,236,0.55),rgba(255,250,236,0))] tw:before:[mask-image:linear-gradient(180deg,#000_30%,transparent_100%)]";
+  "tw:before:content-[''] tw:before:absolute tw:before:inset-x-0 tw:before:top-0 tw:before:z-1 tw:before:pointer-events-none tw:before:[backdrop-filter:blur(16px)_saturate(110%)] tw:upto-768:before:[backdrop-filter:none] tw:before:h-[calc(var(--fade-top)_+_60px)] tw:before:bg-[linear-gradient(180deg,rgba(255,250,236,0.55),rgba(255,250,236,0))] tw:before:[mask-image:linear-gradient(180deg,#000_30%,transparent_100%)]";
 // Tờ giấy kem
 const SHEET =
   "tw:relative tw:z-1 tw:bg-[radial-gradient(ellipse_at_50%_0%,#fffdf6,var(--paper)_70%)] tw:border tw:border-[rgba(214,164,64,0.4)] tw:rounded-2xl tw:[box-shadow:0_24px_60px_rgba(120,85,20,0.16)]";
@@ -123,10 +123,10 @@ export function PhotoBanner({
           />
         </div>
         {/* Chỉ phủ nhạt mép dưới cho liền với tờ giấy */}
-        <div className="tw:content-[''] tw:absolute tw:inset-x-0 tw:bottom-0 tw:z-1 tw:pointer-events-none tw:[backdrop-filter:blur(16px)_saturate(110%)] tw:h-[calc(var(--fade-bottom)_+_60px)] tw:bg-[linear-gradient(0deg,rgba(251,240,214,0.6),rgba(251,240,214,0))] tw:[mask-image:linear-gradient(0deg,#000_30%,transparent_100%)]" />
+        <div className="tw:content-[''] tw:absolute tw:inset-x-0 tw:bottom-0 tw:z-1 tw:pointer-events-none tw:[backdrop-filter:blur(16px)_saturate(110%)] tw:upto-768:[backdrop-filter:none] tw:h-[calc(var(--fade-bottom)_+_60px)] tw:bg-[linear-gradient(0deg,rgba(251,240,214,0.6),rgba(251,240,214,0))] tw:[mask-image:linear-gradient(0deg,#000_30%,transparent_100%)]" />
         {caption && (
           <span
-            className={`tw:absolute tw:z-2 tw:right-6 tw:py-[5px] tw:px-3 tw:text-[0.72rem] tw:tracking-[0.04em] tw:text-gold-100 tw:bg-[rgba(43,33,22,0.45)] tw:border tw:border-[rgba(255,248,230,0.2)] tw:rounded-[999px] tw:[backdrop-filter:blur(6px)] tw:upto-560:top-auto tw:upto-560:right-1/2 tw:upto-560:bottom-[84px] tw:upto-560:[transform:translateX(50%)] tw:upto-560:whitespace-nowrap tw:upto-560:text-[0.66rem] ${
+            className={`tw:absolute tw:z-2 tw:right-6 tw:py-[5px] tw:px-3 tw:text-[0.72rem] tw:tracking-[0.04em] tw:text-gold-100 tw:bg-[rgba(43,33,22,0.45)] tw:border tw:border-[rgba(255,248,230,0.2)] tw:rounded-[999px] tw:[backdrop-filter:blur(6px)] tw:upto-768:[backdrop-filter:none] tw:upto-560:top-auto tw:upto-560:right-1/2 tw:upto-560:bottom-[84px] tw:upto-560:[transform:translateX(50%)] tw:upto-560:whitespace-nowrap tw:upto-560:text-[0.66rem] ${
               compact ? "tw:top-24" : "tw:top-[184px]"
             }`}
           >

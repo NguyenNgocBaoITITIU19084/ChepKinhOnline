@@ -56,7 +56,7 @@ export function MobileNav() {
       <div
         aria-hidden
         onClick={close}
-        className={`tw:fixed tw:inset-0 tw:z-[60] tw:bg-[rgba(35,25,12,0.38)] tw:backdrop-blur-[3px] tw:transition-opacity tw:duration-300 tw:motion-reduce:transition-none ${
+        className={`tw:fixed tw:inset-0 tw:z-[60] tw:bg-[rgba(35,25,12,0.45)] tw:transition-opacity tw:duration-300 tw:motion-reduce:transition-none ${
           open ? "tw:opacity-100" : "tw:opacity-0 tw:pointer-events-none"
         }`}
       />
