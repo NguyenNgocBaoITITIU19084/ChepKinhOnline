@@ -7,22 +7,6 @@
   }
 }
 
-/* Bánh xe Pháp luân trong huy hiệu dải phân cách xoay rất chậm */
-@keyframes ck-site-turn {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes ck-site-draw {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
-}
-
 @keyframes ck-site-fade {
   from {
     opacity: 0;
@@ -174,13 +158,13 @@
   }
 
   /*
-   * Dải phân cách (ZenDivider): nét chỉ vẽ dần ra từ huy hiệu khi cuộn vào màn hình.
+   * Dải phân cách (ZenDivider): mái chùa và bửu đỉnh chỉ hiện dần khi cuộn vào màn hình, giữ nguyên kích thước.
    * `animation` phải đứng trước `animation-timeline` trong cùng một rule (shorthand reset timeline),
    * nên không tách thành các class Tailwind riêng lẻ.
    */
   @supports (animation-timeline: view()) {
     .ck-divider-line {
-      animation: ck-site-draw linear both;
+      animation: ck-site-fade linear both;
       animation-timeline: view();
       animation-range: entry 0% cover 40%;
     }

@@ -314,46 +314,47 @@ export function MalaBeadsIcon({
   );
 }
 
-/**
- * 9. Dải Phân Cách Hoa Văn Cát Tường (Zen Decorative Divider)
- * Hai nét vàng mảnh nhạt dần ra hai đầu, hạt thoi nhỏ, biểu tượng vàng đồng ở giữa
- * trên quầng giấy kem che hoa văn nền. Dùng bảng biến màu trong src/styles/ui.css.
- */
-// Cụm hoa văn một bên của dải phân cách: nét chỉ vàng, hạt thoi, cuộn mây lành (như ý).
-// Bên phải dùng lại cụm này và lật ngang bằng CSS.
-function DividerSide({ end = false }: { end?: boolean }) {
+// Mái chùa vẽ trong khung 400 x 80, chỉ vẽ nửa trái (x 0..200), nửa phải lật gương quanh x = 200.
+// Mỗi tầng mái là một khối hình thang tô vàng nhạt: bờ nóc ngắn phía trên, mái xoè rộng xuống dưới,
+// góc mái vểnh lên thành đầu đao. Ngói ống là các nét xiên toả ra theo phối cảnh.
+// Đường mái để hở ở x = 200 (không đóng Z) để nét viền không vẽ một vạch dọc giữa hai nửa; phần tô vẫn tự khép.
+const ROOF = {
+  // Tầng trên: bờ nóc y = 22, diềm mái y = 49, mũi đầu đao ở (50, 31)
+  upper: "M200 22 H132 C116 32 96 40 74 43 C64 44 56 39 50 31 C54 41 62 49 80 49 H200",
+  // Bờ nóc nổi: thêm một nét trên bờ nóc, kết con kìm cuộn lên ở đầu
+  ridge: "M200 19 H134 C128 19 124 16 123.5 11.5 C123.2 8.8 126 8.4 127 10.5",
+  // Dải diềm gỗ giữa hai tầng mái
+  band: "M200 55.5 H98",
+  // Tầng dưới: rộng hơn tầng trên, đầu đao ở (47, 58)
+  lower: "M200 56 H100 C88 62 78 66 66 67 C58 67.5 52 64 47 58 C50 66 58 72 74 72 H200",
+  base: "M200 78 H140",
+};
+// Ngói ống: [x ở bờ nóc, x ở diềm mái], toả ra hai bên theo phối cảnh
+const ROOF_TILES_UPPER = [140, 150, 160, 170, 180, 190].map((x) => [x, 200 - (200 - x) * 1.6]);
+const ROOF_TILES_LOWER = [112, 124, 136, 148, 160, 172, 184].map((x) => [x, 200 - (200 - x) * 1.22]);
+
+function RoofHalf() {
   return (
-    <span
-      className={`tw:flex-1 tw:flex tw:items-center tw:gap-2 tw:min-w-0 ${end ? "tw:[transform:scaleX(-1)]" : ""}`}
-      aria-hidden="true"
-    >
-      {/* Nét chỉ: một đường 1px nằm đúng trục giữa, mờ dần ra phía ngoài; tự vẽ ra khi cuộn tới (ck-divider-line) */}
-      <span className="ck-divider-line tw:flex-1 tw:h-px tw:bg-[linear-gradient(90deg,transparent,rgba(168,116,26,0.75))] tw:origin-[right_center]" />
-      <span className="ck-divider-ornament tw:shrink-0 tw:w-[5px] tw:h-[5px] tw:bg-gold-500 tw:[box-shadow:0_0_0_2px_rgba(255,253,248,0.9)] tw:[transform:rotate(45deg)]" />
-      {/* viewBox lùi 1.5 để đuôi ngang của cuộn mây (y = 11.5) nằm đúng giữa khung, thẳng hàng với nét chỉ */}
-      <svg
-        className="ck-divider-ornament tw:shrink-0 tw:block tw:text-[#b8862c] tw:upto-480:w-[34px] tw:upto-480:h-[15px]"
-        width="46" height="20" viewBox="0 1.5 46 20" fill="none">
-        <path
-          d="M1 11.5h13c3.4 0 4.6-2.2 6.4-5.4C22 3.3 24.2 1.5 27.6 1.5c3.8 0 6.2 2.6 6.2 5.4 0 2.4-1.8 4-3.9 4-1.8 0-3.1-1.2-3.1-2.8 0-1.3.9-2.2 2.1-2.2"
-          stroke="currentColor"
-          strokeWidth="1.15"
-          strokeLinecap="round"
-        />
-        <path
-          d="M33.8 11.5c2.4 2.3 6.3 2.6 8.4.6 1.6-1.5 1.4-3.9-.4-4.6-1.3-.5-2.6.3-2.6 1.5"
-          stroke="currentColor"
-          strokeWidth="1.15"
-          strokeLinecap="round"
-        />
-      </svg>
-    </span>
+    <g>
+      <path d={ROOF.upper} fill="currentColor" fillOpacity="0.14" strokeWidth="1.3" />
+      {ROOF_TILES_UPPER.map(([top, bottom]) => (
+        <path key={top} d={`M${top} 24 L${bottom} 47`} strokeWidth="0.8" strokeOpacity="0.35" />
+      ))}
+      <path d={ROOF.ridge} strokeWidth="1.5" />
+      <path d={ROOF.band} strokeWidth="0.8" strokeOpacity="0.55" />
+      <path d={ROOF.lower} fill="currentColor" fillOpacity="0.1" strokeWidth="1.2" />
+      {ROOF_TILES_LOWER.map(([top, bottom]) => (
+        <path key={top} d={`M${top} 58 L${bottom} 70`} strokeWidth="0.7" strokeOpacity="0.3" />
+      ))}
+      <path d={ROOF.base} strokeWidth="0.8" strokeOpacity="0.4" />
+    </g>
   );
 }
 
 /**
- * Dải phân cách giữa các khối trang chủ: huy hiệu tròn viền vàng hai lớp ở giữa,
- * hai bên là nét chỉ vàng kết cuộn mây lành. Nét chỉ tự vẽ dần ra khi cuộn tới (trình duyệt hỗ trợ).
+ * Dải phân cách giữa các khối trang chủ, dáng mái chùa Việt hai tầng: bờ nóc kết con kìm, mái xoè hình thang
+ * vểnh đầu đao, ngói ống xiên theo phối cảnh, dải diềm gỗ và tầng mái dưới rộng hơn. Biểu tượng (hoa sen, Pháp luân hoặc nút vô tận) làm bửu đỉnh giữa nóc.
+ * Kích thước cố định; khi cuộn tới chỉ hiện dần (ck-divider-line, ck-divider-ornament), không co giãn.
  */
 export function ZenDivider({
   className = "",
@@ -365,21 +366,32 @@ export function ZenDivider({
   return (
     <div
       role="separator"
-      className={`tw:flex tw:items-center tw:justify-center tw:gap-3.5 tw:my-14 tw:mx-auto tw:max-w-[720px] tw:text-gold-700 tw:upto-480:gap-2.5 tw:upto-480:my-9 tw:upto-480:px-4 ${className}`}
+      className={`tw:relative tw:my-14 tw:mx-auto tw:w-full tw:max-w-[440px] tw:aspect-[400/80] tw:text-gold-700 tw:upto-480:my-10 tw:upto-480:w-[calc(100%-40px)] ${className}`}
     >
-      <DividerSide />
-      {/* Huy hiệu giữa: đĩa giấy kem, viền vàng hai lớp, che hoa văn nền phía sau. Bánh xe Pháp luân xoay rất chậm. */}
-      <span
-        className={`tw:relative tw:grid tw:place-items-center tw:shrink-0 tw:w-[54px] tw:h-[54px] tw:rounded-[50%] tw:text-[#8a5c14] tw:bg-[radial-gradient(circle_at_50%_35%,#fffdf6_0%,#fbf1d8_100%)] tw:border tw:border-[rgba(168,116,26,0.55)] tw:[box-shadow:0_0_0_4px_#fffdf8,0_0_0_5px_rgba(214,164,64,0.35),inset_0_1px_0_rgba(255,255,255,0.9),0_8px_18px_-8px_rgba(122,80,14,0.35)] tw:upto-480:w-[46px] tw:upto-480:h-[46px] ${
-          symbol === "wheel" ? "tw:[&_svg]:animate-[ck-site-turn_40s_linear_infinite] tw:motion-reduce:[&_svg]:animate-none" : ""
-        }`}
+      <svg
+        aria-hidden
+        className="ck-divider-line tw:absolute tw:inset-0 tw:w-full tw:h-full tw:overflow-visible"
+        viewBox="0 0 400 80"
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       >
-        {/* Hoa sen nằm lệch xuống trong khung vẽ (đế sen dày hơn ngọn), kéo lên cho cân giữa huy hiệu */}
-        {symbol === "lotus" && <LotusIcon size={24} strokeWidth={1.3} className="tw:[transform:translateY(-1.5px)]" />}
-        {symbol === "wheel" && <DharmaWheelIcon size={22} strokeWidth={1.3} />}
-        {symbol === "knot" && <EndlessKnotIcon size={22} strokeWidth={1.3} />}
+        <RoofHalf />
+        <g transform="translate(400 0) scale(-1 1)">
+          <RoofHalf />
+        </g>
+      </svg>
+      {/* Bửu đỉnh đứng trên bờ nóc nổi (y = 19 của khung cao 80, tức cách đáy 61/80 ≈ 76%) */}
+      <span
+        aria-hidden
+        className="ck-divider-ornament tw:absolute tw:left-1/2 tw:bottom-[76%] tw:-translate-x-1/2 tw:flex"
+      >
+        {symbol === "lotus" && <LotusIcon size={28} strokeWidth={1.4} />}
+        {/* Pháp luân và nút vô tận có lề trống dưới trong khung vẽ, hạ xuống cho chạm nóc như hoa sen */}
+        {symbol === "wheel" && <DharmaWheelIcon size={24} strokeWidth={1.4} className="tw:[transform:translateY(1.5px)]" />}
+        {symbol === "knot" && <EndlessKnotIcon size={28} strokeWidth={1.3} className="tw:[transform:translateY(3.5px)]" />}
       </span>
-      <DividerSide end />
     </div>
   );
 }
