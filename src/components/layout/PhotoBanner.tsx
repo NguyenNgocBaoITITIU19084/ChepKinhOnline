@@ -141,7 +141,7 @@ export function PhotoBanner({
           compact
             ? // Thẳng mép với nội dung bên dưới: cùng lề với trang (24 / 20 / 16px, rộng tối đa 1152px)
               `${SHEET} tw:mt-[-96px] tw:mx-[max(24px,calc((100%_-_1152px)_/_2))] tw:mb-0 tw:pt-[30px] tw:px-8 tw:pb-7 tw:upto-1024:mt-[-72px] tw:upto-1024:mx-5 tw:upto-1024:pt-[26px] tw:upto-1024:px-5 tw:upto-1024:pb-[22px] tw:upto-768:mx-4`
-            : `${SHEET} tw:max-w-[1152px] tw:mt-[-96px] tw:mx-auto tw:mb-0 tw:pt-9 tw:px-10 tw:pb-8 tw:max-lg:mt-[-72px] tw:max-lg:mx-4 tw:max-lg:pt-[30px] tw:max-lg:px-6 tw:max-lg:pb-[26px]`
+            : `${SHEET} tw:max-w-[1152px] tw:mt-[-96px] tw:mx-auto tw:mb-0 tw:pt-9 tw:px-10 tw:pb-8 tw:max-lg:mt-[-72px] tw:max-lg:mx-4 tw:max-lg:pt-[30px] tw:max-lg:px-6 tw:max-lg:pb-[26px] tw:upto-480:px-5 tw:upto-480:pt-7`
         }
       >
         {eyebrow && (
@@ -154,7 +154,7 @@ export function PhotoBanner({
         </Heading>
         {lead && (
           <p
-            className={`tw:max-w-[760px] tw:mt-0 tw:mx-auto tw:text-[1rem] tw:leading-[1.8] tw:text-center tw:text-brown-800 tw:text-pretty tw:[&_strong]:font-semibold tw:[&_strong]:text-brown-900 ${
+            className={`tw:max-w-[760px] tw:mt-0 tw:mx-auto tw:text-[1rem] tw:leading-[1.8] tw:text-center tw:text-brown-800 tw:text-pretty tw:upto-480:text-[0.95rem] tw:upto-480:leading-[1.75] tw:[&_strong]:font-semibold tw:[&_strong]:text-brown-900 ${
               compact ? "tw:mb-[22px]" : "tw:mb-[30px]"
             }`}
           >

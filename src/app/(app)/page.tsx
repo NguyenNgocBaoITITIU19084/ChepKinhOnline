@@ -144,36 +144,36 @@ export default function Home() {
       {/* ====================================================================
           1. BANNER: lời mời chép kinh bên trái, một tờ kinh đang chép dở bên phải
           ==================================================================== */}
-      <section className="tw:relative tw:px-5 tw:pt-14 tw:pb-[72px] tw:max-lg:px-4 tw:max-lg:pt-9 tw:max-lg:pb-14">
-        <div className="tw:grid tw:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] tw:items-center tw:gap-14 tw:max-w-[1152px] tw:mx-auto tw:my-0 tw:max-lg:grid-cols-[minmax(0,1fr)] tw:max-lg:gap-10">
-          <div className="tw:flex tw:flex-col tw:items-start tw:gap-[22px] tw:max-lg:items-center tw:max-lg:text-center">
+      <section className="tw:relative tw:px-5 tw:pt-14 tw:pb-[72px] tw:max-lg:px-4 tw:max-lg:pt-9 tw:max-lg:pb-14 tw:upto-480:pt-8 tw:upto-480:pb-6">
+        <div className="tw:grid tw:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] tw:items-center tw:gap-14 tw:max-w-[1152px] tw:mx-auto tw:my-0 tw:max-lg:grid-cols-[minmax(0,1fr)] tw:max-lg:gap-10 tw:upto-480:gap-4">
+          <div className="tw:flex tw:flex-col tw:items-start tw:gap-[22px] tw:max-lg:items-center tw:max-lg:text-center tw:upto-480:gap-[18px]">
             <span className="tw:inline-flex tw:items-center tw:gap-2.5 tw:text-[0.74rem] tw:font-semibold tw:tracking-[0.22em] tw:uppercase tw:text-gold-700 tw:before:content-[''] tw:before:w-7 tw:before:h-px tw:before:bg-gold-500 tw:max-lg:tracking-[0.16em] tw:max-lg:before:hidden">
               Không gian chép kinh trực tuyến
             </span>
-            <h1 className="tw:m-0 tw:font-title tw:text-[clamp(2.2rem,4.6vw,3.6rem)] tw:font-semibold tw:leading-[1.16] tw:tracking-[-0.01em] tw:text-brown-900 tw:text-balance">
+            <h1 className="tw:m-0 tw:font-title tw:text-[clamp(2.2rem,4.6vw,3.6rem)] tw:font-semibold tw:leading-[1.16] tw:tracking-[-0.01em] tw:text-brown-900 tw:text-balance tw:upto-400:text-[1.95rem]">
               Từng nét chữ
               <em className="tw:block tw:italic tw:font-medium tw:text-gold-700">lắng đọng tâm hương</em>
             </h1>
-            <p className="tw:max-w-[34rem] tw:m-0 tw:text-[1.05rem] tw:leading-[1.75] tw:text-brown-800 tw:text-pretty">
+            <p className="tw:max-w-[34rem] tw:m-0 tw:text-[1.05rem] tw:leading-[1.75] tw:text-brown-800 tw:text-pretty tw:upto-480:text-[0.96rem] tw:upto-480:leading-[1.7] tw:upto-480:px-1">
               Mượn ngón tay làm bút, bàn phím làm nghiên mực. Mỗi câu kinh được chép là một niệm buông bỏ muộn
               phiền, nuôi lớn tuệ giác và gieo mầm an lạc trong hiện tại.
             </p>
             {/* Nút banner to hơn nút thường một bậc */}
-            <div className="tw:flex tw:flex-wrap tw:gap-3.5 tw:upto-480:flex-col tw:upto-480:self-stretch">
-              <Link href="/chep-kinh/bat-nha-tam-kinh" className="ck-btn-gold tw:min-h-[52px] tw:px-[26px] tw:text-[0.97rem]">
+            <div className="tw:flex tw:flex-wrap tw:gap-3.5 tw:upto-480:flex-col tw:upto-480:self-stretch tw:upto-480:gap-1.5">
+              <Link href="/chep-kinh/bat-nha-tam-kinh" className="ck-btn-gold tw:min-h-[52px] tw:px-[26px] tw:text-[0.97rem] tw:upto-480:min-h-[50px]">
                 Chép Bát Nhã Tâm Kinh
                 <IconArrowRight size={18} stroke={2} className="ck-btn-arrow" aria-hidden />
               </Link>
-              <a href="#gioi-thieu-kinh" className="ck-btn-ghost tw:min-h-[52px] tw:px-[26px] tw:text-[0.97rem]">
+              <a href="#gioi-thieu-kinh" className="ck-btn-ghost tw:min-h-[52px] tw:px-[26px] tw:text-[0.97rem] tw:upto-480:min-h-0 tw:upto-480:py-2 tw:upto-480:bg-transparent tw:upto-480:border-transparent tw:upto-480:shadow-none tw:upto-480:text-brown-800 tw:upto-480:underline tw:upto-480:underline-offset-4 tw:upto-480:decoration-[rgba(214,164,64,0.6)]">
                 <IconBooks size={18} stroke={1.7} aria-hidden />
                 Xem các bộ kinh
               </a>
             </div>
-            <ul className="tw:grid tw:grid-cols-[repeat(3,auto)] tw:gap-x-7 tw:gap-y-2.5 tw:mt-1.5 tw:mx-0 tw:mb-0 tw:p-0 tw:pt-[18px] tw:list-none tw:border-t tw:border-t-[rgba(214,164,64,0.35)] tw:max-lg:justify-center tw:upto-480:grid-cols-[repeat(3,minmax(0,1fr))] tw:upto-480:gap-x-3 tw:upto-480:text-center">
+            <ul className="tw:grid tw:grid-cols-[repeat(3,auto)] tw:gap-x-7 tw:gap-y-2.5 tw:mt-1.5 tw:mx-0 tw:mb-0 tw:p-0 tw:pt-[18px] tw:list-none tw:border-t tw:border-t-[rgba(214,164,64,0.35)] tw:max-lg:justify-center tw:upto-480:flex tw:upto-480:justify-center tw:upto-480:self-stretch tw:upto-480:gap-x-0 tw:upto-480:mt-0 tw:upto-480:pt-4">
               {HERO_PILLARS.map((pillar) => (
-                <li key={pillar.title} className="tw:flex tw:flex-col tw:gap-0.5">
-                  <strong className="tw:font-title tw:text-[1.02rem] tw:font-semibold tw:text-brown-900 tw:upto-360:text-[0.9rem]">{pillar.title}</strong>
-                  <span className="tw:text-[0.82rem] tw:text-brown-800 tw:opacity-85">{pillar.text}</span>
+                <li key={pillar.title} className="tw:flex tw:flex-col tw:gap-0.5 tw:upto-480:flex-row tw:upto-480:items-center tw:upto-480:not-first:before:content-[''] tw:upto-480:not-first:before:w-[5px] tw:upto-480:not-first:before:h-[5px] tw:upto-480:not-first:before:mx-3.5 tw:upto-480:not-first:before:rotate-45 tw:upto-480:not-first:before:bg-gold-500">
+                  <strong className="tw:font-title tw:text-[1.02rem] tw:font-semibold tw:text-brown-900 tw:upto-480:text-[0.98rem] tw:upto-360:text-[0.9rem]">{pillar.title}</strong>
+                  <span className="tw:text-[0.82rem] tw:text-brown-800 tw:opacity-85 tw:upto-480:sr-only">{pillar.text}</span>
                 </li>
               ))}
             </ul>
@@ -182,7 +182,7 @@ export default function Home() {
           {/* Minh họa trang chép kinh: chữ đã chép thấm mực, con trỏ, chữ mờ hướng dẫn.
               Quầng sáng vàng sau tờ giấy (::before). */}
           <div
-            className="tw:relative tw:flex tw:justify-center tw:px-3 tw:py-6 tw:before:content-[''] tw:before:absolute tw:before:[inset:-8%_-4%] tw:before:bg-[radial-gradient(closest-side,rgba(240,196,100,0.38),transparent)] tw:before:pointer-events-none"
+            className="tw:relative tw:flex tw:justify-center tw:px-3 tw:py-6 tw:upto-480:px-2 tw:before:content-[''] tw:before:absolute tw:before:[inset:-8%_-4%] tw:before:bg-[radial-gradient(closest-side,rgba(240,196,100,0.38),transparent)] tw:before:pointer-events-none"
             aria-hidden
           >
             <div className="tw:relative tw:w-[min(100%,420px)] tw:pt-[34px] tw:px-9 tw:pb-7 tw:bg-[radial-gradient(ellipse_at_50%_30%,#fffdf6,var(--paper)_70%,#f3e7c8)] tw:border tw:border-[rgba(214,164,64,0.45)] tw:rounded-[6px] tw:[box-shadow:0_2px_0_#efe2c0,5px_7px_0_-1px_#f6ecd2,5px_7px_0_0_rgba(214,164,64,0.35),10px_14px_0_-1px_#f1e4c4,10px_14px_0_0_rgba(214,164,64,0.28),0_30px_60px_rgba(120,85,20,0.18)] tw:[transform:rotate(-1.2deg)] tw:upto-480:pt-[26px] tw:upto-480:px-[22px] tw:upto-480:pb-[22px]">
@@ -246,13 +246,13 @@ export default function Home() {
           {MERITS.map((merit, i) => (
             <li
               key={merit.title}
-              className="tw:flex tw:flex-col tw:gap-1.5 tw:px-[22px] tw:py-0 tw:not-first:border-l tw:not-first:border-l-[rgba(214,164,64,0.3)] tw:max-lg:odd:[border-left:0] tw:max-lg:odd:pl-0 tw:upto-560:p-0 tw:upto-560:not-first:pt-5 tw:upto-560:not-first:[border-left:0] tw:upto-560:not-first:border-t tw:upto-560:not-first:border-t-[rgba(214,164,64,0.25)]"
+              className="tw:flex tw:flex-col tw:gap-1.5 tw:px-[22px] tw:py-0 tw:not-first:border-l tw:not-first:border-l-[rgba(214,164,64,0.3)] tw:max-lg:odd:[border-left:0] tw:max-lg:odd:pl-0 tw:upto-560:grid tw:upto-560:grid-cols-[2.25rem_minmax(0,1fr)] tw:upto-560:gap-x-1 tw:upto-560:gap-y-1 tw:upto-560:p-0 tw:upto-560:not-first:pt-5 tw:upto-560:not-first:[border-left:0] tw:upto-560:not-first:border-t tw:upto-560:not-first:border-t-[rgba(214,164,64,0.25)]"
             >
-              <span className="tw:font-title tw:text-[0.85rem] tw:italic tw:tabular-nums tw:text-gold-700">
+              <span className="tw:font-title tw:text-[0.85rem] tw:italic tw:tabular-nums tw:text-gold-700 tw:upto-560:row-span-2 tw:upto-560:text-[1.15rem] tw:upto-560:leading-[1.45]">
                 {String(i + 1).padStart(2, "0")}
               </span>
-              <h3 className="tw:m-0 tw:font-title tw:text-[1.12rem] tw:font-semibold tw:text-brown-900">{merit.title}</h3>
-              <p className="tw:m-0 tw:text-[0.88rem] tw:leading-[1.65] tw:text-brown-800">{merit.text}</p>
+              <h3 className="tw:m-0 tw:font-title tw:text-[1.12rem] tw:font-semibold tw:text-brown-900 tw:upto-560:col-start-2">{merit.title}</h3>
+              <p className="tw:m-0 tw:text-[0.88rem] tw:leading-[1.65] tw:text-brown-800 tw:upto-560:col-start-2">{merit.text}</p>
             </li>
           ))}
         </ul>
@@ -427,7 +427,7 @@ export default function Home() {
             5. BLOCK TIN TỨC & BÀI VIẾT TU HỌC (ẢNH CHỤP THẬT)
             ==================================================================== */}
         <section id="tin-tuc" className="tw:pt-4 tw:pb-8">
-          <div className="tw:flex tw:flex-col tw:sm:flex-row tw:sm:items-end tw:sm:justify-between tw:mb-10 tw:gap-4">
+          <div className="tw:flex tw:flex-col tw:sm:flex-row tw:sm:items-end tw:sm:justify-between tw:mb-10 tw:gap-4 tw:upto-640:items-center tw:upto-640:text-center tw:upto-640:gap-3 tw:upto-640:mb-7">
             <div>
               <span className="tw:text-xs tw:font-semibold tw:tracking-widest tw:uppercase tw:text-amber-900/80 font-zen-body">
                 Phật Sự & Cảm Niệm
@@ -442,9 +442,11 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="tw:grid tw:grid-cols-1 tw:md:grid-cols-3 tw:gap-8">
+          {/* Điện thoại: vuốt ngang từng thẻ (thấy mép thẻ kế bên), giống hàng kinh điển phía trên */}
+          <div className="tw:grid tw:grid-cols-1 tw:md:grid-cols-3 tw:gap-8 tw:upto-640:flex tw:upto-640:gap-4 tw:upto-640:overflow-x-auto tw:upto-640:snap-x tw:upto-640:snap-mandatory tw:upto-640:-mx-4 tw:upto-640:px-4 tw:upto-640:scroll-px-4 tw:upto-640:pb-2 tw:upto-640:[scrollbar-width:none] tw:upto-640:[&::-webkit-scrollbar]:hidden">
             {ARTICLES.map((article) => (
               <ArticleTeaserCard
+                className="tw:upto-640:shrink-0 tw:upto-640:w-[84%] tw:upto-640:snap-start"
                 key={article.id}
                 title={article.title}
                 image={article.image}
