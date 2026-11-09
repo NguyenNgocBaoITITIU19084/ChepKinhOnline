@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import Link from "next/link";
 import { BrandMark } from "@/components/brand/LotusLogo";
 import { SiteNav } from "@/components/layout/SiteNav";
+import { MobileNav } from "@/components/layout/MobileNav";
 import { UserMenu } from "@/components/layout/UserMenu";
 import { getCurrentUser } from "@/lib/auth";
 import { avatar } from "@/components/ui/classes";
@@ -32,6 +33,7 @@ export function SiteHeader({ actions, sticky = false }: Props) {
         <Suspense fallback={<span className={avatar} aria-hidden />}>
           <HeaderUser />
         </Suspense>
+        <MobileNav />
       </nav>
     </header>
   );

@@ -174,7 +174,7 @@ export function HolyFiguresBlock() {
         {/* Tranh treo như tranh cuộn: hai thanh trục gỗ, viền giấy ngà, chỉ vàng bên trong.
             Mỗi lần đổi vị, tranh mở cuộn từ trên xuống (.ck-unroll) và thanh trục dưới trượt theo mép tranh.
             Lớp "đặt chỗ" vô hình giữ sẵn chiều cao để cột thông tin bên cạnh không nhảy trong lúc tranh mở. */}
-        <figure className="tw:m-0 tw:mx-auto tw:w-full tw:max-w-[400px]">
+        <figure className="tw:m-0 tw:mx-auto tw:w-full tw:max-w-[400px] tw:upto-560:max-w-[300px]">
           <div className="tw:grid">
             <div aria-hidden className="tw:invisible tw:col-start-1 tw:row-start-1 tw:py-1.5">
               <div className="tw:p-3 tw:border">

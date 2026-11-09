@@ -169,10 +169,10 @@ export default function Home() {
                 Xem các bộ kinh
               </a>
             </div>
-            <ul className="tw:grid tw:grid-cols-[repeat(3,auto)] tw:gap-x-7 tw:gap-y-2.5 tw:mt-1.5 tw:mx-0 tw:mb-0 tw:p-0 tw:pt-[18px] tw:list-none tw:border-t tw:border-t-[rgba(214,164,64,0.35)] tw:max-lg:justify-center tw:upto-420:flex tw:upto-420:flex-wrap">
+            <ul className="tw:grid tw:grid-cols-[repeat(3,auto)] tw:gap-x-7 tw:gap-y-2.5 tw:mt-1.5 tw:mx-0 tw:mb-0 tw:p-0 tw:pt-[18px] tw:list-none tw:border-t tw:border-t-[rgba(214,164,64,0.35)] tw:max-lg:justify-center tw:upto-480:grid-cols-[repeat(3,minmax(0,1fr))] tw:upto-480:gap-x-3 tw:upto-480:text-center">
               {HERO_PILLARS.map((pillar) => (
                 <li key={pillar.title} className="tw:flex tw:flex-col tw:gap-0.5">
-                  <strong className="tw:font-title tw:text-[1.02rem] tw:font-semibold tw:text-brown-900">{pillar.title}</strong>
+                  <strong className="tw:font-title tw:text-[1.02rem] tw:font-semibold tw:text-brown-900 tw:upto-360:text-[0.9rem]">{pillar.title}</strong>
                   <span className="tw:text-[0.82rem] tw:text-brown-800 tw:opacity-85">{pillar.text}</span>
                 </li>
               ))}
@@ -460,7 +460,7 @@ export default function Home() {
         {/* ====================================================================
             6. BLOCK KỆ KHAI KINH CỔ ĐIỂN
             ==================================================================== */}
-        <section id="khai-kinh" className="tw:pt-6 tw:pb-20">
+        <section id="khai-kinh" className="tw:pt-6 tw:pb-20 tw:upto-560:pb-10">
           <div className="tw:relative tw:max-w-5xl tw:mx-auto tw:overflow-hidden tw:rounded-[28px] tw:bg-[radial-gradient(ellipse_80%_70%_at_30%_20%,#fffdf6_0%,#fbf3df_60%,#f5e6c4_100%)] tw:shadow-[0_1px_2px_rgba(74,50,10,0.08),0_10px_24px_-10px_rgba(74,50,10,0.22),0_30px_60px_-30px_rgba(74,50,10,0.35)]">
             {/* Khung chỉ vàng hai lớp và bốn góc bọc đồng */}
             <div className="tw:pointer-events-none tw:absolute tw:inset-3 tw:rounded-[20px] tw:border tw:border-[#a8741a]/35" aria-hidden="true" />
