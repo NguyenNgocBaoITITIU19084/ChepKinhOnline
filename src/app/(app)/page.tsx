@@ -265,7 +265,7 @@ export default function Home() {
         {/* ====================================================================
             3. BLOCK CẢNH SẮC THIỀN MÔN (ẢNH CHỤP THẬT CHÙA CHIỀN VIỆT NAM)
             ==================================================================== */}
-        <section id="thien-mon" className="tw:pt-8 tw:pb-16">
+        <section id="thien-mon" className="tw:pt-4 tw:pb-8">
           <div className="tw:text-center tw:max-w-2xl tw:mx-auto tw:mb-12">
             <span className="tw:text-xs tw:font-semibold tw:tracking-widest tw:uppercase tw:text-amber-900/80 font-zen-body">
               Chốn Thiền Tịnh An Lạc
@@ -353,7 +353,7 @@ export default function Home() {
         {/* ====================================================================
             3b. BLOCK CHƯ PHẬT & BỒ TÁT (tranh từng vị, hình tướng, ngày vía, hồng danh, kinh để chép)
             ==================================================================== */}
-        <section id="chu-phat-bo-tat" aria-labelledby="chu-phat-heading" className="tw:pt-8 tw:pb-16">
+        <section id="chu-phat-bo-tat" aria-labelledby="chu-phat-heading" className="tw:pt-4 tw:pb-8">
           <div className="tw:text-center tw:max-w-2xl tw:mx-auto tw:mb-10">
             <span className="tw:text-xs tw:font-semibold tw:tracking-widest tw:uppercase tw:text-amber-900/80 font-zen-body">
               Chư Phật & Bồ Tát
@@ -376,7 +376,7 @@ export default function Home() {
         {/* ====================================================================
             3c. BLOCK LỊCH PHẬT SỰ (ngày lễ, ngày vía theo âm lịch, ngày dương tự tính)
             ==================================================================== */}
-        <section id="lich-phat-su" aria-labelledby="lich-phat-su-heading" className="tw:pt-8 tw:pb-16">
+        <section id="lich-phat-su" aria-labelledby="lich-phat-su-heading" className="tw:pt-4 tw:pb-8">
           <div className="tw:text-center tw:max-w-2xl tw:mx-auto tw:mb-6">
             <span className="tw:text-xs tw:font-semibold tw:tracking-widest tw:uppercase tw:text-amber-900/80 font-zen-body">
               Lịch Phật Sự
@@ -396,7 +396,7 @@ export default function Home() {
         {/* ====================================================================
             4. BLOCK GIỚI THIỆU CÁC CUỐN KINH CÓ THỂ CHÉP (SUTRA COLLECTION)
             ==================================================================== */}
-        <section id="gioi-thieu-kinh" className="tw:pt-8 tw:pb-16">
+        <section id="gioi-thieu-kinh" className="tw:pt-4 tw:pb-8">
           <div className="tw:text-center tw:max-w-2xl tw:mx-auto tw:mb-12">
             <span className="tw:text-xs tw:font-semibold tw:tracking-widest tw:uppercase tw:text-amber-900/80 font-zen-body">
               Án Thư Kinh Tạng
@@ -426,7 +426,7 @@ export default function Home() {
         {/* ====================================================================
             5. BLOCK TIN TỨC & BÀI VIẾT TU HỌC (ẢNH CHỤP THẬT)
             ==================================================================== */}
-        <section id="tin-tuc" className="tw:pt-8 tw:pb-16">
+        <section id="tin-tuc" className="tw:pt-4 tw:pb-8">
           <div className="tw:flex tw:flex-col tw:sm:flex-row tw:sm:items-end tw:sm:justify-between tw:mb-10 tw:gap-4">
             <div>
               <span className="tw:text-xs tw:font-semibold tw:tracking-widest tw:uppercase tw:text-amber-900/80 font-zen-body">

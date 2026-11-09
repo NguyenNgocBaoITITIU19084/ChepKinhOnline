@@ -366,7 +366,7 @@ export function ZenDivider({
   return (
     <div
       role="separator"
-      className={`tw:relative tw:my-14 tw:mx-auto tw:w-full tw:max-w-[440px] tw:aspect-[400/80] tw:text-gold-700 tw:upto-480:my-10 tw:upto-480:w-[calc(100%-40px)] ${className}`}
+      className={`tw:relative tw:my-10 tw:mx-auto tw:w-full tw:max-w-[440px] tw:aspect-[400/80] tw:text-gold-700 tw:upto-480:my-8 tw:upto-480:w-[calc(100%-40px)] ${className}`}
     >
       <svg
         aria-hidden
