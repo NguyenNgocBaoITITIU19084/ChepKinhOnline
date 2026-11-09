@@ -189,7 +189,7 @@ export default function Home() {
             className="tw:relative tw:flex tw:justify-center tw:px-3 tw:py-6 tw:upto-480:px-2 tw:before:content-[''] tw:before:absolute tw:before:[inset:-8%_-4%] tw:before:bg-[radial-gradient(closest-side,rgba(240,196,100,0.38),transparent)] tw:before:pointer-events-none"
             aria-hidden
           >
-            <div className="tw:relative tw:w-[min(100%,420px)] tw:pt-[34px] tw:px-9 tw:pb-7 tw:bg-[radial-gradient(ellipse_at_50%_30%,#fffdf6,var(--paper)_70%,#f3e7c8)] tw:border tw:border-[rgba(214,164,64,0.45)] tw:rounded-[6px] tw:[box-shadow:0_2px_0_#efe2c0,5px_7px_0_-1px_#f6ecd2,5px_7px_0_0_rgba(214,164,64,0.35),10px_14px_0_-1px_#f1e4c4,10px_14px_0_0_rgba(214,164,64,0.28),0_30px_60px_rgba(120,85,20,0.18)] tw:[transform:rotate(-1.2deg)] tw:upto-480:pt-[26px] tw:upto-480:px-[22px] tw:upto-480:pb-[22px]">
+            <div className="tw:relative tw:w-[min(100%,420px)] tw:pt-[34px] tw:px-9 tw:pb-7 tw:bg-[radial-gradient(ellipse_at_50%_30%,#fffdf6,var(--paper)_70%,#f3e7c8)] tw:border tw:border-[rgba(214,164,64,0.45)] tw:rounded-[6px] tw:[box-shadow:0_2px_0_#efe2c0,5px_7px_0_-1px_#f6ecd2,5px_7px_0_0_rgba(214,164,64,0.35),10px_14px_0_-1px_#f1e4c4,10px_14px_0_0_rgba(214,164,64,0.28),0_30px_60px_rgba(120,85,20,0.18)] tw:[transform:rotate(-1.2deg)] tw:upto-480:pt-[26px] tw:upto-480:px-[22px] tw:upto-480:pb-[22px] tw:upto-400:px-[18px]">
               <div className="tw:flex tw:items-start tw:justify-between tw:gap-3 tw:pb-3.5 tw:border-b tw:border-b-[rgba(214,164,64,0.4)]">
                 <div>
                   <span className="tw:block tw:mb-1 tw:text-[0.66rem] tw:font-semibold tw:tracking-[0.22em] tw:uppercase tw:text-gold-700">
@@ -203,7 +203,7 @@ export default function Home() {
                   心經
                 </span>
               </div>
-              <div className="tw:mt-5 tw:mx-0 tw:mb-[22px] tw:[font-family:var(--font-book),serif] tw:text-[clamp(1.02rem,1.6vw,1.2rem)] tw:font-medium tw:leading-[1.95]">
+              <div className="tw:mt-5 tw:mx-0 tw:mb-[22px] tw:[font-family:var(--font-book),serif] tw:text-[clamp(1.02rem,1.6vw,1.2rem)] tw:font-medium tw:leading-[1.95] tw:upto-400:text-[0.9rem] tw:upto-360:text-[0.84rem] tw:upto-400:[&>p]:whitespace-nowrap">
                 <p className="tw:m-0 tw:text-ink">Vô thượng thâm thâm vi diệu pháp,</p>
                 <p className="tw:m-0">
                   <span className="tw:text-ink">Bách thiên vạn kiếp</span>
@@ -505,7 +505,7 @@ export default function Home() {
               </div>
 
               {/* Bên phải: âm Hán Việt, lời dịch và lời niệm Phật */}
-              <div className="tw:md:col-span-7 tw:px-6 tw:pb-14 tw:pt-6 tw:sm:px-12 tw:md:py-16 tw:md:pl-12 tw:md:pr-16 tw:text-center tw:md:text-left">
+              <div className="tw:md:col-span-7 tw:px-6 tw:upto-400:px-4 tw:pb-14 tw:pt-6 tw:sm:px-12 tw:md:py-16 tw:md:pl-12 tw:md:pr-16 tw:text-center tw:md:text-left">
                 <span className="font-zen-body tw:inline-flex tw:items-center tw:gap-2 tw:text-[11px] tw:font-semibold tw:uppercase tw:tracking-[0.2em] tw:text-[#a8741a]">
                   <LotusIcon size={16} strokeWidth={1.4} />
                   Trước giờ chép kinh
@@ -514,9 +514,9 @@ export default function Home() {
                   Kệ Khai Kinh
                 </h2>
 
-                <ol className="font-zen-title tw:mt-7 tw:mb-0 tw:p-0 tw:list-none tw:space-y-2.5 tw:text-[16.5px] tw:sm:text-xl tw:italic tw:leading-relaxed tw:text-[#3a2c1c]">
+                <ol className="font-zen-title tw:mt-7 tw:mb-0 tw:p-0 tw:list-none tw:space-y-2.5 tw:text-[16.5px] tw:upto-400:text-[15.5px] tw:sm:text-xl tw:italic tw:leading-relaxed tw:text-[#3a2c1c]">
                   {KE_KHAI_KINH.map((line, idx) => (
-                    <li key={line.viet} className={idx === KE_KHAI_KINH.length - 1 ? "tw:text-[#7a3f0e] tw:font-medium" : undefined}>
+                    <li key={line.viet} className={`tw:text-balance ${idx === KE_KHAI_KINH.length - 1 ? "tw:text-[#7a3f0e] tw:font-medium" : ""}`}>
                       {line.viet}
                     </li>
                   ))}

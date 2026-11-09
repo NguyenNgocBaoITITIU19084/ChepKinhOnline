@@ -265,7 +265,8 @@ export function SutraCarousel({ sutras }: { sutras: SutraSummary[] }) {
                 )}
 
                 <div className="tw:mt-5 tw:pt-4 tw:border-t tw:border-[#ecc976]/20 tw:flex tw:items-center tw:justify-between tw:gap-3">
-                  <span className="font-zen-body tw:min-w-0 tw:truncate tw:text-xs tw:italic tw:text-[#f3e6cc]/65">{art.meritBadge}</span>
+                  {/* Điện thoại nhỏ: nhãn công đức bị cắt cụt bên cạnh nút, nên ẩn đi */}
+                  <span className="font-zen-body tw:min-w-0 tw:truncate tw:text-xs tw:italic tw:text-[#f3e6cc]/65 tw:upto-400:hidden">{art.meritBadge}</span>
                   <span className="font-zen-body tw:shrink-0 tw:whitespace-nowrap tw:inline-flex tw:items-center tw:gap-2 tw:rounded-full tw:border tw:border-[#fff8e6]/60 tw:bg-[#fff8e6] tw:pl-4 tw:pr-3.5 tw:py-2.5 tw:text-[13px] tw:font-semibold tw:leading-none tw:text-[#3d2906] tw:shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_6px_16px_-6px_rgba(0,0,0,0.45)] tw:transition-all tw:duration-300 tw:group-hover:border-[#8a5c14]/60 tw:group-hover:bg-[linear-gradient(180deg,#f3d48a_0%,#e0b252_55%,#c99232_100%)] tw:group-hover:shadow-[inset_0_1px_0_rgba(255,250,232,0.9),0_8px_20px_-6px_rgba(201,146,50,0.6)]">
                     Vào chép kinh
                     <svg className="tw:w-3.5 tw:h-3.5 tw:transition-transform tw:duration-300 tw:group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2} aria-hidden="true">
