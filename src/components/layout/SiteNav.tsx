@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SiteNavGroup } from "@/components/layout/SiteNavGroup";
 import { IconArrowRight, IconChevronDown } from "@tabler/icons-react";
 
 export type NavLink = { href: string; title: string; description: string };
@@ -106,7 +107,7 @@ export function SiteNav() {
     <nav className="tw:mr-auto tw:ml-3 tw:upto-1100:hidden" aria-label="Danh mục">
       <ul className="tw:flex tw:gap-0.5 tw:m-0 tw:p-0 tw:list-none">
         {NAV.map((group) => (
-          <li key={group.label} className="ck-nav-group tw:group tw:relative">
+          <SiteNavGroup key={group.label}>
             <button
               type="button"
               className="ck-font-inherit tw:inline-flex tw:items-center tw:gap-1 tw:min-h-[38px] tw:px-3 tw:py-0 tw:text-[0.92rem] tw:font-medium tw:text-brown-800 tw:bg-transparent tw:border-none tw:border-current tw:rounded-[10px] tw:cursor-pointer tw:transition-[background,color] tw:duration-200 tw:ease-[ease] tw:group-hover:text-brown-900 tw:group-hover:bg-[rgba(232,199,122,0.28)] tw:group-focus-within:text-brown-900 tw:group-focus-within:bg-[rgba(232,199,122,0.28)] tw:focus-visible:outline-2 tw:focus-visible:outline-solid tw:focus-visible:outline-gold-500 tw:focus-visible:outline-offset-2"
@@ -133,7 +134,7 @@ export function SiteNav() {
                 </Link>
               ))}
             </div>
-          </li>
+          </SiteNavGroup>
         ))}
       </ul>
     </nav>

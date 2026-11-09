@@ -444,6 +444,18 @@
       visibility 0s;
   }
 
+  /* Vừa bấm một link trong menu (SiteNavGroup gắn data-closed): đóng ngay dù chuột/focus còn ở đó */
+  .ck-nav-group[data-closed]:hover > .ck-menu,
+  .ck-nav-group[data-closed]:focus-within > .ck-menu {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(4px);
+    transition:
+      opacity 0.12s ease-in,
+      transform 0.12s ease-in,
+      visibility 0s linear 0.12s;
+  }
+
   /*
    * Cầu nối vô hình để rê chuột từ danh mục xuống dropdown không bị đóng: phủ hết khoảng hở 12px
    * cộng 4px khung còn đang trượt, dư thêm để không lọt chuột khi rê nhanh.
