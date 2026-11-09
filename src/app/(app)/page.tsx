@@ -155,8 +155,12 @@ export default function Home() {
               <em className="tw:block tw:italic tw:font-medium tw:text-gold-700">lắng đọng tâm hương</em>
             </h1>
             <p className="tw:max-w-[34rem] tw:m-0 tw:text-[1.05rem] tw:leading-[1.75] tw:text-brown-800 tw:text-pretty tw:upto-480:text-[0.96rem] tw:upto-480:leading-[1.7] tw:upto-480:px-1">
-              Mượn ngón tay làm bút, bàn phím làm nghiên mực. Mỗi câu kinh được chép là một niệm buông bỏ muộn
-              phiền, nuôi lớn tuệ giác và gieo mầm an lạc trong hiện tại.
+              Mượn ngón tay làm bút, bàn phím làm nghiên mực.{" "}
+              {/* Điện thoại: chỉ giữ câu đầu cho banner gọn */}
+              <span className="tw:upto-480:hidden">
+                Mỗi câu kinh được chép là một niệm buông bỏ muộn phiền, nuôi lớn tuệ giác và gieo mầm an lạc trong
+                hiện tại.
+              </span>
             </p>
             {/* Nút banner to hơn nút thường một bậc */}
             <div className="tw:flex tw:flex-wrap tw:gap-3.5 tw:upto-480:flex-col tw:upto-480:self-stretch tw:upto-480:gap-1.5">
@@ -236,23 +240,26 @@ export default function Home() {
         }
         lead={
           <>
-            Từ ngàn xưa, biên chép kinh văn được xem là một trong mười pháp tu thù thắng của Phật giáo Đại
-            Thừa. Giữa nhịp sống hối hả, <strong>Chép Kinh Online</strong> là một tịnh thất trên không gian số,
+            <span className="tw:upto-480:hidden">
+              Từ ngàn xưa, biên chép kinh văn được xem là một trong mười pháp tu thù thắng của Phật giáo Đại
+              Thừa.{" "}
+            </span>
+            Giữa nhịp sống hối hả, <strong>Chép Kinh Online</strong> là một tịnh thất trên không gian số,
             để quý Phật tử dành ra những phút lắng đọng thọ trì kinh điển.
           </>
         }
       >
-        <ul className="tw:grid tw:grid-cols-[repeat(4,minmax(0,1fr))] tw:m-0 tw:p-0 tw:pt-[26px] tw:list-none tw:border-t tw:border-t-[rgba(214,164,64,0.35)] tw:max-lg:grid-cols-[repeat(2,minmax(0,1fr))] tw:max-lg:gap-y-6 tw:upto-560:grid-cols-[minmax(0,1fr)]">
+        <ul className="tw:grid tw:grid-cols-[repeat(4,minmax(0,1fr))] tw:m-0 tw:p-0 tw:pt-[26px] tw:list-none tw:border-t tw:border-t-[rgba(214,164,64,0.35)] tw:max-lg:grid-cols-[repeat(2,minmax(0,1fr))] tw:max-lg:gap-y-6 tw:upto-560:gap-y-5 tw:upto-560:pt-5">
           {MERITS.map((merit, i) => (
             <li
               key={merit.title}
-              className="tw:flex tw:flex-col tw:gap-1.5 tw:px-[22px] tw:py-0 tw:not-first:border-l tw:not-first:border-l-[rgba(214,164,64,0.3)] tw:max-lg:odd:[border-left:0] tw:max-lg:odd:pl-0 tw:upto-560:grid tw:upto-560:grid-cols-[2.25rem_minmax(0,1fr)] tw:upto-560:gap-x-1 tw:upto-560:gap-y-1 tw:upto-560:p-0 tw:upto-560:not-first:pt-5 tw:upto-560:not-first:[border-left:0] tw:upto-560:not-first:border-t tw:upto-560:not-first:border-t-[rgba(214,164,64,0.25)]"
+              className="tw:flex tw:flex-col tw:gap-1.5 tw:px-[22px] tw:py-0 tw:not-first:border-l tw:not-first:border-l-[rgba(214,164,64,0.3)] tw:max-lg:odd:[border-left:0] tw:max-lg:odd:pl-0 tw:upto-560:gap-1 tw:upto-560:px-4 tw:upto-560:max-lg:odd:pl-0"
             >
-              <span className="tw:font-title tw:text-[0.85rem] tw:italic tw:tabular-nums tw:text-gold-700 tw:upto-560:row-span-2 tw:upto-560:text-[1.15rem] tw:upto-560:leading-[1.45]">
+              <span className="tw:font-title tw:text-[0.85rem] tw:italic tw:tabular-nums tw:text-gold-700">
                 {String(i + 1).padStart(2, "0")}
               </span>
-              <h3 className="tw:m-0 tw:font-title tw:text-[1.12rem] tw:font-semibold tw:text-brown-900 tw:upto-560:col-start-2">{merit.title}</h3>
-              <p className="tw:m-0 tw:text-[0.88rem] tw:leading-[1.65] tw:text-brown-800 tw:upto-560:col-start-2">{merit.text}</p>
+              <h3 className="tw:m-0 tw:font-title tw:text-[1.12rem] tw:font-semibold tw:text-brown-900 tw:upto-560:text-[1.02rem] tw:upto-560:leading-[1.35]">{merit.title}</h3>
+              <p className="tw:m-0 tw:text-[0.88rem] tw:leading-[1.65] tw:text-brown-800 tw:upto-560:hidden">{merit.text}</p>
             </li>
           ))}
         </ul>
@@ -266,14 +273,14 @@ export default function Home() {
             3. BLOCK CẢNH SẮC THIỀN MÔN (ẢNH CHỤP THẬT CHÙA CHIỀN VIỆT NAM)
             ==================================================================== */}
         <section id="thien-mon" className="tw:pt-4 tw:pb-8">
-          <div className="tw:text-center tw:max-w-2xl tw:mx-auto tw:mb-12">
+          <div className="tw:text-center tw:max-w-2xl tw:mx-auto tw:mb-12 tw:upto-480:mb-7">
             <span className="tw:text-xs tw:font-semibold tw:tracking-widest tw:uppercase tw:text-amber-900/80 font-zen-body">
               Chốn Thiền Tịnh An Lạc
             </span>
             <h2 className="font-zen-title tw:text-2xl tw:sm:text-3xl tw:font-semibold tw:text-[#231b14] tw:mt-2 tw:mb-3 tw:leading-tight tw:text-balance">
               Cảnh Sắc Thiền Môn & Danh Lam
             </h2>
-            <p className="font-zen-body tw:text-sm tw:sm:text-base tw:text-stone-600 tw:leading-relaxed">
+            <p className="font-zen-body tw:text-sm tw:sm:text-base tw:text-stone-600 tw:leading-relaxed tw:upto-480:hidden">
               Chiêm ngưỡng những thánh tích danh lam cổ kính và đóa sen tịnh khiết của Phật giáo Việt Nam, giúp tâm hồn thanh thản trước khi bước vào giờ phút chép kinh.
             </p>
           </div>
@@ -354,7 +361,7 @@ export default function Home() {
             3b. BLOCK CHƯ PHẬT & BỒ TÁT (tranh từng vị, hình tướng, ngày vía, hồng danh, kinh để chép)
             ==================================================================== */}
         <section id="chu-phat-bo-tat" aria-labelledby="chu-phat-heading" className="tw:pt-4 tw:pb-8">
-          <div className="tw:text-center tw:max-w-2xl tw:mx-auto tw:mb-10">
+          <div className="tw:text-center tw:max-w-2xl tw:mx-auto tw:mb-10 tw:upto-480:mb-6">
             <span className="tw:text-xs tw:font-semibold tw:tracking-widest tw:uppercase tw:text-amber-900/80 font-zen-body">
               Chư Phật & Bồ Tát
             </span>
@@ -364,7 +371,7 @@ export default function Home() {
             >
               Tôn Dung Chư Phật, Bồ Tát
             </h2>
-            <p className="font-zen-body tw:text-sm tw:sm:text-base tw:text-stone-600 tw:leading-relaxed">
+            <p className="font-zen-body tw:text-sm tw:sm:text-base tw:text-stone-600 tw:leading-relaxed tw:upto-480:hidden">
               Những vị Phật, Bồ Tát Phật tử Việt Nam thường lễ bái, cùng hình tướng, ngày vía và hạnh nguyện của mỗi vị.
             </p>
           </div>
@@ -397,14 +404,14 @@ export default function Home() {
             4. BLOCK GIỚI THIỆU CÁC CUỐN KINH CÓ THỂ CHÉP (SUTRA COLLECTION)
             ==================================================================== */}
         <section id="gioi-thieu-kinh" className="tw:pt-4 tw:pb-8">
-          <div className="tw:text-center tw:max-w-2xl tw:mx-auto tw:mb-12">
+          <div className="tw:text-center tw:max-w-2xl tw:mx-auto tw:mb-12 tw:upto-480:mb-7">
             <span className="tw:text-xs tw:font-semibold tw:tracking-widest tw:uppercase tw:text-amber-900/80 font-zen-body">
               Án Thư Kinh Tạng
             </span>
             <h2 className="font-zen-title tw:text-2xl tw:sm:text-3xl tw:font-semibold tw:text-[#231b14] tw:mt-2 tw:mb-3 tw:leading-tight tw:text-balance">
               Kinh Điển Huân Tu
             </h2>
-            <p className="font-zen-body tw:text-sm tw:sm:text-base tw:text-stone-600 tw:leading-relaxed">
+            <p className="font-zen-body tw:text-sm tw:sm:text-base tw:text-stone-600 tw:leading-relaxed tw:upto-480:hidden">
               Chọn một bản kinh để gieo hạt giống trí tuệ và bình an trong ngày hôm nay.
             </p>
           </div>
@@ -436,7 +443,7 @@ export default function Home() {
                 Bài Viết & Tri Thức Tu Học
               </h2>
             </div>
-            <p className="font-zen-body tw:text-sm tw:text-stone-600 tw:max-w-md tw:sm:text-right tw:leading-relaxed">
+            <p className="font-zen-body tw:text-sm tw:text-stone-600 tw:max-w-md tw:sm:text-right tw:leading-relaxed tw:upto-480:hidden">
               Chia sẻ những lời khai thị của chư tôn đức, kinh nghiệm chép kinh an định và
               ý nghĩa các ngày vía linh thiêng.
             </p>
@@ -446,7 +453,7 @@ export default function Home() {
           <div className="tw:grid tw:grid-cols-1 tw:md:grid-cols-3 tw:gap-8 tw:upto-640:flex tw:upto-640:gap-4 tw:upto-640:overflow-x-auto tw:upto-640:snap-x tw:upto-640:snap-mandatory tw:upto-640:-mx-4 tw:upto-640:px-4 tw:upto-640:scroll-px-4 tw:upto-640:pb-2 tw:upto-640:[scrollbar-width:none] tw:upto-640:[&::-webkit-scrollbar]:hidden">
             {ARTICLES.map((article) => (
               <ArticleTeaserCard
-                className="tw:upto-640:shrink-0 tw:upto-640:w-[84%] tw:upto-640:snap-start"
+                className="tw:upto-640:shrink-0 tw:upto-640:w-[84%] tw:upto-640:snap-start tw:upto-640:[&_p]:hidden"
                 key={article.id}
                 title={article.title}
                 image={article.image}

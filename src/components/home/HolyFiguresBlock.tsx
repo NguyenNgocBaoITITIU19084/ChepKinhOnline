@@ -253,8 +253,8 @@ export function HolyFiguresBlock() {
             </p>
 
             <dl style={rise(2)} className="ck-rise tw:m-0 tw:grid tw:grid-cols-[7.5rem_minmax(0,1fr)] tw:gap-x-4 tw:gap-y-2.5 tw:text-[0.9rem] tw:leading-[1.6] tw:upto-480:grid-cols-[minmax(0,1fr)] tw:upto-480:gap-y-1">
-              <dt className="tw:font-semibold tw:text-brown-900">Hình tướng</dt>
-              <dd className="tw:m-0 tw:text-brown-800 tw:upto-480:mb-2">
+              <dt className="tw:font-semibold tw:text-brown-900 tw:upto-480:hidden">Hình tướng</dt>
+              <dd className="tw:m-0 tw:text-brown-800 tw:upto-480:hidden">
                 {figure.appearance}
               </dd>
               <dt className="tw:font-semibold tw:text-brown-900">Ngày vía</dt>
